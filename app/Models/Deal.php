@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Deal extends Model
+{
+    protected $table = 'deals';
+
+    protected $fillable = [
+        'name',
+        'percentage_off',
+        'start_date',
+        'end_date',
+    ];
+}
