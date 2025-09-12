@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('colors', function (Blueprint $table) {
+        Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('hex')->nullable(); // optional hex code for color
+            $table->foreignId('product_id')
+                  ->constrained('products')
+                  ->onDelete('cascade');
+            $table->string('url');
+            $table->boolean('is_primary')->default(false);
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('colors');
+        Schema::dropIfExists('images');
     }
 };

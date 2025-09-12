@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -13,26 +14,51 @@ class Product extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'description',
+        'features',
         'price',
         'stock',
-        'img_url',
         'gender',
         'is_active',
         'new_arrival',
         'continue',
-        'color_id',
         'brand_id',
         'material_id',
         'category_id',
     ];
 
-    /**
-     * The color this product belongs to.
-     */
-    public function color()
+    protected $casts = [
+        'features' => 'array',
+    ];
+
+    protected static function boot()
     {
-        return $this->belongsTo(Color::class);
+        parent::boot();
+
+        static::creating(function ($product) {
+            /* Only set slug when creating (not updating)
+               If update a product’s name later, slug does not change
+                to avoid breaking existing links (better for SEO)
+            */
+
+            if (empty($product->slug)) {
+                $slug = Str::slug($product->name);
+                $count = Product::where('slug', 'LIKE', "{$slug}%")->count();
+
+                $product->slug = $count ? "{$slug}-{$count}" : $slug;
+            }
+        });
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug'; // use slug for route model binding
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class, 'product_id');
     }
 
     /**
@@ -59,29 +85,45 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    /**
+     * The sizes that belong to the product.
+     */
     public function sizes()
     {
-        return $this->belongsToMany(Size::class)
-                    ->withPivot('child_cat', 'size');
+        return $this->belongsToMany(Size::class);
     }
 
+    /**
+     * The color this product belongs to.
+     */
+    public function colors()
+    {
+        return $this->belongsToMany(Color::class);
+    }
+
+    /**
+     * The seasons that belong to the product.
+     */
     public function seasons()
     {
         return $this->belongsToMany(Season::class)
                     ->withPivot('name');
     }
 
+    /**
+     * The customers that have reviewed the product.
+     */
     public function reviews()
     {
-        return $this->belongsToMany(Customer::class, 'reviews', 'product_id', 'customer_id')
-                    ->withPivot('rv_rate', 'rv_comment', 'rv_quality', 'rv_comfort', 'rv_size', 'rv_delivery')
-                    ->withTimestamps();
+        return $this->hasMany(Review::class);
     }
 
+    /**
+     * The deals that belong to the product.
+     */
     public function deals()
     {
-        return $this->belongsToMany(Deal::class)
-                    ->withPivot('discount_percentage', 'start_date', 'end_date');
+        return $this->belongsToMany(Deal::class);
     }
 
     public function scopeAvailable($query)

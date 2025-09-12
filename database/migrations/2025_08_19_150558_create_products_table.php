@@ -14,19 +14,16 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
+            $table->text('features')->nullable();
             $table->decimal('price', 8, 2)->default(0.00);
             $table->unsignedInteger('stock')->default(0);
             $table->unsignedInteger('nb_of_items')->default(1);
-            $table->string('img_url')->nullable();
             $table->enum ('gender', ['boy', 'girl', 'neutral'])->default('neutral');
             $table->boolean('is_active')->default(true);
             $table->boolean('new_arrival')->default(false);
             $table->boolean('continue')->default(true);
-            $table->foreignId('color_id')
-                  ->nullable()
-                  ->constrained('colors')
-                  ->onDelete('set null');
             $table->foreignId('brand_id')
                   ->nullable()
                   ->constrained('brands')

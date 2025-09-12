@@ -5,6 +5,10 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Product;
+use App\Models\Color;
+use App\Models\Size;
+use \App\Models\Deal;
+use \App\Models\Season;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 
 class ProductsTableSeeder extends Seeder
@@ -15,12 +19,118 @@ class ProductsTableSeeder extends Seeder
     public function run(): void
     {
         $nameNDescs = collect([
-                ['name' => 'Bright Cotton Shirt', 'description' => 'This bright cotton shirt is perfect for playtime and keeps kids cool and comfortable all day.'],
-                ['name' => 'Cozy Denim Jacket', 'description' => 'A cozy denim jacket designed to keep your child warm during cooler days with style and comfort.'],
-                ['name' => 'Soft Fleece Pants', 'description' => 'Soft fleece pants that allow free movement while keeping little legs warm during outdoor activities.'],
-                ['name' => 'Colorful Graphic Tee', 'description' => 'A colorful graphic tee with fun designs that kids will love to wear on casual days.'],
-                ['name' => 'Lightweight Hoodie Sweatshirt', 'description' => 'This lightweight hoodie sweatshirt is great for layering and provides extra warmth without bulk.'],
-                ['name' => 'Striped Cotton Socks', 'description' => 'Comfortable striped cotton socks that fit snugly and keep feet dry during playtime.'],
+                ['name' => 'Bright Cotton Shirt', 'description' => 'This bright cotton shirt is perfect for playtime and keeps kids cool and comfortable all day.',
+                'features' => json_encode([
+                        "Lightweight breathable cotton",
+                        "Machine washable for easy care",
+                        "Button-up front closure",
+                        "Available in multiple colors"
+                    ])],
+                ['name' => 'Comfy Denim Jeans', 'description' => 'Durable and stylish denim jeans that can withstand all the adventures of active kids.',
+                'features' => json_encode([
+                        "Reinforced knees for extra durability",
+                        "Adjustable waistband for growing kids",
+                        "Classic five-pocket design",
+                        "Available in various washes"
+                    ])],
+                ['name' => 'Cozy Hoodie Sweatshirt', 'description' => 'A cozy hoodie sweatshirt that provides warmth and comfort during cooler days.',
+                'features' => json_encode([
+                        "Soft fleece lining",
+                        "Front kangaroo pocket",
+                        "Adjustable drawstring hood",
+                        "Ribbed cuffs and hem"
+                    ])],
+                ['name' => 'Cozy Denim Jacket', 'description' => 'A cozy denim jacket designed to keep your child warm during cooler days with style and comfort.',
+                'features' => json_encode([
+                        "Soft fleece lining for warmth",
+                        "Classic button-front design",
+                        "Adjustable cuffs for a perfect fit",
+                        "Durable denim fabric"
+                    ])],
+                ['name' => 'Durable Canvas Sneakers', 'description' => 'Durable canvas sneakers that are perfect for everyday wear and outdoor play.',
+                'features' => json_encode([
+                        "Breathable canvas upper",
+                        "Rubber outsole for traction",  
+                        "Padded collar for comfort",
+                        "Available in various colors"
+                    ])],
+                ['name' => 'Soft Fleece Pants', 'description' => 'Soft fleece pants that allow free movement while keeping little legs warm during outdoor activities.',
+                'features' => json_encode([
+                        "Soft fleece fabric",
+                        "Elastic waistband with drawstring",
+                        "Ribbed cuffs for a snug fit",
+                        "Machine washable"
+                    ])],
+                ['name' => 'Warm Wool Sweater', 'description' => 'A warm wool sweater that provides insulation and comfort during chilly days.',
+                'features' => json_encode([
+                        "100% wool for warmth",
+                        "Ribbed neckline, cuffs, and hem",
+                        "Classic knit pattern",
+                        "Available in various colors"
+                    ])],
+                ['name' => 'Colorful Graphic Tee', 'description' => 'A colorful graphic tee with fun designs that kids will love to wear on casual days.',
+                'features' => json_encode([
+                        "Soft cotton fabric",
+                        "Vibrant graphic prints",
+                        "Crew neckline",
+                        "Available in multiple sizes"
+                    ])],
+                ['name' => 'Light Cotton Dress', 'description' => 'A light cotton dress that is breathable and comfortable for warm weather activities.',
+                'features' => json_encode([
+                        "Lightweight cotton fabric",
+                        "Elastic waistband for a comfortable fit",
+                        "Flared skirt design",
+                        "Available in various patterns"
+                    ])],
+                ['name' => 'Soft Cotton Pajamas', 'description' => 'Soft cotton pajamas that ensure a comfortable and restful night\'s sleep for kids.',
+                'features' => json_encode([
+                        "100% soft cotton fabric",
+                        "Elastic waistband for comfort",
+                        "Fun prints and patterns",
+                        "Machine washable"
+                    ])],
+                ['name' => 'Durable Rain Boots', 'description' => 'Durable rain boots that keep little feet dry and comfortable during wet weather.',
+                'features' => json_encode([
+                        "Waterproof rubber construction",
+                        "Non-slip sole for safety",
+                        "Easy pull-on design",
+                        "Available in various colors"
+                    ])],
+                ['name' => 'Lightweight Hoodie Sweatshirt', 'description' => 'This lightweight hoodie sweatshirt is great for layering and provides extra warmth without bulk.',
+                'features' => json_encode([
+                        "Lightweight fabric for layering",
+                        "Front kangaroo pocket",
+                        "Adjustable drawstring hood",
+                        "Ribbed cuffs and hem"
+                    ])],
+                ['name' => 'Casual Cotton Shorts', 'description' => 'Casual cotton shorts that are perfect for warm weather and outdoor play.',
+                'features' => json_encode([
+                        "Lightweight cotton fabric",
+                        "Elastic waistband with drawstring",
+                        "Multiple pockets for convenience",
+                        "Available in various colors"
+                    ])],
+                ['name' => 'Warm Fleece Jacket', 'description' => 'A warm fleece jacket that provides insulation and comfort during chilly days.',
+                'features' => json_encode([
+                        "Soft fleece fabric",
+                        "Full front zipper",
+                        "Side pockets for storage",
+                        "Ribbed cuffs and hem"
+                    ])],
+                ['name' => 'Striped Cotton Socks', 'description' => 'Comfortable striped cotton socks that fit snugly and keep feet dry during playtime.',
+                'features' => json_encode([
+                        "Soft cotton blend",
+                        "Elastic arch support",
+                        "Reinforced heel and toe",
+                        "Available in fun colors"
+                    ])],
+                ['name' => 'Bright Graphic Hoodie', 'description' => 'A bright graphic hoodie that combines warmth with playful style kids love.',
+                'features' => json_encode([
+                        "Soft fleece lining",
+                        "Vibrant graphic prints",
+                        "Adjustable drawstring hood",
+                        "Ribbed cuffs and hem"
+                    ])],
                 ['name' => 'Durable Cargo Shorts', 'description' => 'Durable cargo shorts with plenty of pockets, perfect for adventurous kids on the go.'],
                 ['name' => 'Soft Jersey Dress', 'description' => 'A soft jersey dress designed for comfort and easy movement, ideal for school or playdates.'],
                 ['name' => 'Warm Winter Coat', 'description' => 'Keep kids warm during the cold months with this insulated winter coat that blocks wind and snow.'],
@@ -205,19 +315,26 @@ class ProductsTableSeeder extends Seeder
         // seeding products with random sizes
         // all products will have at least one size
         Product::all()->each(function ($product) {
-            $sizes = \App\Models\Size::inRandomOrder()->take(rand(1, 3))->pluck('id');
+            $sizes = Size::inRandomOrder()->take(rand(1, 3))->pluck('id');
             $product->sizes()->attach($sizes);
+        });
+
+        // seeding products with random sizes
+        // all products will have at least one size
+        Product::all()->each(function ($product) {
+            $colors = Color::inRandomOrder()->take(rand(1, 3))->pluck('id');
+            $product->colors()->attach($colors);
         });
 
         // seeding products with random deals
         Product::all()->each(function ($product) {
-            $deals = \App\Models\Deal::inRandomOrder()->take(rand(0, 2))->pluck('id');
+            $deals = Deal::inRandomOrder()->take(rand(0, 2))->pluck('id');
             $product->deals()->attach($deals);
         });
 
         // seeding products with random seasons
         Product::all()->each(function ($product) {
-            $seasons = \App\Models\Season::inRandomOrder()->take(rand(0, 2))->pluck('id');
+            $seasons = Season::inRandomOrder()->take(rand(0, 2))->pluck('id');
             $product->seasons()->attach($seasons);
         });
     }

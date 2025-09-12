@@ -1,0 +1,111 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Product;
+use \App\Models\Brand;
+use \App\Models\Color;
+use \App\Models\Category;
+use \App\Models\Size;
+
+class ProductController extends Controller
+{
+    /**
+     * Display the new arrivals page.
+     */
+    public function newArrivalsPage()
+    {
+        $brands = Brand::orderBy('name')->pluck('name');
+        $colors = Color::orderBy('name')->pluck('name');
+        $categories = Category::orderBy('name')->pluck('name');
+        $sizes = Size::orderBy('size')->pluck('size');
+
+        return view('products.new-arrivals', compact('brands', 'colors', 'categories', 'sizes'));
+    }
+
+    /**
+     * Display the specified product by slug.
+     *
+     * @param  string  $slug
+     * @return \Illuminate\View\View
+     */
+    public function show($slug)
+    {
+        // Load the product by slug and eager load related relationships used in the view
+        $product = Product::with([
+                'images' => function ($query) {
+                    $query->orderByDesc('is_primary'); // primary comes first
+                },
+                'brand', 
+                'colors',
+                'sizes',
+                'material', 
+                'reviews.customer' // eager load review->customer to show name
+            ])
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        // Make sure features is an array
+        $features = $product->features;
+        // Fallback in case it's still a JSON string
+        if (is_string($features)) {
+            $features = json_decode($features, true) ?? [];
+        }
+
+        $relatedProducts = Product::where('id','!=',$product->id)
+            ->when($product->category_id, fn($q)=> $q->where('category_id',$product->category_id), fn($q)=> $q->where('brand_id',$product->brand_id))
+            ->with('images')->inRandomOrder()->limit(20)->get();
+
+        // Frequently purchased together — as a simple fallback, use same brand
+        $frequentlyPurchased = Product::where('brand_id', $product->brand_id)
+            ->where('id', '!=', $product->id)
+            ->with('images')
+            ->inRandomOrder()
+            ->limit(20)
+            ->get();
+
+        // Prepare reviews for Alpine: include customer_name and minimal fields
+        $reviews = $product->reviews->map(function ($r) {
+            return [
+                'id' => $r->id,
+                'customer_name' => $r->customer?->name ?? 'Guest',
+                'rv_rate' => (int) $r->rv_rate,
+                'rv_comment' => $r->rv_comment,
+                'created_at' => $r->created_at->toDateTimeString(),
+            ];
+        })->values(); // ->values() makes sure indexes are 0..n-1 for JSON
+
+        $userCanReview = auth('customer')->check(); // true if user is logged in
+
+        return view('products.show', compact('product', 'features', 'relatedProducts', 'frequentlyPurchased', 'reviews', 'userCanReview'));
+    }
+
+    /**
+     * Store a newly created review for a specific product.
+     */
+    public function storeReview(Request $request, Product $product)
+    {
+        $validated = $request->validate([
+            'rv_rate' => 'required|integer|min:1|max:5',
+            'rv_comment' => 'nullable|string',
+        ]);
+
+        $review = $product->reviews()->create([
+            'customer_id' => auth()->id() ?? 1, // replace 1 with guest or logged-in customer
+            'rv_rate' => $validated['rv_rate'],
+            'rv_comment' => $validated['rv_comment'] ?? '',
+            'rv_quality' => 5,
+            'rv_comfort' => 5,
+            'rv_size' => 5,
+            'rv_delivery' => 5,
+        ]);
+
+        return response()->json([
+            'id' => $review->id,
+            'customer_name' => $review->customer?->name ?? 'Guest',
+            'rv_rate' => $review->rv_rate,
+            'rv_comment' => $review->rv_comment,
+        ]);
+    }
+}
