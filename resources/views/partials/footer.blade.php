@@ -37,12 +37,8 @@
         </ul>
       </div>
       <div>
-        <h4 class="font-bold mb-2">Follow</h4>
-        <ul class="grid gap-2">
-          <li><a href="#" class="hover:underline">Instagram</a></li>
-          <li><a href="#" class="hover:underline">Facebook</a></li>
-          <li><a href="#" class="hover:underline">Pinterest</a></li>
-        </ul>
+        {{-- Logout will be in the account dashboard. For now, leave it at footer for easy access. --}}
+        <a href="/auth/logout" class="hover:underline">Logout</a>
       </div>
     </div>
   </footer>

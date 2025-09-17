@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Customer extends Model
+class Customer extends Authenticatable
 {
     use HasFactory, Notifiable;
 
@@ -18,7 +18,6 @@ class Customer extends Model
         'last_name',
         'email',
         'password',
-        'role',
         'is_active',
         'remember_token',
         'email_verified_at',
