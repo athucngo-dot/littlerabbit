@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')
                   ->constrained('customers')
-                  ->onDelete('cascade');
+                  ->cascadeOnDelete();
             $table->foreignId('order_id')
                   ->constrained('orders')
-                  ->onDelete('cascade');
+                  ->cascadeOnDelete();
 
             //Payment provider details
             $table->enum('provider', ['credit_card', 'paypal', 'stripe'])->default('stripe');

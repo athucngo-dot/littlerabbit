@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('features')->nullable();
             $table->decimal('price', 8, 2)->default(0.00);
             $table->unsignedInteger('stock')->default(0);
-            $table->unsignedInteger('nb_of_items')->default(1);
+            $table->unsignedInteger('nb_of_items')->default(1); // number of items in the product (e.g., pack of 3)
             $table->enum ('gender', ['boy', 'girl', 'neutral'])->default('neutral');
             $table->boolean('is_active')->default(true);
             $table->boolean('new_arrival')->default(false);
@@ -27,15 +27,15 @@ return new class extends Migration
             $table->foreignId('brand_id')
                   ->nullable()
                   ->constrained('brands')
-                  ->onDelete('set null');
+                  ->nullOnDelete();
             $table->foreignId('material_id')
                   ->nullable()
                   ->constrained('materials')
-                  ->onDelete('set null');
+                  ->nullOnDelete();
             $table->foreignId('category_id')
                   ->nullable()
                   ->constrained('categories')
-                  ->onDelete('set null');
+                  ->nullOnDelete();
             $table->timestamps();
         });
     }

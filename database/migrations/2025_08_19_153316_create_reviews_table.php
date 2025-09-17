@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')
                   ->constrained('products')
-                  ->onDelete('cascade');
+                  ->cascadeOnDelete();
             $table->foreignId('customer_id')
                   ->constrained('customers')
-                  ->onDelete('cascade');
+                  ->cascadeOnDelete();
             $table->tinyInteger ('rv_rate')->default(5);
             $table->text('rv_comment')->nullable();
             $table->tinyInteger ('rv_quality')->default(5);

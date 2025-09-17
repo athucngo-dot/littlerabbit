@@ -24,7 +24,6 @@ class CustomerFactory extends Factory
             'last_name'  => $this->faker->lastName(),
             'email'      => $this->faker->unique()->safeEmail(),
             'password'   => Hash::make('password'), // default password
-            'role'       => $this->faker->randomElement(['admin', 'customer']),
             'is_active'  => $this->faker->boolean(90), // 90% active
             'remember_token' => Str::random(10),
             'email_verified_at' => now(),

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')
                   ->constrained('customers')
-                  ->onDelete('cascade');
+                  ->cascadeOnDelete();
             $table->enum ('type', ['mailing', 'billing'])->default('mailing');
             $table->string('street');
             $table->string('city');

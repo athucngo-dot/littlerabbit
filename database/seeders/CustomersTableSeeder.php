@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Customer;
+use App\Models\Product;
 
 class CustomersTableSeeder extends Seeder
 {
@@ -23,7 +24,7 @@ class CustomersTableSeeder extends Seeder
             if ($take === 0) {
                 return; // Skip attaching products if take is 0
             }   
-            $products = \App\Models\Product::inRandomOrder()->take($take)->pluck('id');
+            $products = Product::inRandomOrder()->take($take)->pluck('id');
             $customer->carts()->attach($products);
         });
     }

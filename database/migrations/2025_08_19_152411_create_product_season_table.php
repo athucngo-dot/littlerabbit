@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')
                   ->constrained('products')
-                  ->onDelete('cascade');
+                  ->cascadeOnDelete();
             $table->foreignId('season_id')
                   ->constrained('seasons')
-                  ->onDelete('cascade');
+                  ->cascadeOnDelete();
         });
     }
 
