@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="bg-gradient-to-b from-[#dff3ea] to-[#faf8f6]">
+<section class="bg-gradient-to-b from-mint to-paper-2">
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center text-[#1a1a1a] mb-8">New Arrivals</h2>
+            <h2 class="text-3xl font-bold text-center text-ink mb-8">New Arrivals</h2>
 
             <div class="flex gap-6">
                 <!-- Filters (Left 1/4) -->
@@ -82,7 +82,7 @@
                     <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
 
                     <div class="text-center mt-6">
-                        <button id="load-more" class="px-6 py-2 bg-[#1a1a1a] text-white rounded hover:bg-[#333]">
+                        <button id="load-more" class="bg-aqua hover:bg-aqua-2 px-6 py-2 text-white rounded">
                             More Products
                         </button>
                     </div>

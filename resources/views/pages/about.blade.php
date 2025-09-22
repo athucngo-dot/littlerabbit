@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="bg-gradient-to-b from-[#dff3ea] to-[#faf8f6] py-16">
+<section class="bg-gradient-to-b from-mint to-paper-2 py-16">
   <div class="max-w-4xl mx-auto text-center px-6">
     <h1 class="text-4xl font-bold text-gray-800 mb-6">About Little Rabbit</h1>
     <img src="images/happy_about.webp" alt="Happy Children" class="mx-auto rounded-xl mb-4">

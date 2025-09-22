@@ -2,15 +2,15 @@
 
 @section('content')
   <!-- Hero -->
-  <section class="bg-gradient-to-b from-[#dff3ea] to-[#faf8f6]" id="home">
+  <section class="bg-gradient-to-b from-mint to-paper-2" id="home">
     <div class="max-w-[1200px] mx-auto grid md:grid-cols-[1.1fr_0.9fr] gap-7 py-14 md:items-center bg-right bg-no-repeat" style="background-image: url('images/banner_3_children_homepage.webp');">
       <div class="md:pl-10">
-        <div class="text-[#6fb69e] uppercase tracking-widest text-xs font-bold mb-2">New • Cozy • Cute</div>
+        <div class="text-mint-600 uppercase tracking-widest text-xs font-bold mb-2">New • Cozy • Cute</div>
         <h1 class="font-poppins font-bold text-[clamp(28px,5vw,48px)] leading-tight mb-4">Soft, Stylish, and Made with Love</h1>
         <p class="text-gray-500 mb-4 md:mb-6 max-w-[36ch]">Comfort-first clothing for babies and toddlers. Thoughtful materials and playful colors parents adore.</p>
         <div class="flex flex-wrap gap-2">
-          <a href="#products" class="inline-flex items-center justify-center px-4 py-2 rounded-full font-bold shadow-md bg-[#6fb69e] text-white hover:bg-[#dff3ea] transition">Shop Now</a>
-          <a href="#categories" class="inline-flex items-center justify-center px-4 py-2 rounded-full font-bold shadow-md border border-gray-300 text-gray-900 bg-transparent hover:border-[#6fb69e] hover:text-[#6fb69e] transition">Browse Categories</a>
+          <a href="#products" class="inline-flex items-center justify-center px-4 py-2 rounded-full font-bold shadow-md bg-mint-600 text-white hover:bg-mint transition">Shop Now</a>
+          <a href="#categories" class="inline-flex items-center justify-center px-4 py-2 rounded-full font-bold shadow-md border border-gray-300 text-gray-900 bg-transparent hover:border-mint-600 hover:text-mint-600 transition">Browse Categories</a>
         </div>
       </div>
     </div>
@@ -22,19 +22,19 @@
       <h2 class="font-poppins text-[clamp(22px,3.6vw,32px)] text-center mb-6">Featured Categories</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <a href="#" class="block bg-white rounded-xl shadow-md overflow-hidden text-center">
-          <div class="aspect-[3/4] flex items-center justify-center bg-[#ffe7a3]">
+          <div class="aspect-[3/4] flex items-center justify-center bg-butter">
             <img src="images/baby_onesies.webp" alt="Baby onesie" class="h-full w-full object-cover">
           </div>
           <div class="py-3 font-bold">Baby Clothes</div>
         </a>
         <a href="#" class="block bg-white rounded-xl shadow-md overflow-hidden text-center">
-          <div class="aspect-[3/4] flex items-center justify-center bg-[#d7e9fb]">
+          <div class="aspect-[3/4] flex items-center justify-center bg-sky">
             <img src="images/toddler_dress.webp" alt="Toddler dress" class="h-full w-full object-cover">
           </div>
           <div class="py-3 font-bold">Toddler Clothes</div>
         </a>
         <a href="#" class="block bg-white rounded-xl shadow-md overflow-hidden text-center">
-          <div class="aspect-[3/4] flex items-center justify-center bg-[#f6d1c7]">
+          <div class="aspect-[3/4] flex items-center justify-center bg-blush">
             <img src="images/teddy_bear.webp" alt="Accessories like hats and toys" class="h-full w-full object-cover">
           </div>
           <div class="py-3 font-bold">Accessories</div>
@@ -56,53 +56,53 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- Product 1 -->
         <article class="bg-white rounded-xl shadow-md flex flex-col overflow-hidden">
-          <div class="aspect-square flex items-center justify-center bg-[#faf8f6]">
+          <div class="aspect-square flex items-center justify-center bg-paper-2">
             <img src="https://placehold.co/600x600/FFF8E8/1A1A1A?text=Organic+Tee" alt="Beige organic cotton t‑shirt" class="object-cover w-full h-full">
           </div>
           <div class="p-3 grid gap-2">
             <h3 class="m-0">Organic Tee</h3>
             <div class="font-bold">$15.00</div>
-            <button class="px-4 py-2 rounded-full font-bold shadow-md bg-[#6fb69e] text-white hover:bg-[#dff3ea] transition">Add to Cart</button>
+            <button class="px-4 py-2 rounded-full font-bold shadow-md bg-mint-600 text-white hover:bg-mint transition">Add to Cart</button>
           </div>
         </article>
         <!-- Product 2 -->
         <article class="bg-white rounded-xl shadow-md flex flex-col overflow-hidden">
-          <div class="aspect-square flex items-center justify-center bg-[#faf8f6]">
+          <div class="aspect-square flex items-center justify-center bg-paper-2">
             <img src="https://placehold.co/600x600/FFF0C6/1A1A1A?text=Sunshine+Dress" alt="Yellow toddler dress" class="object-cover w-full h-full">
           </div>
           <div class="p-3 grid gap-2">
             <h3 class="m-0">Sunshine Dress</h3>
             <div class="font-bold">$20.00</div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fff7d6] border border-[#ffe6a6] font-bold">Quick View</div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellowish border border-yellowish-2 font-bold">Quick View</div>
           </div>
         </article>
         <!-- Product 3 -->
         <article class="bg-white rounded-xl shadow-md flex flex-col overflow-hidden">
-          <div class="aspect-square flex items-center justify-center bg-[#faf8f6]">
+          <div class="aspect-square flex items-center justify-center bg-paper-2">
             <img src="https://placehold.co/600x600/D7E9FB/1A1A1A?text=Soft+Pants" alt="Blue soft pants" class="object-cover w-full h-full">
           </div>
           <div class="p-3 grid gap-2">
             <h3 class="m-0">Soft Pants</h3>
             <div class="font-bold">$15.00</div>
-            <button class="px-4 py-2 rounded-full font-bold shadow-md bg-[#6fb69e] text-white hover:bg-[#dff3ea] transition">Add to Cart</button>
+            <button class="px-4 py-2 rounded-full font-bold shadow-md bg-mint-600 text-white hover:bg-mint transition">Add to Cart</button>
           </div>
         </article>
         <!-- Product 4 -->
         <article class="bg-white rounded-xl shadow-md flex flex-col overflow-hidden">
-          <div class="aspect-square flex items-center justify-center bg-[#faf8f6]">
+          <div class="aspect-square flex items-center justify-center bg-paper-2">
             <img src="https://placehold.co/600x600/F6D1C7/1A1A1A?text=Knit+Cardigan" alt="Peach knit cardigan" class="object-cover w-full h-full">
           </div>
           <div class="p-3 grid gap-2">
             <h3 class="m-0">Knit Cardigan</h3>
             <div class="font-bold">$25.00</div>
-            <button class="px-4 py-2 rounded-full font-bold shadow-md bg-[#6fb69e] text-white hover:bg-[#dff3ea] transition">Add to Cart</button>
+            <button class="px-4 py-2 rounded-full font-bold shadow-md bg-mint-600 text-white hover:bg-mint transition">Add to Cart</button>
           </div>
         </article>
       </div>
 
       <!-- Promo -->
       <div class="py-7">
-        <div class="bg-[#ffe7a3] shadow-md rounded-xl text-center font-extrabold tracking-wide py-4">🎒 Back to School Sale — Up to 30% Off!</div>
+        <div class="bg-butter shadow-md rounded-xl text-center font-extrabold tracking-wide py-4">🎒 Back to School Sale — Up to 30% Off!</div>
       </div>
     </div>
   </section>
@@ -130,7 +130,7 @@
         <form class="grid grid-cols-[1fr_auto] gap-2" onsubmit="event.preventDefault(); newsletterThanks();">
           <label for="email" class="sr-only">Email</label>
           <input type="email" id="email" name="email" placeholder="you@example.com" required class="border border-gray-300 rounded-full px-4 py-2">
-          <button type="submit" class="px-4 py-2 rounded-full font-bold shadow-md bg-[#6fb69e] text-white hover:bg-[#dff3ea] transition">Subscribe</button>
+          <button type="submit" class="px-4 py-2 rounded-full font-bold shadow-md bg-mint-600 text-white hover:bg-mint transition">Subscribe</button>
         </form>
         <small class="text-gray-500">We respect your privacy. Unsubscribe anytime.</small>
       </aside>

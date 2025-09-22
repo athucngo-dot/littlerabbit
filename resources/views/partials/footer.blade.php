@@ -4,7 +4,7 @@
       <div>
         <div class="flex items-center gap-2 mb-3">
           <span class="w-9 h-9 bg-gray-800 grid place-items-center">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="7" r="3"/>
               <path d="M7 22c0-3 2-5 5-5s5 2 5 5"/>
             </svg>
@@ -31,14 +31,16 @@
       <div>
         <h4 class="font-bold mb-2">Company</h4>
         <ul class="grid gap-2">
-          <li><a href="about" class="hover:underline">About Us</a></li>
-          <li><a href="contact" class="hover:underline">Contact</a></li>
+          <li><a href="/about" class="hover:underline">About Us</a></li>
+          <li><a href="/contact" class="hover:underline">Contact</a></li>
           <li><a href="#" class="hover:underline">Careers</a></li>
         </ul>
       </div>
       <div>
         {{-- Logout will be in the account dashboard. For now, leave it at footer for easy access. --}}
-        <a href="/auth/logout" class="hover:underline">Logout</a>
+        @if(Auth::guard('customer')->check())
+          <a href="/auth/logout" class="hover:underline">Logout</a>
+        @endif
       </div>
     </div>
   </footer>
