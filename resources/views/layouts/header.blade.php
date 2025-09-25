@@ -3,11 +3,7 @@
     <div class="max-w-[1200px] mx-auto flex items-center justify-between p-4">
       <a href="/" class="flex items-center gap-2 text-inherit no-underline">
         <span class="w-9 h-9 bg-mint rounded-lg grid place-items-center shadow-md">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#1f2937" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="7" r="3"/>
-            <path d="M7 22c0-3 2-5 5-5s5 2 5 5"/>
-            <path d="M5 10c-1.5 0-2.5-1.2-2.5-2.5S3.5 5 5 5c.9 0 1.7.5 2.1 1.2M19 10c1.5 0 2.5-1.2 2.5-2.5S20.5 5 19 5c-.9 0-1.7.5-2.1 1.2"/>
-          </svg>
+          <img src="{{ config('site.logo') }}" alt="Logo" class="w-6 h-6 object-contain">
         </span>
         <span class="font-poppins font-bold tracking-tight">Little Rabbit</span>
       </a>

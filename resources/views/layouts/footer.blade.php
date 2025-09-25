@@ -4,10 +4,7 @@
       <div>
         <div class="flex items-center gap-2 mb-3">
           <span class="w-9 h-9 bg-gray-800 grid place-items-center">
-            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="7" r="3"/>
-              <path d="M7 22c0-3 2-5 5-5s5 2 5 5"/>
-            </svg>
+            <img src="{{ config('site.logo_footer') }}" alt="Logo" class="w-6 h-6 object-contain">
           </span>
           <strong>Little Rabbit</strong>
         </div>
