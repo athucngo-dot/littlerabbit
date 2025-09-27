@@ -21,6 +21,8 @@ return [
     'logo_footer' => '/images/logo_footer.png',
     'favicon' => '/images/favicon.ico',
 
+    'default_product_image' => '/images/default_img.png',
+
     // Cart settings
     'cart' => [
         'max_quantity' => 10,     // maximum per product in cart

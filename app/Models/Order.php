@@ -13,6 +13,7 @@ class Order extends Model
         'status',
         'total',
         'shipping_type',
+        'options',
     ];
 
     public function customer()

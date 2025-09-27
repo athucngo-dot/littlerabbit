@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             // For logged-in users
             $table->foreignId('customer_id')
+                  ->nullable() // allow null for guest users
                   ->constrained('customers')
                   ->cascadeOnDelete();
             $table->string('session_id')->nullable()->index();// for guest users

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Auth\CustomerAuthController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\Auth\AdminAuthController;
 
 Route::get('/', function () {
     return view('pages/home');
@@ -13,8 +15,6 @@ Route::post('/auth/login', [CustomerAuthController::class, 'login']);
 Route::get('/auth/logout', [CustomerAuthController::class, 'logout'])->name('customer.logout');
 Route::post('/auth/register', [CustomerAuthController::class, 'register']);
 
-//Route::get('/register', [CustomerAuthController::class, 'showRegisterForm'])->name('customer.register');
-
 Route::get('/new-arrivals', [ProductController::class, 'newArrivalsPage'])->name('products.new-arrivals');
 
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
@@ -22,6 +22,11 @@ Route::get('/products/{slug}', [ProductController::class, 'show'])->name('produc
 Route::post('/products/{product}/reviews', [ProductController::class, 'storeReview'])
     ->name('products.reviews.store');
 
+Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+
+/*
+* Static pages
+*/
 Route::get('/contact', function () {
     return view('pages/contact');
 });

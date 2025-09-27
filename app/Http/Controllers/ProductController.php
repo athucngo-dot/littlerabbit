@@ -76,9 +76,10 @@ class ProductController extends Controller
             ];
         })->values(); // ->values() makes sure indexes are 0..n-1 for JSON
 
-        $userCanReview = auth('customer')->check(); // true if user is logged in
-
-        return view('products.show', compact('product', 'features', 'relatedProducts', 'frequentlyPurchased', 'reviews', 'userCanReview'));
+        // limit max purchasable to 10 or available stock, whichever is lower
+        $maxQuantity = min($product->stock, 10); 
+        
+        return view('products.show', compact('product', 'features', 'relatedProducts', 'frequentlyPurchased', 'reviews', 'maxQuantity'));
     }
 
     /**
