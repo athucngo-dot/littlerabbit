@@ -319,8 +319,8 @@ class ProductsTableSeeder extends Seeder
             $product->sizes()->attach($sizes);
         });
 
-        // seeding products with random sizes
-        // all products will have at least one size
+        // seeding products with random colors
+        // all products will have at least one color
         Product::all()->each(function ($product) {
             $colors = Color::inRandomOrder()->take(rand(1, 3))->pluck('id');
             $product->colors()->attach($colors);

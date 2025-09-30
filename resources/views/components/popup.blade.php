@@ -152,6 +152,9 @@ function popupHandler() {
                     }
 
                     if (data.success) {
+                        // Update cart count in header
+                        window.dispatchEvent(new CustomEvent('cart-updated', { detail: data.popup.cartCount }));
+                        
                         // Show success popup with suggested items
                         popup.open({ type: 'success', 
                             message: data.popup.message, 

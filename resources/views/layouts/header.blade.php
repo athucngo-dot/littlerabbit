@@ -72,13 +72,20 @@
         @endif
 
         {{-- Cart Icon --}}
-        <a href="/cart" 
-          class="w-10 h-10 grid place-items-center rounded-full border border-gray-200 bg-white cursor-pointer hover:bg-gray-100">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                  d="M3 3h2l.344 2M7 13h10l4-8H5.344M7 13L5.344 5M7 13l-1.5 6m13-6l1.5 6M6 19a1 1 0 100 2 1 1 0 000-2zm12 0a1 1 0 100 2 1 1 0 000-2z"/>
-          </svg>
-        </a>
+        <div x-data="{ cartCount: {{ $cartCount ?? 0 }} }" @cart-updated.window="cartCount = $event.detail"  class="relative">
+            <a href="/cart" 
+                class="w-10 h-10 grid place-items-center rounded-full border border-gray-200 bg-white cursor-pointer hover:bg-gray-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M3 3h2l.344 2M7 13h10l4-8H5.344M7 13L5.344 5M7 13l-1.5 6m13-6l1.5 6M6 19a1 1 0 100 2 1 1 0 000-2zm12 0a1 1 0 100 2 1 1 0 000-2z"/>
+                </svg>
+            </a>
+            <template x-if="cartCount > 0">
+                <span x-text="cartCount" 
+                    class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 grid place-items-center">
+                </span>
+            </template>
+        </div>
       </div>
     </div>
   </header>

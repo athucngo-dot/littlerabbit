@@ -26,9 +26,8 @@ class CustomerAuthController extends Controller
             return redirect()->intended('/'); // customer dashboard or home
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.'
-        ]);
+        return back()->withErrors(['email' => 'The provided credentials do not match our records.'])
+                ->withInput();
     }
 
     public function logout()

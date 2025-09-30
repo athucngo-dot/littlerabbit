@@ -10,7 +10,6 @@ class Cart extends Model
 
     protected $fillable = [
         'customer_id',
-        'session_id',
         'product_id',
         'color_id',
         'size_id',

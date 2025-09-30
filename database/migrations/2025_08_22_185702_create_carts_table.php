@@ -18,7 +18,6 @@ return new class extends Migration
                   ->nullable() // allow null for guest users
                   ->constrained('customers')
                   ->cascadeOnDelete();
-            $table->string('session_id')->nullable()->index();// for guest users
             $table->foreignId('product_id')
                   ->constrained('products')
                   ->cascadeOnDelete();

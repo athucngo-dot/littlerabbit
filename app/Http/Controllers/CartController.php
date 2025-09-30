@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\CartRequest;
 use App\Models\Cart;
 use App\Models\Product;
+use App\Services\CartService;
 
 use Illuminate\Support\Facades\Log;
 
@@ -27,7 +28,7 @@ class CartController extends Controller
             }
 
             // validate quantity
-            $quantity = $request->quantity;
+            $quantity = (int)$request->quantity;
             $maxAllowed = $product->stock >= 10 ? 10 : $product->stock; // max 10 or stock if less than 10
 
             // if quantity is over stock, return error
@@ -35,22 +36,14 @@ class CartController extends Controller
                 throw new \Exception("Quantity selected is over the stock.");
             }
 
-            // check existing cart item by session/customerand product wether it is over stock
+            // check existing cart item by product id wether it is over stock
             // Note that one user can have one product with different color/size in the cart
-            $conditions['product_id'] = $product->id;
-
-            if (auth()->check()) {
-                // Logged in user
-                $conditions['customer_id'] = auth()->id();
-            } else {
-                // Guest user
-                $conditions['session_id'] = $request->session()->getId(); // Laravel session ID;
-            }
-
+            $sumQuantity = CartService::getCartCount($product->id);
+            $cartCount = CartService::getCartCount();
+            
             // Check if adding the new quantity would exceed the max allowed
-            // if so, adjust the quantity to fit the limit and set a warning message
+            // if yes, adjust the quantity to fit the limit and set a warning message
             $warningMsg = '';
-            $sumQuantity = Cart::where($conditions)->sum('quantity');
             if ($sumQuantity + $quantity > $maxAllowed) {
                 $quantity  = $maxAllowed - $sumQuantity;
                 if ($quantity <= 0) {
@@ -60,18 +53,8 @@ class CartController extends Controller
                 $warningMsg = "Only $quantity item(s) added to cart due to stock limit.";
             }
 
-            // Find existing cart item by session/customer, product, color, size
-            $conditions['color_id'] = $request->color_id;
-            $conditions['size_id'] = $request->size_id;
+            CartService::addOrUpdateQuantityByProductColorSize($product->id, $request->color_id, $request->size_id, $quantity, $request->options);
             
-            // Use updateOrCreate to either update the quantity of existing item or create a new cart item
-            $updateValues = [
-                'quantity' => DB::raw('quantity + ' . (int) $request->quantity), // increment quantity, let the database do the math instead of overriding the value
-                'options' => $request->options ? json_encode($request->options) : null,
-            ];
-
-            $cartItem = Cart::updateOrCreate($conditions, $updateValues);
-
             // Suggested items (get 3 random products for now, will change later)
             $suggested = Product::inRandomOrder()->take(3)->get();
             foreach ($suggested as $sgItem) {
@@ -82,6 +65,8 @@ class CartController extends Controller
             // Prepare product image URL
             $productImg = $product->images()->primary();
             $productImgUrl = $productImg ? $productImg->url : config('site.items_per_page');
+
+            $cartCount += $quantity;
 
             // Return a JSON response with success message and suggested items
             return response()->json([
@@ -96,6 +81,7 @@ class CartController extends Controller
                     ],
                     'suggested' => $suggested,
                     'message' => 'Item added to cart.' . ($warningMsg ? ' Warnign: ' . $warningMsg : ''),
+                    'cartCount' => $cartCount,
                 ],
             ]);
 
