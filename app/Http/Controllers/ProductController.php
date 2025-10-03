@@ -37,10 +37,11 @@ class ProductController extends Controller
                 'images' => function ($query) {
                     $query->orderByDesc('is_primary'); // primary comes first
                 },
+                'bestDeal', //highest discount at the time
                 'brand', 
                 'colors',
                 'sizes',
-                'material', 
+                'material',
                 'reviews.customer' // eager load review->customer to show name
             ])
             ->where('slug', $slug)
@@ -53,9 +54,13 @@ class ProductController extends Controller
             $features = json_decode($features, true) ?? [];
         }
 
-        $relatedProducts = Product::where('id','!=',$product->id)
-            ->when($product->category_id, fn($q)=> $q->where('category_id',$product->category_id), fn($q)=> $q->where('brand_id',$product->brand_id))
-            ->with('images')->inRandomOrder()->limit(20)->get();
+        // only apply the highest discount
+        $priceAfterDeal = $product->price;
+        if ($product->bestDeal->isNotEmpty()) {
+            $priceAfterDeal = $product->getPriceAfterDeal($product->bestDeal[0]->percentage_off);
+        }
+
+        $relatedProducts = $product->getRelatedProducts();
 
         // Frequently purchased together — as a simple fallback, use same brand
         $frequentlyPurchased = Product::where('brand_id', $product->brand_id)
@@ -77,9 +82,9 @@ class ProductController extends Controller
         })->values(); // ->values() makes sure indexes are 0..n-1 for JSON
 
         // limit max purchasable to 10 or available stock, whichever is lower
-        $maxQuantity = min($product->stock, 10); 
+        $maxQuantity = min($product->stock,  config('site.cart.max_quantity')); 
         
-        return view('products.show', compact('product', 'features', 'relatedProducts', 'frequentlyPurchased', 'reviews', 'maxQuantity'));
+        return view('products.show', compact('product', 'priceAfterDeal', 'features', 'relatedProducts', 'frequentlyPurchased', 'reviews', 'maxQuantity'));
     }
 
     /**

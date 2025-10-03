@@ -20,8 +20,10 @@ class CartController extends Controller
     public function add(CartRequest $request)
     {
         try {
-            // find product by slug
-            $product = Product::where('slug', $request->product_slug)->firstOrFail();
+            // find product along with highest discount by slug
+            $product = Product::with(['bestDeal'])
+                        ->where('slug', $request->product_slug)
+                        ->firstOrFail();
 
             if (!$product) {
                 throw new \Exception("Product not found.");
@@ -29,7 +31,9 @@ class CartController extends Controller
 
             // validate quantity
             $quantity = (int)$request->quantity;
-            $maxAllowed = $product->stock >= 10 ? 10 : $product->stock; // max 10 or stock if less than 10
+
+            // limit max purchasable to 10 or available stock, whichever is lower
+            $maxAllowed = min($product->stock,  config('site.cart.max_quantity')); 
 
             // if quantity is over stock, return error
             if ($quantity > $maxAllowed) {
@@ -68,6 +72,14 @@ class CartController extends Controller
 
             $cartCount += $quantity;
 
+            // only apply the highest discount
+            $priceAfterDeal = $product->price;
+            $percentageOff = 0;
+            if ($product->bestDeal->isNotEmpty()) {
+                $percentageOff = $product->bestDeal[0]->percentage_off;
+                $priceAfterDeal = $product->getPriceAfterDeal($percentageOff);
+            }
+
             // Return a JSON response with success message and suggested items
             return response()->json([
                 'success' => true,
@@ -78,6 +90,8 @@ class CartController extends Controller
                         'price' => $product->price,
                         'image' => $productImgUrl,
                         'slug' => $product->slug,
+                        'percentage_off' => $percentageOff,
+                        'price_after_deal' => $priceAfterDeal,
                     ],
                     'suggested' => $suggested,
                     'message' => 'Item added to cart.' . ($warningMsg ? ' Warnign: ' . $warningMsg : ''),

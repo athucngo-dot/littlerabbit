@@ -126,6 +126,57 @@ class Product extends Model
         return $this->belongsToMany(Deal::class);
     }
 
+    /**
+     * The deals that has highest discount for the product at that time
+     */
+    public function bestDeal()
+    {
+        return $this->deals()
+            ->whereDate('start_date', '<=', now())
+            ->whereDate('end_date', '>=', now())
+            ->orderByDesc('percentage_off')
+            ->limit(1);
+    }
+
+    /**
+     * get the related products
+     * where they are in same category or brand
+     */
+    public function getRelatedProducts($limit = null)
+    {
+        //if limit is null, set to default value
+        $limit ??= config('site.max_related_product');
+
+        // get the list of product that are not current product
+        // and have the same categories or same brand
+        // random order
+        // and with set limit
+        return Product::whereKeyNot($this->id)
+            ->when($this->category_id, 
+                    fn($q) => $q->where('category_id', $this->category_id)
+            )
+            ->orWhere(fn($q) => $q->where('brand_id', $this->brand_id))
+            ->with('images')
+            ->inRandomOrder()
+            ->limit($limit)
+            ->get();
+    }
+
+    /**
+     * get price of the product after applying discount
+     * if the discount percentage is not passed, 
+     * it will get the higest discount related to the product
+     */
+    public function getPriceAfterDeal($percentage_off=null)
+    {
+        if ($percentage_off) {
+            return $this->price * (100 - $percentage_off) / 100;
+        } else {
+            $applyDeal = $this->bestDeal()->first();
+            return $this->price * (100 - $applyDeal->percentage_off) / 100;
+        }
+    }
+
     public function scopeAvailable($query)
     {
         return $query->where('is_active', true)->where('stock', '>', 0);

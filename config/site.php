@@ -23,6 +23,8 @@ return [
 
     'default_product_image' => '/images/default_img.png',
 
+    'max_related_product' => 20,
+
     // Cart settings
     'cart' => [
         'cookies_guest_cart' => 'guest_cart', // name of guest cart array stored in cookies

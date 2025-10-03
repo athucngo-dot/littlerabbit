@@ -25,7 +25,7 @@ class CartRequest extends FormRequest
             'product_slug' => ['required', 'exists:products,slug'],
             'size_id'    => ['required', 'exists:sizes,id'],
             'color_id'   => ['required', 'exists:colors,id'],
-            'quantity'   => ['required', 'integer', 'min:1', 'max:10'],
+            'quantity'   => ['required', 'integer', 'min:1', 'max:' . config('site.cart.max_quantity')],
         ];
     }
 
@@ -44,7 +44,7 @@ class CartRequest extends FormRequest
             'quantity.required'   => 'Please specify a quantity.',
             'quantity.integer'    => 'Quantity must be a valid number.',
             'quantity.min'        => 'Quantity must be at least :min.',
-            'quantity.max'        => 'Quantity may not be greater than :max.',
+            'quantity.max'        => 'Quantity may not be greater than ' . config('site.cart.max_quantity'),
         ];
     }
 }

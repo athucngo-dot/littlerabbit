@@ -38,7 +38,18 @@
                         <div>
                             <img :src="image" alt="Product Image" class="h-40 w-40 object-cover mx-auto mb-4">
                             <h4 class="font-bold text-gray-800" x-text="name"></h4>
-                            $<span class="font-semibold text-center" x-text="Number(price).toFixed(2)"></span>
+                            <template x-if="Number(percentage_off) > 0">
+                                <p>
+                                    <span class="font-semibold text-center text-red-500" x-text="'-' + Number(percentage_off) + '%'"></span>
+                                    $<span class="font-semibold text-center" x-text="Number(price_after_deal).toFixed(2)"></span><br/>
+                                    <span  class="text-xs text-center">Was: $</span><span class="text-xs line-through" x-text="Number(price).toFixed(2)"></span>
+                                </p>
+                            </template>
+                            <template x-if="Number(percentage_off) <= 0">
+                                <p class="font-semibold">
+                                    $<span x-text="Number(price).toFixed(2)"></span>
+                                </p>
+                            </template>    
                         </div>
                         <div class="text-center">
                             <!-- Success Icon -->
@@ -91,6 +102,8 @@ function popupHandler() {
         image: '',
         name: '',
         price: '',
+        percentage_off: '',
+        price_after_deal: '',
         initAddToCart(popup) {
             let selectedColorId = null;
             let selectedSizeId = null;
@@ -161,7 +174,9 @@ function popupHandler() {
                             suggested: data.popup.suggested || [],
                             image: data.popup.product.image || '',
                             name: data.popup.product.name || '',
-                            price: data.popup.product.price || ''
+                            price: data.popup.product.price || '',
+                            percentage_off: data.popup.product.percentage_off|| '',
+                            price_after_deal: data.popup.product.price_after_deal || ''
                         });
                     } else {
                         // handle errors, including Laravel validation errors (422)
@@ -182,6 +197,8 @@ function popupHandler() {
             this.image = data.image || '';
             this.name = data.name || '';
             this.price = data.price || '';
+            this.percentage_off = data.percentage_off || '';
+            this.price_after_deal = data.price_after_deal || '';
             this.show = true;
         },
         close() {
