@@ -45,6 +45,7 @@ class ProductController extends Controller
                 'reviews.customer' // eager load review->customer to show name
             ])
             ->where('slug', $slug)
+            ->where('is_active', true)
             ->firstOrFail();
 
         // Make sure features is an array

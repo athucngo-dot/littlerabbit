@@ -14,6 +14,7 @@ class ProductApiController extends Controller
     {
         $products = Product::with(['colors', 'brand', 'category', 'sizes', 'deals'])
             ->where('new_arrival', true)
+            ->where('is_active', true)
             ->latest('created_at')
             ->paginate(config('site.items_per_page')) // server-side pagination
             ->through(function ($product) {

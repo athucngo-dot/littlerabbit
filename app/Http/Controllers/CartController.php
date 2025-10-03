@@ -23,6 +23,7 @@ class CartController extends Controller
             // find product along with highest discount by slug
             $product = Product::with(['bestDeal'])
                         ->where('slug', $request->product_slug)
+                        ->where('is_active', true)
                         ->firstOrFail();
 
             if (!$product) {
