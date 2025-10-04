@@ -22,8 +22,8 @@ return [
     'favicon' => '/images/favicon.ico',
 
     'default_product_image' => '/images/default_img.png',
-
     'max_related_product' => 20,
+    'cache_time_out' => 3600, //cache time out in 1 hour
 
     // Cart settings
     'cart' => [

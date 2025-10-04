@@ -67,7 +67,7 @@
 
                 {{-- Right: Product Info --}}
                 <div class="space-y-6">
-                    <p class="text-lg text-gray-600">{{ $product->brand?->name }}</p>
+                    <p class="text-lg text-gray-600">{{ stripslashes($product->brand?->name) }}</p>
                     <h1 class="text-3xl font-bold text-gray-900">{{ $product->name }}</h1>
 
                     {{-- Average rating and review count --}}

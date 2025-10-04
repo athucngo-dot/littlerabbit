@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Product;
 use \App\Models\Brand;
 use \App\Models\Color;
@@ -32,8 +33,8 @@ class ProductController extends Controller
      */
     public function show($slug)
     {
-        // Load the product by slug and eager load related relationships used in the view
-        $product = Product::with([
+        // query to load the product by slug and eager load related relationships used in the view
+        $productQr = Product::with([
                 'images' => function ($query) {
                     $query->orderByDesc('is_primary'); // primary comes first
                 },
@@ -45,8 +46,17 @@ class ProductController extends Controller
                 'reviews.customer' // eager load review->customer to show name
             ])
             ->where('slug', $slug)
-            ->where('is_active', true)
-            ->firstOrFail();
+            ->where('is_active', true);
+
+        // Fetches the product from cache first
+        // if not, then hit the DB
+        $product = Cache::remember(
+            "product_{$slug}_show", // cache key
+            config('site.cache_time_out'),
+            function() use ($productQr) {
+                return $productQr->firstOrFail();
+            }
+        );
 
         // Make sure features is an array
         $features = $product->features;
@@ -66,13 +76,14 @@ class ProductController extends Controller
         // Frequently purchased together — as a simple fallback, use same brand
         $frequentlyPurchased = Product::where('brand_id', $product->brand_id)
             ->where('id', '!=', $product->id)
+            ->where('is_active', true)
             ->with('images')
             ->inRandomOrder()
             ->limit(20)
             ->get();
 
         // Prepare reviews for Alpine: include customer_name and minimal fields
-        $reviews = $product->reviews->map(function ($r) {
+        $reviews = $product->cachedReviews()->map(function ($r) {
             return [
                 'id' => $r->id,
                 'customer_name' => $r->customer?->name ?? 'Guest',

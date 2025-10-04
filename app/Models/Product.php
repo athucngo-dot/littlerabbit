@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class Product extends Model
 {
@@ -118,6 +119,17 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function cachedReviews()
+    {
+        return Cache::remember(
+            "product_{$this->id}_reviews",  // cache key
+            config('site.cache_time_out'), // cache time in seconds
+            function () {
+                return $this->reviews()->with('customer')->get();
+            }
+        );
+    }
+
     /**
      * The deals that belong to the product.
      */
@@ -147,19 +159,32 @@ class Product extends Model
         //if limit is null, set to default value
         $limit ??= config('site.max_related_product');
 
-        // get the list of product that are not current product
+        // query to get the list of product that are not current product
         // and have the same categories or same brand
         // random order
         // and with set limit
-        return Product::whereKeyNot($this->id)
-            ->when($this->category_id, 
-                    fn($q) => $q->where('category_id', $this->category_id)
-            )
-            ->orWhere(fn($q) => $q->where('brand_id', $this->brand_id))
+        $query = Product::whereKeyNot($this->id)
+            ->where(function($q) {
+                if ($this->category_id) {
+                    $q->where('category_id', $this->category_id);
+                }
+                if ($this->brand_id) {
+                    $q->orWhere('brand_id', $this->brand_id);
+                }
+            })
             ->with('images')
             ->inRandomOrder()
-            ->limit($limit)
-            ->get();
+            ->limit($limit);
+
+        // Fetches list from cache first
+        // if not, then hit the DB
+        return Cache::remember(
+            "product_{$this->id}_related", // cache key
+            config('site.cache_time_out'),
+            function() use ($query) {
+                return $query->get();
+            }
+        );
     }
 
     /**
