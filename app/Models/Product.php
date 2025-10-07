@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
 
@@ -202,18 +203,142 @@ class Product extends Model
         }
     }
 
-    public function scopeAvailable($query)
+    /**
+     * add to query is_active = true
+     */
+    public function scopeIsActive($query)
     {
-        return $query->where('is_active', true)->where('stock', '>', 0);
+        return $query->where('is_active', true);
     }
 
+    /**
+     * add to query stock > 0
+     */
     public function scopeInStock($query)
     {
         return $query->where('stock', '>', 0);
     }
 
+    /**
+     * add to query is_active = true and stock is more than 0
+     */
+    public function scopeAvailable($query)
+    {
+        return $query->isActive()->inStock();
+    }
+
+    /**
+     * add to query new_arrival = true
+     */
     public function scopeNewArrivals($query)
     {
         return $query->where('new_arrival', true);
+    }
+
+    /**
+     * add to query to filter by gender.
+     */
+    public function scopeHasGender($query, $gender = null)
+    {
+        if ($gender && in_array($gender, ['boy', 'girl', 'unisex'])) {
+            return $query->where('gender', $gender);
+        }
+
+        return $query;
+    }
+
+    /**
+     * add to size to filter by size_id
+     */
+    public function scopeHasSize($query, $sizeId = null)
+    {
+        if ($sizeId) {
+            $query->whereExists(function ($subQuery) use ($sizeId) {
+                $subQuery->select(DB::raw(1))
+                    ->from('product_size')
+                    ->whereColumn('product_size.product_id', 'products.id')
+                    ->where('product_size.size_id', $sizeId);
+            });
+        }
+
+        return $query;
+    }
+
+    /**
+     * add to size to filter by color_id
+     */
+    public function scopeHasColor($query, $colorId = null)
+    {
+        if ($colorId) {
+            $query->whereExists(function ($subQuery) use ($colorId) {
+                $subQuery->select(DB::raw(1))
+                    ->from('color_product')
+                    ->whereColumn('color_product.product_id', 'products.id')
+                    ->where('color_product.color_id', $colorId);
+            });
+        }
+
+        return $query;
+    }
+
+    /**
+     * add to size to filter by discount
+     */
+    public function scopeHasDiscount($query, $discount = null)
+    {
+        if ($discount) {
+            $query->whereHas('deals', function ($q) use ($discount) {
+                if ($discount == '25') {
+                    $q->where('percentage_off', '<=', 25);
+                } elseif ($discount == '25-50') {
+                    $q->whereBetween('percentage_off', [25, 50]);
+                } elseif ($discount == '50-75') {
+                    $q->whereBetween('percentage_off', [50, 75]);
+                } elseif ($discount == 'clearance') {
+                    $q->where('percentage_off', '>', 75);
+                }
+
+                $q->whereDate('start_date', '<=', now())
+                    ->whereDate('end_date', '>=', now());
+            });
+        }
+
+        return $query;
+    }
+
+    /**
+     * add to query to filter by brand_id.
+     */
+    public function scopeHasBrand($query, $brandId = null)
+    {
+        if ($brandId) {
+            return $query->where('brand_id', $brandId);
+        }
+
+        return $query;
+    }
+
+    /**
+     * add to query to filter by material_id.
+     */
+    public function scopeHasMaterial($query, $materialId = null)
+    {
+        if ($materialId) {
+            return $query->where('material_id', $materialId);
+        }
+        
+        return $query;
+    }
+
+    /**
+     * add to query to filter by category_id.
+     */
+    public function scopeHasCategory($query, $categoryId = null)
+    {
+        if ($categoryId) {
+            return $query->where('category_id', $categoryId);
+        }
+        
+        return $query;
     }
 }

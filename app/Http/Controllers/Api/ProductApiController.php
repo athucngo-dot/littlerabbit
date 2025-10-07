@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 
@@ -10,11 +11,26 @@ class ProductApiController extends Controller
     /**
      * Display a listing of new arrival products.
      */
-    public function newArrivals()
+    public function newArrivals(Request $request)
     {
+        $gender = $request->query('gender'); // get gender from URL
+        $brandId = $request->query('brand_id'); // get brand_id from URL
+        $sizeId = $request->query('size_id'); // get size_id from URL
+        $materialId = $request->query('material_id'); // get material_id from URL
+        $categoryId = $request->query('category_id'); // get category_id from URL
+        $colorId = $request->query('color_id'); // get color_id from URL
+        $discount = $request->query('discount'); // get discount from URL
+
         $products = Product::with(['colors', 'brand', 'category', 'sizes', 'deals'])
-            ->where('new_arrival', true)
-            ->where('is_active', true)
+            ->newArrivals()
+            ->isActive()
+            ->hasGender($gender)
+            ->hasBrand($brandId)
+            ->hasSize($sizeId)
+            ->hasColor($colorId)
+            ->hasMaterial($materialId)
+            ->hasCategory($categoryId)
+            ->hasDiscount($discount)
             ->latest('created_at')
             ->paginate(config('site.items_per_page')) // server-side pagination
             ->through(function ($product) {

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('price', 8, 2)->default(0.00);
             $table->unsignedInteger('stock')->default(0);
             $table->unsignedInteger('nb_of_items')->default(1); // number of items in the product (e.g., pack of 3)
-            $table->enum ('gender', ['boy', 'girl', 'neutral'])->default('neutral');
+            $table->enum ('gender', ['boy', 'girl', 'unisex'])->default('unisex');
             $table->boolean('is_active')->default(true);
             $table->boolean('new_arrival')->default(false);
             $table->boolean('continue')->default(true);

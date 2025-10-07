@@ -9,6 +9,7 @@ use \App\Models\Brand;
 use \App\Models\Color;
 use \App\Models\Category;
 use \App\Models\Size;
+use \App\Models\Material;
 
 class ProductController extends Controller
 {
@@ -17,12 +18,13 @@ class ProductController extends Controller
      */
     public function newArrivalsPage()
     {
-        $brands = Brand::orderBy('name')->pluck('name');
-        $colors = Color::orderBy('name')->pluck('name');
-        $categories = Category::orderBy('name')->pluck('name');
-        $sizes = Size::orderBy('size')->pluck('size');
+        $brands = Brand::orderBy('name')->pluck('name', 'id');
+        $colors = Color::orderBy('name')->pluck('name', 'id');
+        $categories = Category::orderBy('name')->pluck('name', 'id');
+        $sizes = Size::orderBy('id')->pluck('size', 'id');
+        $materials = Material::orderBy('name')->pluck('name', 'id');
 
-        return view('products.new-arrivals', compact('brands', 'colors', 'categories', 'sizes'));
+        return view('products.new-arrivals', compact('brands', 'colors', 'categories', 'sizes', 'materials'));
     }
 
     /**
@@ -38,7 +40,9 @@ class ProductController extends Controller
                 'images' => function ($query) {
                     $query->orderByDesc('is_primary'); // primary comes first
                 },
-                'bestDeal', //highest discount at the time
+                'deals' => function ($query) {
+                    $query->orderByDesc('percentage_off'); // best deal comes on top
+                },
                 'brand', 
                 'colors',
                 'sizes',
@@ -46,7 +50,7 @@ class ProductController extends Controller
                 'reviews.customer' // eager load review->customer to show name
             ])
             ->where('slug', $slug)
-            ->where('is_active', true);
+            ->isActive();
 
         // Fetches the product from cache first
         // if not, then hit the DB
@@ -67,8 +71,9 @@ class ProductController extends Controller
 
         // only apply the highest discount
         $priceAfterDeal = $product->price;
-        if ($product->bestDeal->isNotEmpty()) {
-            $priceAfterDeal = $product->getPriceAfterDeal($product->bestDeal[0]->percentage_off);
+        if ($product->deals->isNotEmpty()) {
+            // apply best deal to the price
+            $priceAfterDeal = $product->getPriceAfterDeal($product->deals[0]->percentage_off);
         }
 
         $relatedProducts = $product->getRelatedProducts();
@@ -76,7 +81,7 @@ class ProductController extends Controller
         // Frequently purchased together — as a simple fallback, use same brand
         $frequentlyPurchased = Product::where('brand_id', $product->brand_id)
             ->where('id', '!=', $product->id)
-            ->where('is_active', true)
+            ->isActive()
             ->with('images')
             ->inRandomOrder()
             ->limit(20)

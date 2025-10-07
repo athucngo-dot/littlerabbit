@@ -124,12 +124,19 @@
                             <span class="text-2xl font-bold text-gray-900 px-2">${{ number_format($priceAfterDeal, 2) }}</span>
                         </p>
                         <p class="text-sm text-gray-900">Was: <span class="line-through px-2">${{ number_format($product->price, 2) }}</span></p>
+                        @if ($product->deals->isNotEmpty())
+                            <p class="text-sm text-gray-900">Eligible for the following discount(s):
+                            @foreach ($product->deals as $deal)
+                                {{ $deal->name }} (<span class="text-red-400">-{{ $deal->percentage_off }}</span>) | </li>
+                            @endforeach
+                            </p>
+                        @endif
                     @else
                         <p class="text-2xl font-bold text-gray-900">${{ number_format($product->price, 2) }}</p>
                     @endif
 
                     {{-- Shipping --}}
-                    <p class="text-gray-600 text-sm">Pickup available at the store. Usually ready in 24 hours</p>
+                    <p class="text-gray-600 text-sm">Shipping within 24 hours of your orders</p>
 
                     {{-- Stock Status --}}
                     @if (intval($product->stock) > 0)
