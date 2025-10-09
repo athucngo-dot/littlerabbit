@@ -21,6 +21,7 @@ class CustomerAuthController extends Controller
     public function login(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
+        $credentials['is_active'] = true;
 
         if (Auth::guard('customer')->attempt($credentials, $request->filled('remember'))) {
             return redirect()->intended('/'); // customer dashboard or home
