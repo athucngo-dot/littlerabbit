@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Auth\CustomerAuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Auth\AdminAuthController;
+use App\Http\Controllers\Api\CartApiController;
 
 Route::get('/', function () {
     return view('pages/home');
@@ -22,8 +23,11 @@ Route::get('/products/{slug}', [ProductController::class, 'show'])->name('produc
 Route::post('/products/{product}/reviews', [ProductController::class, 'storeReview'])
     ->name('products.reviews.store');
 
-Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-
+// keep the cart routes within web middleware to have session and cookie support
+// make it API-like to be easier extended to API app (with Sanctum authentication) later
+Route::middleware(['web'])->prefix('cart')->group(function () {
+    Route::post('add', [CartApiController::class, 'add'])->name('cart.add');
+});
 /*
 * Static pages
 */

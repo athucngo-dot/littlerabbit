@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cookie;
 use App\Models\Cart;
+use Illuminate\Support\Facades\Log;
 
 class CartService
 {
@@ -58,12 +59,6 @@ class CartService
             // For logged in user
             $conditions['customer_id'] = Auth::id();
             
-            // Use updateOrCreate to either update the quantity of existing item or create a new cart item
-            $updateValues = [
-                'quantity' => DB::raw('quantity + ' . $quantity), // increment quantity, let the database do the math instead of overriding the value
-                'options' => $options,
-            ];
-
             // update or create on cart table
             // find first row, if not found then create a new row
             $cart = Cart::firstOrCreate($conditions, ['quantity' => $quantity, 'options' => $options]);
