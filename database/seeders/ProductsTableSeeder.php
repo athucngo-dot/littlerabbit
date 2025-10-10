@@ -3,13 +3,13 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 use App\Models\Product;
 use App\Models\Color;
 use App\Models\Size;
 use \App\Models\Deal;
 use \App\Models\Season;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 
 class ProductsTableSeeder extends Seeder
 {
@@ -307,9 +307,10 @@ class ProductsTableSeeder extends Seeder
             ]
         );
 
+        // seeding products with specific names and descriptions
         Product::factory()
             ->count(count($nameNDescs))
-            ->state(new Sequence(...$nameNDescs))
+            ->state(new Sequence(...$nameNDescs)) // assigns the first product the first name/description, second product the second, etc.
             ->create();
 
         // seeding products with random sizes
