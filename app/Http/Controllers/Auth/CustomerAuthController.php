@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Services\AuthService;
 
 class CustomerAuthController extends Controller
 {
@@ -20,10 +21,12 @@ class CustomerAuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $credentials = $request->only('email', 'password');
-        $credentials['is_active'] = true;
+        $loginData = $request->only('email', 'password');
+        $loginData['is_active'] = true;
+        
+        $checkedRemember = $request->filled('remember');
 
-        if (Auth::guard('customer')->attempt($credentials, $request->filled('remember'))) {
+        if (AuthService::login($loginData, $checkedRemember)) {
             return redirect()->intended('/'); // customer dashboard or home
         }
 
@@ -39,12 +42,8 @@ class CustomerAuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        $customer = Customer::create([
-            'first_name' => $request->firstname,
-            'last_name'  => $request->lastname,
-            'email'      => $request->register_email,
-            'password'   => Hash::make($request->register_password),
-        ]);
+        $registerData = $request->only('firstname', 'lastname', 'register_email', 'register_password');
+        $customer = AuthService::register($registerData);
 
         Auth::guard('customer')->login($customer);
 
