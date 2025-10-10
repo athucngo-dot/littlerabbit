@@ -118,10 +118,10 @@
 
                     {{-- Price --}}
                     {{-- Note: only apply the highest discount --}}
-                    @if ($priceAfterDeal != $product->price)
+                    @if ($product->price_after_deals != $product->price)
                         <p>
                             <span class="text-xl text-red-500">-{{ number_format($product->bestDeal[0]->percentage_off) }}% </span>
-                            <span class="text-2xl font-bold text-gray-900 px-2">${{ number_format($priceAfterDeal, 2) }}</span>
+                            <span class="text-2xl font-bold text-gray-900 px-2">${{ number_format($product->price_after_deals, 2) }}</span>
                         </p>
                         <p class="text-sm text-gray-900">Was: <span class="line-through px-2">${{ number_format($product->price, 2) }}</span></p>
                         @if ($product->deals->isNotEmpty())
@@ -145,7 +145,7 @@
                         {{-- Quantity Selector --}}
                         <span class="font-bold text-gray-800">Quantity:</span>
                         <select name="quantity" id="quantity" class="text-sm mt-1 px-2 py-1 border">
-                            @for ($i = 1; $i <= $maxQuantity; $i++)
+                            @for ($i = 1; $i <= $product->max_quantity; $i++)
                                 <option value="{{ $i }}">{{ $i }}</option>
                             @endfor
                         </select>
@@ -163,11 +163,11 @@
                     <p class="text-gray-700">{{ $product->description }}</p>
 
                     {{-- Features --}}
-                    @if (!empty($features) || !empty($product->material))
+                    @if (!empty($product->features) || !empty($product->material))
                         <h4 class="font-bold text-gray-800 mb-2">Features</h4>
                         <ul class="list-disc list-inside text-gray-700 space-y-1">
-                            @if (!empty($features))
-                                @foreach ($features as $feature)
+                            @if (!empty($product->features))
+                                @foreach ($product->features as $feature)
                                     <li>{{ $feature }}</li>
                                 @endforeach
                             @endif
