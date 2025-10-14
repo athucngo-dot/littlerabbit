@@ -12,20 +12,19 @@ class LoginTest extends TestCase
 
     public function test_customer_can_login_successfully()
     {
-        // Create a customer
-        $customer = Customer::create([
-            'first_name' => 'James',
-            'last_name' => 'Bond',
-            'email' => 'james.bond@gmail.com',
-            'password' => Hash::make('Agent*007'),
-            'is_active' => true,
-        ]);
+        // Create customers
+        $this->createNewCustomers();
 
         // Attempt login
         $response = $this->post('/auth/login', [
             'email' => 'james.bond@gmail.com',
             'password' => 'Agent*007',
         ]);
+
+        // fetch the user
+        $customer = Customer::where('email', 'james.bond@gmail.com')
+            ->where('is_active', true)
+            ->first();
 
         // Assert redirected to home
         $response->assertRedirect('/');
@@ -36,18 +35,15 @@ class LoginTest extends TestCase
 
     public function test_login_in_active_customer()
     {
-          // Create a customer
-          $customer = Customer::create([
-            'first_name' => 'James',
-            'last_name' => 'Bond',
-            'email' => 'james.bond@gmail.com',
-            'password' => Hash::make('Agent*007'),
-            'is_active' => false,
-        ]);
+        // Create customers
+        $this->createNewCustomers();
 
+        // Make one customer inactive
+        Customer::where('email', 'captain.america@gmail.com')->update(['is_active' => false]);
+          
         $response = $this->post('/auth/login', [
-            'email' => 'james.bond@gmail.com',
-            'password' => Hash::make('Agent*007'),
+            'email' => 'captain.america@gmail.com',
+            'password' => Hash::make('Shield*01'),
         ]);
 
         $response->assertSessionHasErrors(['email']);
@@ -55,14 +51,8 @@ class LoginTest extends TestCase
 
     public function test_login_requires_valid_data()
     {
-          // Create a customer
-          $customer = Customer::create([
-            'first_name' => 'James',
-            'last_name' => 'Bond',
-            'email' => 'james.bond@gmail.com',
-            'password' => Hash::make('Agent*007'),
-            'is_active' => true,
-        ]);
+        // Create customers
+        $this->createNewCustomers();
 
         $response = $this->post('/auth/login', [
             'email' => '',
@@ -70,5 +60,39 @@ class LoginTest extends TestCase
         ]);
 
         $response->assertSessionHasErrors(['email', 'password']);
+    }
+
+    /**
+     * Helper to create customers
+     */
+    private function createNewCustomers(array $customers = []): void
+    {
+        if (empty($customers)) {
+            $customers = [
+                [
+                    'first_name' => 'James',
+                    'last_name' => 'Bond',
+                    'email' => 'james.bond@gmail.com',
+                    'password' => Hash::make('Agent*007'),
+                    'is_active' => true,
+                ],
+                [
+                    'first_name' => 'Captain',
+                    'last_name' => 'America',
+                    'email' => 'captain.america@gmail.com',
+                    'password' => Hash::make('Shield*01'),
+                    'is_active' => true,
+                ],
+                [
+                    'first_name' => 'Iron',
+                    'last_name' => 'Man',
+                    'email' => 'iron.man@gmail.com',
+                    'password' => Hash::make('Jarvis*123'),
+                    'is_active' => true,
+                ],
+            ];
+        }
+
+        $this->createNew(Customer::class, $customers);
     }
 }

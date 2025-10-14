@@ -39,7 +39,7 @@ class ProductApiController extends Controller
                     'name' => $product->name,
                     'slug' => $product->slug,
                     'price' => $product->price,
-                    'image' => $product->images()->primary()?->url,
+                    'image' => $product->images()->primary()->url ?? config('site.default_product_image'),
                     'gender' => $product->gender,
                     'colors' => $product->colors->pluck('name'),
                     'brand' => $product->brand?->name,

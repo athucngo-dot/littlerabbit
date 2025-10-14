@@ -120,7 +120,7 @@
                     {{-- Note: only apply the highest discount --}}
                     @if ($product->price_after_deals != $product->price)
                         <p>
-                            <span class="text-xl text-red-500">-{{ number_format($product->bestDeal[0]->percentage_off) }}% </span>
+                            <span class="text-xl text-red-500">-{{ number_format($product->deals[0]->percentage_off) }}% </span>
                             <span class="text-2xl font-bold text-gray-900 px-2">${{ number_format($product->price_after_deals, 2) }}</span>
                         </p>
                         <p class="text-sm text-gray-900">Was: <span class="line-through px-2">${{ number_format($product->price, 2) }}</span></p>
