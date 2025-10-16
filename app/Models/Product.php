@@ -136,7 +136,8 @@ class Product extends Model
      */
     public function deals()
     {
-        return $this->belongsToMany(Deal::class);
+        return $this->belongsToMany(Deal::class)
+                    ->orderByDesc('percentage_off');
     }
 
     /**
@@ -199,6 +200,11 @@ class Product extends Model
             return $this->price * (100 - $percentage_off) / 100;
         } else {
             $applyDeal = $this->bestDeal()->first();
+            
+            if (!$applyDeal) {
+                return $this->price; // no deal, return original price
+            }
+
             return $this->price * (100 - $applyDeal->percentage_off) / 100;
         }
     }
@@ -248,7 +254,7 @@ class Product extends Model
     }
 
     /**
-     * add to size to filter by size_id
+     * add to query to filter by size_id
      */
     public function scopeHasSize($query, $sizeId = null)
     {
@@ -265,7 +271,7 @@ class Product extends Model
     }
 
     /**
-     * add to size to filter by color_id
+     * add to query to filter by color_id
      */
     public function scopeHasColor($query, $colorId = null)
     {
@@ -282,24 +288,46 @@ class Product extends Model
     }
 
     /**
-     * add to size to filter by discount
+     * add to query to filter by discount
      */
     public function scopeHasDiscount($query, $discount = null)
     {
-        if ($discount) {
-            $query->whereHas('deals', function ($q) use ($discount) {
-                if ($discount == '25') {
-                    $q->where('percentage_off', '<=', 25);
-                } elseif ($discount == '25-50') {
-                    $q->whereBetween('percentage_off', [25, 50]);
-                } elseif ($discount == '50-75') {
-                    $q->whereBetween('percentage_off', [50, 75]);
-                } elseif ($discount == 'clearance') {
-                    $q->where('percentage_off', '>', 75);
-                }
+        if (is_null($discount)) {
+            return $query;
+        }
 
+        if ($discount === 'all') {
+            // any discount
+            $query->whereHas('deals', function ($q) {
                 $q->whereDate('start_date', '<=', now())
                     ->whereDate('end_date', '>=', now());
+            });
+
+            return $query;
+        }
+
+        // Define discount ranges
+        $ranges = [
+            '25'       => [1, 25],
+            '25-50'    => [25, 50],
+            '50-75'    => [50, 75],
+            'clearance'=> [75, 100],
+        ];
+
+        // Apply matching condition
+        if (array_key_exists($discount, $ranges)) {
+            [$min, $max] = $ranges[$discount]; // get min and max from the range
+            
+            $query->whereHas('deals', function ($q) use ($discount, $min, $max){
+                $q->whereDate('start_date', '<=', now())
+                    ->whereDate('end_date', '>=', now());
+
+                if ($discount === 'clearance') {
+                    $q->where('percentage_off', '>=', $min);
+                } else {
+                    $q->whereBetween('percentage_off', [$min, $max]);
+                }
+
             });
         }
 

@@ -127,7 +127,7 @@
                         @if ($product->deals->isNotEmpty())
                             <p class="text-sm text-gray-900">Eligible for the following discount(s):
                             @foreach ($product->deals as $deal)
-                                {{ $deal->name }} (<span class="text-red-400">-{{ $deal->percentage_off }}</span>) | </li>
+                                {{ $deal->name }} (<span class="text-red-400">-{{ number_format($deal->percentage_off) }}%</span>) | </li>
                             @endforeach
                             </p>
                         @endif

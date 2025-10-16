@@ -17,6 +17,7 @@ Route::get('/auth/logout', [CustomerAuthController::class, 'logout'])->name('cus
 Route::post('/auth/register', [CustomerAuthController::class, 'register']);
 
 Route::get('/new-arrivals', [ProductController::class, 'newArrivalsPage'])->name('products.new-arrivals');
+Route::get('/deals', [ProductController::class, 'dealsPage'])->name('products.deals');
 
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 

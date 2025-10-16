@@ -29,6 +29,20 @@ class ProductController extends Controller
     }
 
     /**
+     * Display the deals page.
+     */
+    public function dealsPage()
+    {
+        $brands = Brand::orderBy('name')->pluck('name', 'id');
+        $colors = Color::orderBy('name')->pluck('name', 'id');
+        $categories = Category::orderBy('name')->pluck('name', 'id');
+        $sizes = Size::orderBy('id')->pluck('size', 'id');
+        $materials = Material::orderBy('name')->pluck('name', 'id');
+
+        return view('products.deals', compact('brands', 'colors', 'categories', 'sizes', 'materials'));
+    }
+
+    /**
      * Display the specified product by slug.
      *
      * @param  string  $slug
