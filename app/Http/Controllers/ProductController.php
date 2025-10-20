@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use App\Services\ProductService;
+use App\Services\FilterService;
 use App\Models\Product;
 use App\Models\Brand;
 use App\Models\Color;
@@ -19,11 +20,14 @@ class ProductController extends Controller
      */
     public function newArrivalsPage()
     {
-        $brands = Brand::orderBy('name')->pluck('name', 'id');
-        $colors = Color::orderBy('name')->pluck('name', 'id');
-        $categories = Category::orderBy('name')->pluck('name', 'id');
-        $sizes = Size::orderBy('id')->pluck('size', 'id');
-        $materials = Material::orderBy('name')->pluck('name', 'id');
+        // Using FilterService to get filter options, then unpacking them to variables
+        [
+            'brands' => $brands, 
+            'colors' => $colors, 
+            'categories' => $categories, 
+            'sizes' => $sizes, 
+            'materials' => $materials
+        ] = FilterService::getFilterOptions();
 
         return view('products.new-arrivals', compact('brands', 'colors', 'categories', 'sizes', 'materials'));
     }
@@ -33,11 +37,14 @@ class ProductController extends Controller
      */
     public function dealsPage()
     {
-        $brands = Brand::orderBy('name')->pluck('name', 'id');
-        $colors = Color::orderBy('name')->pluck('name', 'id');
-        $categories = Category::orderBy('name')->pluck('name', 'id');
-        $sizes = Size::orderBy('id')->pluck('size', 'id');
-        $materials = Material::orderBy('name')->pluck('name', 'id');
+        // Using FilterService to get filter options, then unpacking them to variables
+        [
+            'brands' => $brands, 
+            'colors' => $colors, 
+            'categories' => $categories, 
+            'sizes' => $sizes, 
+            'materials' => $materials
+        ] = FilterService::getFilterOptions();
 
         return view('products.deals', compact('brands', 'colors', 'categories', 'sizes', 'materials'));
     }
