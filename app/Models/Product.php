@@ -314,7 +314,8 @@ class Product extends Model
         if ($discount === 'all') {
             // any discount
             $query->whereHas('deals', function ($q) {
-                $q->whereDate('start_date', '<=', now())
+                $q->where('percentage_off', '>', 0)
+                    ->whereDate('start_date', '<=', now())
                     ->whereDate('end_date', '>=', now());
             });
 

@@ -65,11 +65,11 @@ class ProductService
     public static function buildProductListQuery(Request $request, ?string $scope = null)
     {
         $gender     = $request->query('gender');
-        $brandId    = $request->query('brand_id');
-        $sizeId     = $request->query('size_id');
-        $materialId = $request->query('material_id');
-        $categoryId = $request->query('category_id');
-        $colorId    = $request->query('color_id');
+        $brandId    = $request->query('brand');
+        $sizeId     = $request->query('size');
+        $materialId = $request->query('material');
+        $categoryId = $request->query('category');
+        $colorId    = $request->query('color');
         $discount   = $request->query('discount');
 
         if ($scope === 'deals' && empty($discount)) {
