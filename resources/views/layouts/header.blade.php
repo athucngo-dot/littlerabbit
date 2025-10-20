@@ -12,8 +12,30 @@
         <ul class="flex gap-5">
           <li><a href="/new-arrivals" class="font-medium text-gray-900 hover:text-mint-600">New Arrivals</a></li>
           <li><a href="/deals" class="font-medium text-gray-900 hover:text-mint-600">Deals</a></li>
-          <li><a href="/baby" class="font-medium text-gray-900 hover:text-mint-600">Baby</a></li>
-          <li><a href="/toddler" class="font-medium text-gray-900 hover:text-mint-600">Toddler</a></li>
+          <li x-data="{ open: false }" class="relative">
+                <button @click="open = !open" class="font-medium text-gray-900 hover:text-mint-600">
+                    Baby
+                </button>
+                <ul x-show="open" 
+                    @click.away="open = false" 
+                    class="absolute left-0 mt-2 w-40 bg-white/75 shadow-lg rounded-md p-2 space-y-2">
+                    <li><a href="/baby/boy" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Boys</a></li>
+                    <li><a href="/baby/girl" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Girls</a></li>
+                    <li><a href="/baby/unisex" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Unisex</a></li>
+                </ul>
+          </li>
+          <li x-data="{ open: false }" class="relative">
+                <button @click="open = !open" class="font-medium text-gray-900 hover:text-mint-600">
+                    Toddler
+                </button>
+                <ul x-show="open" 
+                    @click.away="open = false" 
+                    class="absolute left-0 mt-2 w-40 bg-white/75 shadow-lg rounded-md p-2 space-y-2">
+                    <li><a href="/toddler/boy" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Boys</a></li>
+                    <li><a href="/toddler/girl" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Girls</a></li>
+                    <li><a href="/toddler/unisex" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Unisex</a></li>
+                </ul>
+          </li>
           
           {{-- Kids with dropdown --}}
           <li x-data="{ open: false }" class="relative">
@@ -23,9 +45,9 @@
             <ul x-show="open" 
                 @click.away="open = false" 
                 class="absolute left-0 mt-2 w-40 bg-white/75 shadow-lg rounded-md p-2 space-y-2">
-              <li><a href="#boys" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Boys</a></li>
-              <li><a href="#girls" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Girls</a></li>
-              <li><a href="#shoes" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Shoes</a></li>
+              <li><a href="/kid/boy" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Boys</a></li>
+              <li><a href="/kid/girl" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Girls</a></li>
+              <li><a href="/kid/unisex" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Unisex</a></li>
             </ul>
           </li>
 
@@ -42,7 +64,6 @@
               <li><a href="#toys" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Toys</a></li>
             </ul>
           </li>
-          <li><a href="contact" class="font-medium text-gray-900 hover:text-mint-600">Brands</a></li>
         </ul>
       </nav>
 

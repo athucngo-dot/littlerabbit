@@ -15,6 +15,7 @@ return [
     'name' => env('APP_NAME', 'Little Rabbit'),
 
     'items_per_page' => 30, // Number of items to display per page for pagination
+    'items_per_page_4_per_rows' => 32, // Number of items per page for 4 items per row grid
 
     // logo and favicon paths
     'logo' => '/images/logo.png',

@@ -1,4 +1,3 @@
-// resources/js/products_new_arrivals.js
 let filteredProducts = [];
 let currentPage = 1;
 const productsGrid = document.getElementById('products-grid');

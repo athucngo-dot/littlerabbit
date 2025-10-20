@@ -30,7 +30,7 @@ class SizesTableSeeder extends Seeder
                 '4T',
                 '5T',
             ],
-            'older' => [
+            'kid' => [
                 '4',
                 '5',
                 '6',

@@ -34,4 +34,17 @@ class ProductApiController extends Controller
 
         return response()->json($products);
     }
+
+    public function listByAgeAndGender(string $ageGroup, string $gender, Request $request)
+    {
+        $products = Product::with(['sizes', 'deals'])
+            ->isActive()
+            ->hasGender($gender)
+            ->hasAgeGroup($ageGroup)
+            ->latest('created_at')
+            ->paginate(config('site.items_per_page_4_per_rows'))
+            ->through(fn($product) => ProductService::transformProduct($product));
+
+        return response()->json($products);
+    }
 }

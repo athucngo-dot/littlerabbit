@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sizes', function (Blueprint $table) {
             $table->id();
-            $table->enum ('child_cat', ['baby', 'toddler', 'older'])->default('baby');
+            $table->enum ('child_cat', ['baby', 'toddler', 'kid'])->default('baby');
             $table->string('size');
             $table->timestamps();
         });

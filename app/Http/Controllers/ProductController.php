@@ -42,6 +42,11 @@ class ProductController extends Controller
         return view('products.deals', compact('brands', 'colors', 'categories', 'sizes', 'materials'));
     }
 
+    public function listByAgeAndGender(string $ageGroup, string $gender)
+    {
+        return view('products.list', compact('ageGroup', 'gender'));
+    }
+
     /**
      * Display the specified product by slug.
      *

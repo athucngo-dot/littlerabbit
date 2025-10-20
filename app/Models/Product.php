@@ -196,7 +196,7 @@ class Product extends Model
      */
     public function getPriceAfterDeal($percentage_off=null)
     {
-        if ($percentage_off) {
+        if (!empty($percentage_off)) {
             return $this->price * (100 - $percentage_off) / 100;
         } else {
             $applyDeal = $this->bestDeal()->first();
@@ -246,7 +246,8 @@ class Product extends Model
      */
     public function scopeHasGender($query, $gender = null)
     {
-        if ($gender && in_array($gender, ['boy', 'girl', 'unisex'])) {
+        if (!empty($gender) && 
+            in_array($gender, ['boy', 'girl', 'unisex'])) {
             return $query->where('gender', $gender);
         }
 
@@ -258,12 +259,26 @@ class Product extends Model
      */
     public function scopeHasSize($query, $sizeId = null)
     {
-        if ($sizeId) {
-            $query->whereExists(function ($subQuery) use ($sizeId) {
-                $subQuery->select(DB::raw(1))
+        if (!empty($sizeId)) {
+            $query->whereExists(function ($q) use ($sizeId) {
+                $q->select(DB::raw(1))
                     ->from('product_size')
                     ->whereColumn('product_size.product_id', 'products.id')
                     ->where('product_size.size_id', $sizeId);
+            });
+        }
+
+        return $query;
+    }
+
+    /**
+     * add to query to filter by age group
+     */
+    public function scopeHasAgeGroup($query, $ageGroup = null)
+    {
+        if (!empty($ageGroup)) {
+            return $query->whereHas('sizes', function ($q) use ($ageGroup) {
+                $q->where('child_cat', $ageGroup);
             });
         }
 
@@ -275,9 +290,9 @@ class Product extends Model
      */
     public function scopeHasColor($query, $colorId = null)
     {
-        if ($colorId) {
-            $query->whereExists(function ($subQuery) use ($colorId) {
-                $subQuery->select(DB::raw(1))
+        if (!empty($colorId)){
+            $query->whereExists(function ($q) use ($colorId) {
+                $q->select(DB::raw(1))
                     ->from('color_product')
                     ->whereColumn('color_product.product_id', 'products.id')
                     ->where('color_product.color_id', $colorId);
@@ -339,7 +354,7 @@ class Product extends Model
      */
     public function scopeHasBrand($query, $brandId = null)
     {
-        if ($brandId) {
+        if (!empty($brandId)) {
             return $query->where('brand_id', $brandId);
         }
 
@@ -351,7 +366,7 @@ class Product extends Model
      */
     public function scopeHasMaterial($query, $materialId = null)
     {
-        if ($materialId) {
+        if (!empty($materialId)) {
             return $query->where('material_id', $materialId);
         }
         
@@ -363,7 +378,7 @@ class Product extends Model
      */
     public function scopeHasCategory($query, $categoryId = null)
     {
-        if ($categoryId) {
+        if (!empty($categoryId)) {
             return $query->where('category_id', $categoryId);
         }
         

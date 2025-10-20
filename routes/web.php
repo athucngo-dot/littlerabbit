@@ -19,6 +19,13 @@ Route::post('/auth/register', [CustomerAuthController::class, 'register']);
 Route::get('/new-arrivals', [ProductController::class, 'newArrivalsPage'])->name('products.new-arrivals');
 Route::get('/deals', [ProductController::class, 'dealsPage'])->name('products.deals');
 
+Route::get('{ageGroup}/{gender}', [ProductController::class, 'listByAgeAndGender'])
+    ->where([
+        'ageGroup' => 'baby|toddler|kid',
+        'gender' => 'boy|girl|unisex',
+    ])
+    ->name('products.byAgeAndGender');
+
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 
 Route::post('/products/{product}/reviews', [ProductController::class, 'storeReview'])

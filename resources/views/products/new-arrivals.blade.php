@@ -7,11 +7,9 @@
 
 <!-- Pass products JSON to JS -->
 <script>
-    const params = new URLSearchParams(window.location.search);
-    
-    window.apiEndpoint = "{{ url('/api/products/new-arrivals') }}" + (params.toString() ? '?' + params.toString() : '');
+    window.apiEndpoint = "{{ url('/api/products/new-arrivals') }}";
 </script>
 
 <!-- Load external JS -->
-@vite('resources/js/products_lists.js')
+@vite('resources/js/products_list_with_filters.js')
 @endsection
