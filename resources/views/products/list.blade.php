@@ -5,7 +5,13 @@
 <section class="bg-gradient-to-b from-mint to-paper-2">
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center text-ink mb-8 capitalize">{{ $ageGroup }} / {{$gender}}</h2>
+            <h2 class="text-3xl font-bold text-center text-ink mb-8 capitalize">
+                @if(isset($listName) && $listName === 'age-gender')
+                    {{ $ageGroup }} / {{$gender}}
+                @else
+                    Accessories
+                @endif
+            </h2>
 
             <div>
                 <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6"></div>
@@ -20,7 +26,11 @@
 </section>
 
 <script>
-    window.apiEndpoint = "{{ route('api.products.byAgeAndGender', ['ageGroup' => $ageGroup, 'gender' => $gender]) }}";
+    @if(isset($listName) && $listName === 'age-gender')
+        window.apiEndpoint = "{{ route('api.products.byAgeAndGender', ['ageGroup' => $ageGroup, 'gender' => $gender]) }}";
+    @else
+        window.apiEndpoint = "{{ route('api.products.accessories') }}";
+    @endif
 </script>
 
 <!-- Load external JS -->

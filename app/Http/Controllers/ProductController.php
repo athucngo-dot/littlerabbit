@@ -48,11 +48,24 @@ class ProductController extends Controller
 
         return view('products.deals', compact('brands', 'colors', 'categories', 'sizes', 'materials'));
     }
-
+    
+    /**
+     * Display products by age group and gender.
+     */
     public function listByAgeAndGender(string $ageGroup, string $gender)
     {
-        return view('products.list', compact('ageGroup', 'gender'));
+        $listName = 'age-gender';
+        return view('products.list', compact('listName', 'ageGroup', 'gender'));
     }
+
+    /**
+     * Display the accessories page.
+     */
+    public function accessoriesPage()
+    {
+        $listName = 'accessories';
+        return view('products.list', compact('listName'));
+    }   
 
     /**
      * Display the specified product by slug.

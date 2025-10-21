@@ -375,12 +375,12 @@ class Product extends Model
     }
 
     /**
-     * add to query to filter by category_id.
+     * add to query to filter by array category_id.
      */
-    public function scopeHasCategory($query, $categoryId = null)
+    public function scopeHasCategory($query, array $categoryIds = [])
     {
-        if (!empty($categoryId)) {
-            return $query->where('category_id', $categoryId);
+        if (!empty($categoryIds)) {
+            return $query->whereIn('category_id', $categoryIds);
         }
         
         return $query;

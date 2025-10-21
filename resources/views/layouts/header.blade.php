@@ -52,18 +52,8 @@
           </li>
 
           {{-- Accessories with dropdown --}}
-          <li x-data="{ open: false }" class="relative">
-            <button @click="open = !open" class="font-medium text-gray-900 hover:text-mint-600">
-              Accessories
-            </button>
-            <ul x-show="open" 
-                @click.away="open = false" 
-                class="absolute left-0 mt-2 w-44 bg-white/75 shadow-lg rounded-md p-2 space-y-2">
-              <li><a href="#hats" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Hats</a></li>
-              <li><a href="#bags" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Bags</a></li>
-              <li><a href="#toys" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Toys</a></li>
-            </ul>
-          </li>
+          <li><a href="/accessories" class="font-medium text-gray-900 hover:text-mint-600">Accessories</a></li>
+          
         </ul>
       </nav>
 

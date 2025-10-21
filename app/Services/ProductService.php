@@ -68,7 +68,7 @@ class ProductService
         $brandId    = $request->query('brand');
         $sizeId     = $request->query('size');
         $materialId = $request->query('material');
-        $categoryId = $request->query('category');
+        $categoryId = empty($request->query('category')) ? [] : [$request->query('category')];
         $colorId    = $request->query('color');
         $discount   = $request->query('discount');
 

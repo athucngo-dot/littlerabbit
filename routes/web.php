@@ -18,6 +18,7 @@ Route::post('/auth/register', [CustomerAuthController::class, 'register']);
 
 Route::get('/new-arrivals', [ProductController::class, 'newArrivalsPage'])->name('products.new-arrivals');
 Route::get('/deals', [ProductController::class, 'dealsPage'])->name('products.deals');
+Route::get('/accessories', [ProductController::class, 'accessoriesPage'])->name('products.accessories');
 
 Route::get('{ageGroup}/{gender}', [ProductController::class, 'listByAgeAndGender'])
     ->where([
