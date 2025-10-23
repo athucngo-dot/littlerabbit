@@ -212,36 +212,38 @@
             </div>
 
             {{-- Frequently Purchased Carousel --}}
-            <div class="mt-16">
-                <h2 class="text-2xl font-bold mb-6">Frequently Purchased Together</h2>
-                <div x-data="carousel(@js($frequentlyPurchased->map(fn($p) => [
-                            'id' => $p->id,
-                            'slug' => $p->slug,
-                            'name' => $p->name,
-                            'url' => optional($p->images->first())->url ?? 'https://via.placeholder.com/300',
-                            'price' => $p->price
-                        ])->values()->toArray()))" class="relative">
+            @if ($recentlyViewed->isNotEmpty())
+                <div class="mt-16">
+                    <h2 class="text-2xl font-bold mb-6">Recently Viewed</h2>
+                    <div x-data="carousel(@js($recentlyViewed->map(fn($p) => [
+                                'id' => $p->id,
+                                'slug' => $p->slug,
+                                'name' => $p->name,
+                                'url' => optional($p->images->first())->url ?? 'https://via.placeholder.com/300',
+                                'price' => $p->price
+                            ])->values()->toArray()))" class="relative">
 
-                    {{-- Left Arrow --}}
-                    <button @click="prev" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white rounded-full shadow p-2">&lt;</button>
+                        {{-- Left Arrow --}}
+                        <button @click="prev" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white rounded-full shadow p-2">&lt;</button>
 
-                    {{-- Items --}}
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 overflow-hidden">
-                        <template x-for="item in visibleItems" :key="item.id">
-                            <a :href="`/products/${item.slug}`" class="block bg-white rounded-xl shadow hover:shadow-lg overflow-hidden">
-                                <img :src="item.url" :alt="item.name" class="w-full h-48 object-cover">
-                                <div class="p-4 text-center">
-                                    <h3 class="font-semibold text-lg" x-text="item.name"></h3>
-                                    <p class="text-gray-600">$<span x-text="Number(item.price).toFixed(2)"></span></p>
-                                </div>
-                            </a>
-                        </template>
+                        {{-- Items --}}
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 overflow-hidden">
+                            <template x-for="item in visibleItems" :key="item.id">
+                                <a :href="`/products/${item.slug}`" class="block bg-white rounded-xl shadow hover:shadow-lg overflow-hidden">
+                                    <img :src="item.url" :alt="item.name" class="w-full h-48 object-cover">
+                                    <div class="p-4 text-center">
+                                        <h3 class="font-semibold text-lg" x-text="item.name"></h3>
+                                        <p class="text-gray-600">$<span x-text="Number(item.price).toFixed(2)"></span></p>
+                                    </div>
+                                </a>
+                            </template>
+                        </div>
+
+                        {{-- Right Arrow --}}
+                        <button @click="next" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white rounded-full shadow p-2">&gt;</button>
                     </div>
-
-                    {{-- Right Arrow --}}
-                    <button @click="next" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white rounded-full shadow p-2">&gt;</button>
                 </div>
-            </div>
+            @endif
 
             {{-- Reviews Section --}}
             <div x-data="reviewsManager(@js($product->slug))" x-init="init()" class="space-y-6">

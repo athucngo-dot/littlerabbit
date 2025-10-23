@@ -165,7 +165,8 @@ class Product extends Model
         // and have the same categories or same brand
         // random order
         // and with set limit
-        $query = Product::whereKeyNot($this->id)
+        $query = Product::where('is_active', true)
+            ->whereKeyNot($this->id)
             ->where(function($q) {
                 if ($this->category_id) {
                     $q->where('category_id', $this->category_id);

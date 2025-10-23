@@ -58,4 +58,11 @@ class Customer extends Authenticatable
     {
         return $this->hasMany(Order::class, 'customer_id');
     }
+
+    public function recentlyViewedProducts()
+    {
+        return $this->belongsToMany(Product::class, 'recently_viewed')
+                    ->withPivot('viewed_at')
+                    ->orderByDesc('pivot_viewed_at');
+    }
 }

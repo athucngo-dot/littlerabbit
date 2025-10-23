@@ -4,8 +4,11 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\RecentlyViewed;
+use App\Services\RecentlyViewedService;
 
 class ProductService
 {
@@ -121,5 +124,111 @@ class ProductService
             'discount' => $product->deals->max('percentage_off') ?? 0,
             'price_after_deals' => $product->getPriceAfterDeal(),
         ];
+    }
+
+    /**
+     * Store a recently viewed product for the current user or guest.
+     */
+    public static function storeRecentlyViewedProduct($product)
+    {
+        if (Auth::check()) {
+            // For logged in user, store in DB
+
+            $customerId = Auth::id();
+            $conditions['customer_id'] = $customerId;
+            $conditions['product_id']  = $product->id;
+
+            $rViewed = RecentlyViewed::updateOrCreate($conditions, ['viewed_at' => now()]);
+
+            if ($rViewed->wasRecentlyCreated) {
+                // Keep only latest max_recently_viewed_stored records, delete older ones
+                RecentlyViewedService::trimOldViews($customerId);
+            }
+        } else {
+            // For guest user, store in session
+
+            $recentlyViewed = session()->get(config('site.recently_viewed_session_key'), []);
+            $productId = $product->id;
+
+            // Remove if it already exists (to reinsert it on top)
+            $recentlyViewed = array_filter($recentlyViewed, function ($item) use ($productId) {
+                return $item['id'] !== $productId;
+            });
+
+            // Add new record at the beginning
+            array_unshift($recentlyViewed, [
+                'id' => $productId,
+                'viewed_at' => now()->toDateTimeString(),
+            ]);
+
+            // Keep only the latest max_recently_viewed_stored records
+            $recentlyViewed = array_slice($recentlyViewed, 0, config('site.max_recently_viewed_stored'));
+
+            // Save back to session
+            session([config('site.recently_viewed_session_key') => array_values($recentlyViewed)]);
+        }
+    }
+
+    /**
+     * Retrieve recently viewed products for the current user or guest.
+     */
+    public static function retrieveRecentlyViewedProduct(?int $excludeProductId = null)
+    {
+        if (Auth::check()) {
+            // For logged in user, retrieve recently viewed from DB
+            $customer = Auth::user();
+            return $customer->recentlyViewedProducts()
+                    ->where('products.is_active', true)
+                    ->when($excludeProductId, fn($q) =>
+                        $q->where('products.id', '!=', $excludeProductId)
+                    )
+                    ->limit(config('site.max_related_product'))
+                    ->get()
+                    ;
+        } else {
+            // For guest user, retrieve recently viewed from session
+            $recentlyViewed = session()->get(config('site.recently_viewed_session_key'), []);
+            
+            if (empty($recentlyViewed)) {
+                return collect(); // return empty collection if no recently viewed products
+            }
+
+            $productIdList = array_column($recentlyViewed, 'id');
+
+            return Product::whereIn('id', $productIdList)
+                        ->where('is_active', true)
+                        ->when($excludeProductId, fn($q) =>
+                            $q->where('id', '!=', $excludeProductId)
+                        )
+                        ->orderByRaw('FIELD(id, ' . implode(',', $productIdList) . ')') // maintain order from the session
+                        ->limit(config('site.max_related_product'))
+                        ->get();
+        }
+    }
+
+    public static function addOrUpdateRecentlyViewedToDB()
+    {
+        //get recently viewed from session
+        $recentlyViewed = session()->get(config('site.recently_viewed_session_key'), []);
+
+        //log::info('Merging recently viewed products from session to DB', ['data' => $recentlyViewed]);
+        if (empty($recentlyViewed)) {
+            return; // nothing to merge
+        }
+
+        $customerId = Auth::id();
+        foreach ($recentlyViewed as $item) {
+            $conditions['customer_id'] = $customerId;
+            $conditions['product_id']  = $item['id'];
+
+            // update or create record
+            RecentlyViewed::updateOrCreate($conditions, ['viewed_at' => $item['viewed_at']]);
+        }
+
+        // Keep only latest max_recently_viewed_stored records, delete older ones
+        RecentlyViewedService::trimOldViews($customerId);
+
+        // Clear the session data
+        session()->forget(config('site.recently_viewed_session_key'));
     }
 }

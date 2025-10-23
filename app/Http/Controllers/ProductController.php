@@ -77,17 +77,14 @@ class ProductController extends Controller
     {
         $product = ProductService::getProductDetails($slug);
         
+        // get related products, which is displayed in section "You may also like"
         $relatedProducts = $product->getRelatedProducts();
 
-        // Frequently purchased together — as a simple fallback, use same brand
-        $frequentlyPurchased = Product::where('brand_id', $product->brand_id)
-            ->where('id', '!=', $product->id)
-            ->isActive()
-            ->with('images')
-            ->inRandomOrder()
-            ->limit(20)
-            ->get();
-
+        // get recently viewed products, excluding the current product
+        // displayed in section "Recently Viewed"
+        $recentlyViewed = ProductService::retrieveRecentlyViewedProduct($product->id);
+        ProductService::storeRecentlyViewedProduct($product);
+        
         // Prepare reviews for Alpine: include customer_name and minimal fields
         $reviews = $product->cachedReviews()->map(function ($r) {
             return [
@@ -99,7 +96,7 @@ class ProductController extends Controller
             ];
         })->values(); // ->values() makes sure indexes are 0..n-1 for JSON
 
-        return view('products.show', compact('product', 'relatedProducts', 'frequentlyPurchased', 'reviews'));
+        return view('products.show', compact('product', 'relatedProducts', 'recentlyViewed', 'reviews'));
     }
 
     /**
