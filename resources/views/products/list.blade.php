@@ -8,8 +8,10 @@
             <h2 class="text-3xl font-bold text-center text-ink mb-8 capitalize">
                 @if(isset($listName) && $listName === 'age-gender')
                     {{ $ageGroup }} / {{$gender}}
-                @else
+                @elseif(isset($listName) && $listName === 'accessories')
                     Accessories
+                @else
+                    Shop All
                 @endif
             </h2>
 
@@ -28,8 +30,10 @@
 <script>
     @if(isset($listName) && $listName === 'age-gender')
         window.apiEndpoint = "{{ route('api.products.byAgeAndGender', ['ageGroup' => $ageGroup, 'gender' => $gender]) }}";
-    @else
+    @elseif(isset($listName) && $listName === 'accessories')
         window.apiEndpoint = "{{ route('api.products.accessories') }}";
+    @else
+        window.apiEndpoint = "{{ route('api.products.allItems') }}";
     @endif
 </script>
 

@@ -16,6 +16,7 @@ Route::post('/auth/login', [CustomerAuthController::class, 'login']);
 Route::get('/auth/logout', [CustomerAuthController::class, 'logout'])->name('customer.logout');
 Route::post('/auth/register', [CustomerAuthController::class, 'register']);
 
+Route::get('/baby-toddler-kids-clothings', [ProductController::class, 'allItemsPage'])->name('products.all-items');
 Route::get('/new-arrivals', [ProductController::class, 'newArrivalsPage'])->name('products.new-arrivals');
 Route::get('/deals', [ProductController::class, 'dealsPage'])->name('products.deals');
 Route::get('/accessories', [ProductController::class, 'accessoriesPage'])->name('products.accessories');

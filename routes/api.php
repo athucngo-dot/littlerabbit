@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductApiController;
 use App\Http\Controllers\Api\ReviewApiController;
 
+Route::get('/products/all-items', [ProductApiController::class, 'allItems'])->name('api.products.allItems');
 Route::get('/products/new-arrivals', [ProductApiController::class, 'newArrivals']);
 Route::get('/products/deals', [ProductApiController::class, 'deals']);
 Route::get('/products/accessories', [ProductApiController::class, 'accessories'])->name('api.products.accessories');

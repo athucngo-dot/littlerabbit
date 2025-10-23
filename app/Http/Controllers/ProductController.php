@@ -68,6 +68,15 @@ class ProductController extends Controller
     }   
 
     /**
+     * Display all items page.
+     */
+    public function allItemsPage()
+    {
+        $listName = 'all-items';
+        return view('products.list', compact('listName'));
+    }
+
+    /**
      * Display the specified product by slug.
      *
      * @param  string  $slug
