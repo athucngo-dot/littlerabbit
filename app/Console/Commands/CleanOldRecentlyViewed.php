@@ -27,10 +27,10 @@ class CleanOldRecentlyViewed extends Command
      */
     public function handle()
     {
-        $cutoff = Carbon::now()->subDays(90);
+        $dateCutoff = Carbon::now()->subDays(90);
 
-        // Delete records older than the cutoff date (90 days)
-        $deleted = RecentlyViewed::where('viewed_at', '<', $cutoff)->delete();
+        // Delete records older than the dateCutoff date (90 days)
+        $deleted = RecentlyViewed::where('viewed_at', '<', $dateCutoff)->delete();
 
         $this->info("Deleted {$deleted} Recently Viewed records older than 90 days.");
 
