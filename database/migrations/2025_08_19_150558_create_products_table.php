@@ -23,6 +23,7 @@ return new class extends Migration
             $table->enum ('gender', ['boy', 'girl', 'unisex'])->default('unisex');
             $table->boolean('is_active')->default(true);
             $table->boolean('new_arrival')->default(false);
+            $table->boolean('homepage_show')->default(false);
             $table->boolean('continue')->default(true);
             $table->foreignId('brand_id')
                   ->nullable()

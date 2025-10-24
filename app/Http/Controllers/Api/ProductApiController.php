@@ -67,6 +67,9 @@ class ProductApiController extends Controller
         return response()->json($products);
     }
 
+    /**
+     * Display a listing of all active products.
+     */
     public function allItems(Request $request)
     {
         $products = Product::isActive()

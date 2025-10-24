@@ -19,32 +19,19 @@
   <!-- Featured Categories -->
   <section class="py-12" id="categories">
     <div class="max-w-[1200px] mx-auto">
-      <h2 class="font-poppins text-[clamp(22px,3.6vw,32px)] text-center mb-6">Featured Categories</h2>
+      <h2 class="font-poppins text-[clamp(22px,3.6vw,32px)] text-center mb-6">Featured Items</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <a href="#" class="block bg-white rounded-xl shadow-md overflow-hidden text-center">
-          <div class="aspect-[3/4] flex items-center justify-center bg-butter">
-            <img src="images/baby_onesies.webp" alt="Baby onesie" class="h-full w-full object-cover">
-          </div>
-          <div class="py-3 font-bold">Baby Clothes</div>
-        </a>
-        <a href="#" class="block bg-white rounded-xl shadow-md overflow-hidden text-center">
-          <div class="aspect-[3/4] flex items-center justify-center bg-sky">
-            <img src="images/toddler_dress.webp" alt="Toddler dress" class="h-full w-full object-cover">
-          </div>
-          <div class="py-3 font-bold">Toddler Clothes</div>
-        </a>
-        <a href="#" class="block bg-white rounded-xl shadow-md overflow-hidden text-center">
-          <div class="aspect-[3/4] flex items-center justify-center bg-blush">
-            <img src="images/teddy_bear.webp" alt="Accessories like hats and toys" class="h-full w-full object-cover">
-          </div>
-          <div class="py-3 font-bold">Accessories</div>
-        </a>
-        <a href="#" class="block bg-white rounded-xl shadow-md overflow-hidden text-center">
-          <div class="aspect-[3/4] flex items-center justify-center bg-[#f1f0ff]">
-            <img src="images/toddler_coat.webp" alt="Seasonal knitwear" class="h-full w-full object-cover">
-          </div>
-          <div class="py-3 font-bold">Seasonal Collections</div>
-        </a>
+        @foreach ($featureProducts as $product)
+            <a href="/products/{{$product->slug}}" class="block bg-white rounded-xl shadow-md overflow-hidden text-center">
+                <div class="aspect-[3/4] flex items-center justify-center bg-butter">
+                <img src="{{$product->image}}" alt="Baby onesie" class="h-full w-full object-cover">
+                </div>
+                <div class="py-3 font-bold">
+                    <p>{{$product->name}}</p>
+                    <p class="text-ink-60 mt-1">${{number_format($product->price, 2)}}</p>
+                </div>
+            </a>
+        @endforeach
       </div>
     </div>
   </section>
@@ -102,7 +89,7 @@
 
       <!-- Promo -->
       <div class="py-7">
-        <div class="bg-butter shadow-md rounded-xl text-center font-extrabold tracking-wide py-4">🎒 Back to School Sale — Up to 30% Off!</div>
+        <div class="bg-butter shadow-md rounded-xl text-center font-extrabold tracking-wide py-4">More Sales — Up to 75% Off!</div>
       </div>
     </div>
   </section>

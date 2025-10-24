@@ -24,6 +24,7 @@ class Product extends Model
         'gender',
         'is_active',
         'new_arrival',
+        'homepage_show',
         'continue',
         'brand_id',
         'material_id',

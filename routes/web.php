@@ -6,10 +6,9 @@ use App\Http\Controllers\Auth\CustomerAuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Api\CartApiController;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', function () {
-    return view('pages/home');
-});
+Route::get('/', [HomeController::class, 'homePage'])->name('homepage');
 
 Route::get('/auth', [CustomerAuthController::class, 'showLoginRegisterForm'])->name('customer.login-register');
 Route::post('/auth/login', [CustomerAuthController::class, 'login']);

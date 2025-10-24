@@ -306,12 +306,18 @@ class ProductsTableSeeder extends Seeder
                 ['name' => 'Warm Fleece Pants', 'description' => 'Warm fleece pants for comfort and warmth, great for lounging or outdoor play.'],
             ]
         );
-
+            
         // seeding products with specific names and descriptions
         Product::factory()
             ->count(count($nameNDescs))
             ->state(new Sequence(...$nameNDescs)) // assigns the first product the first name/description, second product the second, etc.
             ->create();
+
+        // setting 4 random active products to be shown on homepage
+        Product::where('is_active', true)
+            ->inRandomOrder()
+            ->limit(4)
+            ->update(['homepage_show' => true]);
 
         // seeding products with random sizes
         // all products will have at least one size
