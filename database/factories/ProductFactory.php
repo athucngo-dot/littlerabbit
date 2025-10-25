@@ -8,13 +8,14 @@ use App\Models\Brand;
 use App\Models\Material;
 use App\Models\Category;
 use App\Models\Image;
+use \App\Models\Product;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
  */
 class ProductFactory extends Factory
 {
-    protected $model = \App\Models\Product::class;
+    protected $model = Product::class;
     
     /**
      * Define the model's default state.
@@ -48,7 +49,7 @@ class ProductFactory extends Factory
             // Always create at least 1 image per product
             $imageCount = fake()->numberBetween(1, 3); // 1–3 images
             for ($i = 1; $i <= $imageCount; $i++) {
-                \App\Models\Image::factory()
+                Image::factory()
                     ->withProductName($product->name . '+' . $i) // add consecutive number
                     ->for($product) // sets product_id
                     ->create(

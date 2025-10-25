@@ -13,6 +13,12 @@ async function fetchProducts(page = 1, reset = false) {
     const res = await fetch(url);
     const data = await res.json();
 
+    if (!res.ok) {
+        // handle errors
+        alert(data.message);
+        return;
+    }
+
     if (reset) {
         productsGrid.innerHTML = '';
         currentPage = 1;

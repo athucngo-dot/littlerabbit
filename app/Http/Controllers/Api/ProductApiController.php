@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Category;
 use App\Services\ProductService;
 
 class ProductApiController extends Controller
@@ -30,6 +31,32 @@ class ProductApiController extends Controller
         $products = ProductService::buildProductListQuery($request, 'deals')
             ->latest('created_at')
             ->paginate(config('site.items_per_page'))
+            ->through(fn($product) => ProductService::transformProduct($product));
+
+        return response()->json($products);
+    }
+
+    /**
+     * Display a listing of products by category slug
+     */
+    public function listByCategory(string $categorySlug, Request $request)
+    {
+        $category = Category::where('slug', $categorySlug)->first();
+
+        if (!$category) {
+            // Handle not found
+            // Return a JSON response with error message
+            return response()->json([
+                'success' => false,
+                'message' => 'Category ' . $categorySlug . ' does not exist.'
+            ], 500);
+        }
+
+        $products = Product::with(['deals'])
+            ->isActive()
+            ->hasCategory([$category->id])
+            ->latest('created_at')
+            ->paginate(config('site.items_per_page_4_per_rows'))
             ->through(fn($product) => ProductService::transformProduct($product));
 
         return response()->json($products);

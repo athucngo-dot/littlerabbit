@@ -2,21 +2,37 @@
 
 @section('content')
 
+@php
+    switch ($listName ?? null) {
+        case 'age-gender':
+            $endpoint = route('api.products.byAgeAndGender', ['ageGroup' => $ageGroup, 'gender' => $gender]);
+            $title = $ageGroup . '/' . $gender;
+            break;
+
+        case 'accessories':
+            $endpoint = route('api.products.accessories');
+            $title = 'Accessories';
+            break;
+
+        case 'category':
+            $endpoint = route('api.products.byCategory', ['categorySlug' => $categorySlug]);
+            $title = 'Categories / ' . $categoryName;
+            break;
+
+        default:
+            $endpoint = route('api.products.allItems');
+            $title = 'Shop All';
+            break;
+    }
+@endphp
+
 <section class="bg-gradient-to-b from-mint to-paper-2">
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center text-ink mb-8 capitalize">
-                @if(isset($listName) && $listName === 'age-gender')
-                    {{ $ageGroup }} / {{$gender}}
-                @elseif(isset($listName) && $listName === 'accessories')
-                    Accessories
-                @else
-                    Shop All
-                @endif
-            </h2>
+            <h2 class="text-3xl font-bold text-center text-ink mb-8 capitalize">{{$title}}</h2>
 
             <div>
-                <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6"></div>
+                <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-6"></div>
                 <div class="text-center mt-6">
                     <button id="load-more" class="bg-aqua hover:bg-aqua-2 px-6 py-2 text-white rounded">
                     More Products
@@ -27,14 +43,10 @@
     </div>
 </section>
 
+
+
 <script>
-    @if(isset($listName) && $listName === 'age-gender')
-        window.apiEndpoint = "{{ route('api.products.byAgeAndGender', ['ageGroup' => $ageGroup, 'gender' => $gender]) }}";
-    @elseif(isset($listName) && $listName === 'accessories')
-        window.apiEndpoint = "{{ route('api.products.accessories') }}";
-    @else
-        window.apiEndpoint = "{{ route('api.products.allItems') }}";
-    @endif
+    window.apiEndpoint = @json($endpoint);
 </script>
 
 <!-- Load external JS -->

@@ -10,7 +10,7 @@
         <p class="text-gray-500 mb-4 md:mb-6 max-w-[36ch]">Comfort-first clothing for babies and toddlers. Thoughtful materials and playful colors parents adore.</p>
         <div class="flex flex-wrap gap-2">
           <a href="/baby-toddler-kids-clothings" class="inline-flex items-center justify-center px-4 py-2 rounded-full font-bold shadow-md bg-mint-600 text-white hover:bg-mint transition">Shop Now</a>
-          <a href="#categories" class="inline-flex items-center justify-center px-4 py-2 rounded-full font-bold shadow-md border border-gray-300 text-gray-900 bg-transparent hover:border-mint-600 hover:text-mint-600 transition">Browse Categories</a>
+          <a href="/browse-categories" class="inline-flex items-center justify-center px-4 py-2 rounded-full font-bold shadow-md border border-gray-300 text-gray-900 bg-transparent hover:border-mint-600 hover:text-mint-600 transition">Browse Categories</a>
         </div>
       </div>
     </div>

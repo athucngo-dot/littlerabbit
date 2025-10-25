@@ -19,6 +19,8 @@ Route::get('/baby-toddler-kids-clothings', [ProductController::class, 'allItemsP
 Route::get('/new-arrivals', [ProductController::class, 'newArrivalsPage'])->name('products.new-arrivals');
 Route::get('/deals', [ProductController::class, 'dealsPage'])->name('products.deals');
 Route::get('/accessories', [ProductController::class, 'accessoriesPage'])->name('products.accessories');
+Route::get('/browse-categories', [ProductController::class, 'browseCategoriesPage'])->name('products.browse-categories');
+Route::get('/category/{categorySlug}', [ProductController::class, 'listByCategory'])->name('products.byCategory');
 
 Route::get('{ageGroup}/{gender}', [ProductController::class, 'listByAgeAndGender'])
     ->where([

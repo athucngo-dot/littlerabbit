@@ -68,12 +68,37 @@ class ProductController extends Controller
     }   
 
     /**
+     * Display the category page.
+     */
+    public function listByCategory(string $categorySlug)
+    {
+        $listName = 'category';
+        $categoryName = ucwords(str_replace('-', ' ', $categorySlug));
+        return view('products.list', compact('listName', 'categorySlug', 'categoryName'));
+    }   
+
+    /**
      * Display all items page.
      */
     public function allItemsPage()
     {
         $listName = 'all-items';
         return view('products.list', compact('listName'));
+    }
+
+    /**
+     * get the list of categories that have 2 or more active products
+     */
+    public function browseCategoriesPage()
+    {
+        // get categories that have 2 or more active products
+        $categoryList = Category::whereHas('products', function ($query) {
+                                            $query->where('is_active', true);
+                                        }, '>=', 2)
+                                        ->orderBy('name')
+                                        ->get();
+
+        return view('products.browse-categories', compact('categoryList'));
     }
 
     /**
