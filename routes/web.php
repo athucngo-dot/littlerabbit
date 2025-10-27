@@ -7,6 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Api\CartApiController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CategoryController;
 
 Route::get('/', [HomeController::class, 'homePage'])->name('homepage');
 
@@ -19,7 +20,6 @@ Route::get('/baby-toddler-kids-clothings', [ProductController::class, 'allItemsP
 Route::get('/new-arrivals', [ProductController::class, 'newArrivalsPage'])->name('products.new-arrivals');
 Route::get('/deals', [ProductController::class, 'dealsPage'])->name('products.deals');
 Route::get('/accessories', [ProductController::class, 'accessoriesPage'])->name('products.accessories');
-Route::get('/browse-categories', [ProductController::class, 'browseCategoriesPage'])->name('products.browse-categories');
 Route::get('/category/{categorySlug}', [ProductController::class, 'listByCategory'])->name('products.byCategory');
 
 Route::get('{ageGroup}/{gender}', [ProductController::class, 'listByAgeAndGender'])
@@ -33,6 +33,8 @@ Route::get('/products/{slug}', [ProductController::class, 'show'])->name('produc
 
 Route::post('/products/{product}/reviews', [ProductController::class, 'storeReview'])
     ->name('products.reviews.store');
+
+Route::get('/browse-categories', [CategoryController::class, 'browseCategoriesPage'])->name('categories.browse-categories');
 
 // keep the cart routes within web middleware to have session and cookie support
 // make it API-like to be easier extended to API app (with Sanctum authentication) later

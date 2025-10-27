@@ -87,21 +87,6 @@ class ProductController extends Controller
     }
 
     /**
-     * get the list of categories that have 2 or more active products
-     */
-    public function browseCategoriesPage()
-    {
-        // get categories that have 2 or more active products
-        $categoryList = Category::whereHas('products', function ($query) {
-                                            $query->where('is_active', true);
-                                        }, '>=', 2)
-                                        ->orderBy('name')
-                                        ->get();
-
-        return view('products.browse-categories', compact('categoryList'));
-    }
-
-    /**
      * Display the specified product by slug.
      *
      * @param  string  $slug
