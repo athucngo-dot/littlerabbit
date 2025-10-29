@@ -19,6 +19,11 @@
             $title = 'Categories / ' . $categoryName;
             break;
 
+        case 'deal':
+            $endpoint = route('api.products.byDeal', ['dealSlug' => $dealSlug]);
+            $title = $dealName;
+            break;
+
         default:
             $endpoint = route('api.products.allItems');
             $title = 'Shop All';

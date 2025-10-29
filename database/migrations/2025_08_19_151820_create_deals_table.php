@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('deals', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->decimal('percentage_off', 5, 2)->default(0.00);
+            $table->string('slug')->unique();
+            $table->unsignedTinyInteger('percentage_off')->default(0);
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
+            $table->unsignedTinyInteger('homepage_promo')->default(0);
+            $table->string('img_url');
             $table->timestamps();
         });
     }

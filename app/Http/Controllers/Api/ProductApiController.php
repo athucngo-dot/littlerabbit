@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Deal;
 use App\Services\ProductService;
 
 class ProductApiController extends Controller
@@ -55,6 +56,32 @@ class ProductApiController extends Controller
         $products = Product::with(['deals'])
             ->isActive()
             ->hasCategory([$category->id])
+            ->latest('created_at')
+            ->paginate(config('site.items_per_page_4_per_rows'))
+            ->through(fn($product) => ProductService::transformProduct($product));
+
+        return response()->json($products);
+    }
+
+    /**
+     * Display a listing of products by deal slug
+     */
+    public function listByDeal(string $dealSlug, Request $request)
+    {
+        $deal = Deal::where('slug', $dealSlug)->first();
+
+        if (!$deal) {
+            // Handle not found
+            // Return a JSON response with error message
+            return response()->json([
+                'success' => false,
+                'message' => 'Discount ' . $dealSlug . ' does not exist.'
+            ], 500);
+        }
+
+        $products = Product::with(['deals'])
+            ->isActive()
+            ->hasDeal([$deal->id])
             ->latest('created_at')
             ->paginate(config('site.items_per_page_4_per_rows'))
             ->through(fn($product) => ProductService::transformProduct($product));

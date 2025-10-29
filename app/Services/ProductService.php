@@ -87,7 +87,7 @@ class ProductService
             ->hasColor($colorId)
             ->hasMaterial($materialId)
             ->hasCategory($categoryId)
-            ->hasDiscount($discount);
+            ->hasDiscountRange($discount);
 
         // Apply scope-specific filters
         if ($scope === 'newArrivals') {

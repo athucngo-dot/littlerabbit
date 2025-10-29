@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use App\Models\Deal;
 
 class DealsTableSeeder extends Seeder
@@ -37,7 +38,7 @@ class DealsTableSeeder extends Seeder
             ['name' => 'Referral Discounts', 'percentage_off' => 10],
             ['name' => 'Bundle Offers', 'percentage_off' => 20],
             ['name' => 'Free Shipping', 'percentage_off' => 0],
-            ['name' => 'Buy One Get One', 'percentage_off' => 50],
+            ['name' => 'Buy One Get One', 'percentage_off' => 50, 'homepage_promo' => 1, 'img_url' => 'images/deals/baby_onesies.webp'],
             ['name' => 'First Time Buyer', 'percentage_off' => 25],
             ['name' => 'Seasonal Clearance', 'percentage_off' => 30],
             ['name' => 'Limited Time Offer', 'percentage_off' => 40],
@@ -48,10 +49,10 @@ class DealsTableSeeder extends Seeder
             ['name' => 'Email Subscriber Discounts', 'percentage_off' => 20],
             ['name' => 'App User Discounts', 'percentage_off' => 25],
             ['name' => 'Flash Clearance', 'percentage_off' => 50],
-            ['name' => 'Seasonal Specials', 'percentage_off' => 30],
+            ['name' => 'Seasonal Specials', 'percentage_off' => 30, 'homepage_promo' => 2, 'img_url' => 'images/deals/toddler_coat.webp'],
             ['name' => 'Holiday Bundles', 'percentage_off' => 40],
             ['name' => 'Gift Card Promotions', 'percentage_off' => 10],
-            ['name' => 'Customer Appreciation', 'percentage_off' => 20],
+            ['name' => 'Customer Appreciation', 'percentage_off' => 20, 'homepage_promo' => 3, 'img_url' => 'images/deals/teddy_bear.webp'],
             ['name' => 'Birthday Discounts', 'percentage_off' => 25],
             ['name' => 'Anniversary Specials', 'percentage_off' => 30],
             ['name' => 'Flash Promotions', 'percentage_off' => 50],
@@ -66,7 +67,7 @@ class DealsTableSeeder extends Seeder
             ['name' => 'Flash Sales', 'percentage_off' => 50],
             ['name' => 'Seasonal Discounts', 'percentage_off' => 20],
             ['name' => 'Holiday Offers', 'percentage_off' => 25],
-            ['name' => 'Special Promotions', 'percentage_off' => 30],
+            ['name' => 'Special Promotions', 'percentage_off' => 30, 'homepage_promo' => 4, 'img_url' => 'images/deals/toddler_dress.webp'],
             ['name' => 'Exclusive Discounts', 'percentage_off' => 15],
             ['name' => 'Limited Time Sales', 'percentage_off' => 10],
         ];
@@ -74,9 +75,12 @@ class DealsTableSeeder extends Seeder
         foreach ($deals as $deal) {
             DB::table('deals')->insert([
                 'name' => $deal['name'],
+                'slug' => Str::slug($deal['name']),
                 'percentage_off' => $deal['percentage_off'],
                 'start_date' => now()->subDays(rand(1, 30)), // Random start date within the last 30 days
                 'end_date' => now()->addDays(rand(1, 30)), // Random end date within the next 30 days
+                'homepage_promo' => empty($deal['homepage_promo']) ? 0 : $deal['homepage_promo'],
+                'img_url' => empty($deal['img_url']) ? '' : $deal['img_url'],
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

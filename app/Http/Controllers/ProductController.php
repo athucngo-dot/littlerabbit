@@ -68,13 +68,23 @@ class ProductController extends Controller
     }   
 
     /**
-     * Display the category page.
+     * Display products by category.
      */
     public function listByCategory(string $categorySlug)
     {
         $listName = 'category';
         $categoryName = ucwords(str_replace('-', ' ', $categorySlug));
         return view('products.list', compact('listName', 'categorySlug', 'categoryName'));
+    }   
+
+    /**
+     * Display products by deal.
+     */
+    public function listByDeal(string $dealSlug)
+    {
+        $listName = 'deal';
+        $dealName = ucwords(str_replace('-', ' ', $dealSlug));
+        return view('products.list', compact('listName', 'dealSlug', 'dealName'));
     }   
 
     /**

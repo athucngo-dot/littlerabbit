@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Deal;
 
 class HomeController extends Controller
 {
@@ -12,17 +13,33 @@ class HomeController extends Controller
      */
     public function homePage()
     {
-        $featureProducts = Product::isActive()
-            ->where('homepage_show', true)
-            ->latest('created_at')
+        /**
+         * get Feature list in Homepage
+         */
+        $featureProducts = Product::with(['deals'])
+            ->isActive()
+            ->where('homepage_promo', '>', 0)
+            ->orderBy('homepage_promo')
             ->take(4)
             ->get();
 
         $featureProducts->each(function ($product) {
             // Load primary image for each product
             $product->image = $product->images()->primary()->url ?? config('site.default_product_image'); 
+            
+            // get price after deals
+            $product->price_after_deals = $product->getPriceAfterDeal();
         });
 
-        return view('pages.home', compact('featureProducts'));
+        /**
+         * get promo deals in Homepage
+         */
+        $deals = Deal::where('homepage_promo', '>', 0)
+                    ->whereDate('start_date', '<=', now())
+                    ->whereDate('end_date', '>=', now())
+                    ->orderBy('homepage_promo')
+                    ->get();
+
+        return view('pages.home', compact('featureProducts', 'deals'));
     }
 }

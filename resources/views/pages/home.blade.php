@@ -22,13 +22,24 @@
       <h2 class="font-poppins text-[clamp(22px,3.6vw,32px)] text-center mb-6">Featured Items</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         @foreach ($featureProducts as $product)
-            <a href="/products/{{$product->slug}}" class="block bg-white rounded-xl shadow-md overflow-hidden text-center">
+            <a href="/products/{{$product->slug}}" class="block bg-white rounded-xl shadow-md hover:shadow-lg overflow-hidden transition-transform hover:scale-105 text-center">
                 <div class="aspect-[3/4] flex items-center justify-center bg-butter">
                 <img src="{{$product->image}}" alt="Baby onesie" class="h-full w-full object-cover">
                 </div>
                 <div class="py-3 font-bold">
                     <p>{{$product->name}}</p>
-                    <p class="text-ink-60 mt-1">${{number_format($product->price, 2)}}</p>
+                    @if($product->price_after_deals != $product->price)
+                        <p class="text-ink-60 mt-1">
+                            <span class="font-bold px-2">${{ number_format($product->price_after_deals, 2) }}</span>
+                            (<span class="text-red-500">-{{ number_format($product->deals[0]->percentage_off) }}%</span>)
+                        </p>
+                        <p class="text-ink-60 mt-1">
+                            <span class="text-sm">Was: </span>
+                            <span class="line-through text-sm">${{ number_format($product->price, 2) }}</span>
+                        </p>
+                    @else
+                        <p class="text-ink-60 mt-1">${{number_format($product->price, 2)}}</p>
+                    @endif
                 </div>
             </a>
         @endforeach
@@ -36,55 +47,31 @@
     </div>
   </section>
 
-  <!-- Best Sellers -->
+  <!-- Promo Discounts -->
   <section class="py-12" id="products">
     <div class="max-w-[1200px] mx-auto">
-      <h2 class="font-poppins text-[clamp(22px,3.6vw,32px)] text-center mb-6">Best Sellers</h2>
+      <h2 class="font-poppins text-[clamp(22px,3.6vw,32px)] text-center mb-6">Checkout Our Discounts</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <!-- Product 1 -->
-        <article class="bg-white rounded-xl shadow-md flex flex-col overflow-hidden">
-          <div class="aspect-square flex items-center justify-center bg-paper-2">
-            <img src="https://placehold.co/600x600/FFF8E8/1A1A1A?text=Organic+Tee" alt="Beige organic cotton t‑shirt" class="object-cover w-full h-full">
-          </div>
-          <div class="p-3 grid gap-2">
-            <h3 class="m-0">Organic Tee</h3>
-            <div class="font-bold">$15.00</div>
-            <button class="px-4 py-2 rounded-full font-bold shadow-md bg-mint-600 text-white hover:bg-mint transition">Add to Cart</button>
-          </div>
-        </article>
-        <!-- Product 2 -->
-        <article class="bg-white rounded-xl shadow-md flex flex-col overflow-hidden">
-          <div class="aspect-square flex items-center justify-center bg-paper-2">
-            <img src="https://placehold.co/600x600/FFF0C6/1A1A1A?text=Sunshine+Dress" alt="Yellow toddler dress" class="object-cover w-full h-full">
-          </div>
-          <div class="p-3 grid gap-2">
-            <h3 class="m-0">Sunshine Dress</h3>
-            <div class="font-bold">$20.00</div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellowish border border-yellowish-2 font-bold">Quick View</div>
-          </div>
-        </article>
-        <!-- Product 3 -->
-        <article class="bg-white rounded-xl shadow-md flex flex-col overflow-hidden">
-          <div class="aspect-square flex items-center justify-center bg-paper-2">
-            <img src="https://placehold.co/600x600/D7E9FB/1A1A1A?text=Soft+Pants" alt="Blue soft pants" class="object-cover w-full h-full">
-          </div>
-          <div class="p-3 grid gap-2">
-            <h3 class="m-0">Soft Pants</h3>
-            <div class="font-bold">$15.00</div>
-            <button class="px-4 py-2 rounded-full font-bold shadow-md bg-mint-600 text-white hover:bg-mint transition">Add to Cart</button>
-          </div>
-        </article>
-        <!-- Product 4 -->
-        <article class="bg-white rounded-xl shadow-md flex flex-col overflow-hidden">
-          <div class="aspect-square flex items-center justify-center bg-paper-2">
-            <img src="https://placehold.co/600x600/F6D1C7/1A1A1A?text=Knit+Cardigan" alt="Peach knit cardigan" class="object-cover w-full h-full">
-          </div>
-          <div class="p-3 grid gap-2">
-            <h3 class="m-0">Knit Cardigan</h3>
-            <div class="font-bold">$25.00</div>
-            <button class="px-4 py-2 rounded-full font-bold shadow-md bg-mint-600 text-white hover:bg-mint transition">Add to Cart</button>
-          </div>
-        </article>
+        
+        @foreach ($deals as $deal)
+            <article class="bg-white rounded-xl shadow-md flex flex-col overflow-hidden">
+                <div class="relative aspect-square bg-paper-2">
+                    <!-- Discount badge -->
+                    <div class="absolute top-2 left-2 bg-red-500 text-white text-xl font-bold px-3 py-1 rounded-lg shadow">
+                        -{{number_format($deal->percentage_off)}}%
+                    </div>
+
+                    <!-- Image -->
+                    <img src="/{{$deal->img_url}}"
+                        alt="{{$deal->name}}"
+                        class="object-cover w-full h-full">
+                </div>
+                <div class="p-3 grid gap-2">
+                    <h3 class="m-0">{{$deal->name}}</h3>
+                    <a href='/deal/{{$deal->slug}}' class="inline-flex items-center justify-center text-center h-10 px-4 rounded-full bg-yellowish hover:bg-yellowish-2 border border-yellowish-2 font-bold">Quick View</a>
+                </div>
+            </article>
+        @endforeach
       </div>
 
       <!-- Promo -->

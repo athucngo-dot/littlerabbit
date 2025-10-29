@@ -21,6 +21,7 @@ Route::get('/new-arrivals', [ProductController::class, 'newArrivalsPage'])->name
 Route::get('/deals', [ProductController::class, 'dealsPage'])->name('products.deals');
 Route::get('/accessories', [ProductController::class, 'accessoriesPage'])->name('products.accessories');
 Route::get('/category/{categorySlug}', [ProductController::class, 'listByCategory'])->name('products.byCategory');
+Route::get('/deal/{dealSlug}', [ProductController::class, 'listByDeal'])->name('products.byDeal');
 
 Route::get('{ageGroup}/{gender}', [ProductController::class, 'listByAgeAndGender'])
     ->where([

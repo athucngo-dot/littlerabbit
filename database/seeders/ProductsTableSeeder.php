@@ -314,11 +314,15 @@ class ProductsTableSeeder extends Seeder
             ->create();
 
         // setting 4 random active products to be shown on homepage
-        Product::where('is_active', true)
+        $promoProducts = Product::where('is_active', true)
             ->inRandomOrder()
             ->limit(4)
-            ->update(['homepage_show' => true]);
+            ->get();
 
+        foreach ($promoProducts as $i => $product) {
+            $product->update(['homepage_promo' => ($i + 1)]);
+        }
+        
         // seeding products with random sizes
         // all products will have at least one size
         Product::all()->each(function ($product) {

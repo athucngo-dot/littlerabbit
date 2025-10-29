@@ -24,7 +24,7 @@ class Product extends Model
         'gender',
         'is_active',
         'new_arrival',
-        'homepage_show',
+        'homepage_promo',
         'continue',
         'brand_id',
         'material_id',
@@ -196,10 +196,10 @@ class Product extends Model
      * if the discount percentage is not passed, 
      * it will get the higest discount related to the product
      */
-    public function getPriceAfterDeal($percentage_off=null)
+    public function getPriceAfterDeal($percentageOff=null)
     {
-        if (!empty($percentage_off)) {
-            return $this->price * (100 - $percentage_off) / 100;
+        if (!empty($percentageOff)) {
+            return $this->price * (100 - $percentageOff) / 100;
         } else {
             $applyDeal = $this->bestDeal()->first();
             
@@ -307,14 +307,14 @@ class Product extends Model
     /**
      * add to query to filter by discount
      */
-    public function scopeHasDiscount($query, $discount = null)
+    public function scopeHasDiscountRange($query, $discount = null)
     {
         if (is_null($discount)) {
             return $query;
         }
 
         if ($discount === 'all') {
-            // any discount
+            // all discount > 0
             $query->whereHas('deals', function ($q) {
                 $q->where('percentage_off', '>', 0)
                     ->whereDate('start_date', '<=', now())
@@ -348,6 +348,24 @@ class Product extends Model
 
             });
         }
+
+        return $query;
+    }
+
+    /**
+     * add to query to filter by deal id
+     */
+    public function scopeHasDeal($query, $dealId = null)
+    {
+        if (is_null($dealId)) {
+            return $query;
+        }
+
+        $query->whereHas('deals', function ($q) use ($dealId) {
+            $q->where('deals.id', $dealId)
+                ->whereDate('start_date', '<=', now())
+                ->whereDate('end_date', '>=', now());
+        });
 
         return $query;
     }
