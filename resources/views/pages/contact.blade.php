@@ -55,6 +55,12 @@
       </form>
     </div>
 
+    <!-- Demo Disclaimer -->
+    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-5 text-sm text-yellow-700">
+        <strong class="block mb-2">Demo Notice:</strong>
+        This website is for demonstration and educational purposes only. No real orders will be fulfilled, and no products will be shipped.
+    </div>
+
   </div>
 </section>
 

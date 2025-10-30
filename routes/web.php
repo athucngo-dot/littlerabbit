@@ -45,12 +45,29 @@ Route::middleware(['web'])->prefix('cart')->group(function () {
 /*
 * Static pages
 */
+// Contact page
 Route::get('/contact', function () {
     return view('pages/contact');
 });
 
+// About Us page
 Route::get('/about', function () {
     return view('pages/about');
+});
+
+// Shipping and return page
+Route::get('/shipping-return', function () {
+    return view('pages/shipping-return');
+});
+
+// FAQ page
+Route::get('/faq', function () {
+    return view('pages/faq');
+});
+
+// size guide page
+Route::get('/size-guide', function () {
+    return view('pages/size-guide');
 });
 
 /**
