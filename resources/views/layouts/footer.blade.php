@@ -1,14 +1,5 @@
 <!-- Footer -->
-  <footer class="bg-gray-900 text-gray-200 py-9 mt-6">
-    <div class="bg-gray-800 border border-gray-700 text-gray-300 text-sm p-4 rounded-lg flex items-start gap-2">
-        <span class="text-yellow-400 text-lg">⚠️</span>
-        <p>
-            <strong class="text-gray-100">Please Note:</strong> This is not a real e-commerce website. It has been
-            created for personal portfolio and learning purposes only. No actual sales or shipping will occur.
-            Some content is sourced from other websites for demonstration purposes.
-        </p>
-    </div>
-
+  <footer class="bg-gray-900 text-gray-200 py-5 mt-6">
     <div class="max-w-[1200px] mx-auto grid lg:grid-cols-4 gap-7 text-sm py-9">
         <div>            
             <div class="flex items-center gap-2 mb-3">
@@ -44,5 +35,14 @@
             <a href="/auth/logout" class="hover:underline">Logout</a>
             @endif
         </div>
+    </div>
+
+    <div class="bg-gray-800 border border-gray-700 text-gray-300 text-sm p-4 mt-4 rounded-lg flex items-start gap-2">
+        <span class="text-yellow-400 text-lg">⚠️</span>
+        <p>
+            <strong class="text-gray-100">Please Note:</strong> This is not a real e-commerce website. It has been
+            created for personal portfolio and learning purposes only. No actual sales or shipping will occur.
+            Some content is sourced from other websites for demonstration purposes.
+        </p>
     </div>
   </footer>
