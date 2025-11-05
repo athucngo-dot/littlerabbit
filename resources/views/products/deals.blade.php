@@ -7,7 +7,7 @@
 
 <!-- Pass products JSON to JS -->
 <script>
-    window.apiEndpoint = "{{ url('/api/products/deals') }}";
+    window.apiEndpoint = "{{ route('api.products.deals') }}";
 </script>
 
 <!-- Load external JS -->

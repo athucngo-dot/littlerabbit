@@ -139,7 +139,7 @@ function popupHandler() {
 
                 try {
                     // Send AJAX request to add to cart
-                    const res = await fetch("{{ url('/cart/add') }}", {
+                    const res = await fetch("{{ route('cart.add') }}", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
