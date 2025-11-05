@@ -49,7 +49,7 @@
                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-turmeric">
         <textarea name="message" rows="5" placeholder="Your Message" required
                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-turmeric"></textarea>
-        <button type="submit" class="w-full bg-turmeric hover:bg-turmeric-2 text-white font-bold py-3 rounded-lg transition">
+        <button type="submit" class="w-full bg-aqua hover:bg-aqua-2 text-white font-semibold px-6 py-3 rounded-lg transition">
           Send Message
         </button>
       </form>
