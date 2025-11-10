@@ -17,16 +17,16 @@
         <div>
             <h4 class="font-bold mb-2">Help</h4>
             <ul class="grid gap-2">
-            <li><a href="/shipping-return" class="hover:underline">Shipping & Returns</a></li>
-            <li><a href="/size-guide" class="hover:underline">Size Guide</a></li>
-            <li><a href="/faq" class="hover:underline">FAQs</a></li>
+            <li><a href="{{ route('shipping-return') }}" class="hover:underline">Shipping & Returns</a></li>
+            <li><a href="{{ route('size-guide') }}" class="hover:underline">Size Guide</a></li>
+            <li><a href="{{ route('faq') }}" class="hover:underline">FAQs</a></li>
             </ul>
         </div>
         <div>
             <h4 class="font-bold mb-2">Company</h4>
             <ul class="grid gap-2">
-            <li><a href="/about" class="hover:underline">About Us</a></li>
-            <li><a href="/contact" class="hover:underline">Contact</a></li>
+            <li><a href="{{ route('about') }}" class="hover:underline">About Us</a></li>
+            <li><a href="{{ route('contact') }}" class="hover:underline">Contact</a></li>
             </ul>
         </div>
     </div>

@@ -9,8 +9,8 @@
         <h1 class="font-poppins font-bold text-[clamp(28px,5vw,48px)] leading-tight mb-4">Soft, Stylish, and Made with Love</h1>
         <p class="text-gray-500 mb-4 md:mb-6 max-w-[36ch]">Comfort-first clothing for babies and toddlers. Thoughtful materials and playful colors parents adore.</p>
         <div class="flex flex-wrap gap-2">
-          <a href="/baby-toddler-kids-clothings" class="inline-flex items-center justify-center px-4 py-2 rounded-full font-bold shadow-md bg-mint-600 text-white hover:bg-mint transition">Shop Now</a>
-          <a href="/browse-categories" class="inline-flex items-center justify-center px-4 py-2 rounded-full font-bold shadow-md border border-gray-300 text-gray-900 bg-transparent hover:border-mint-600 hover:text-mint-600 transition">Browse Categories</a>
+          <a href="{{ route('products.all-items') }}" class="inline-flex items-center justify-center px-4 py-2 rounded-full font-bold shadow-md bg-mint-600 text-white hover:bg-mint transition">Shop Now</a>
+          <a href="{{ route('categories.browse-categories') }}" class="inline-flex items-center justify-center px-4 py-2 rounded-full font-bold shadow-md border border-gray-300 text-gray-900 bg-transparent hover:border-mint-600 hover:text-mint-600 transition">Browse Categories</a>
         </div>
       </div>
     </div>
@@ -22,7 +22,7 @@
       <h2 class="font-poppins text-[clamp(22px,3.6vw,32px)] text-center mb-6">Featured Items</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         @foreach ($featureProducts as $product)
-            <a href="/products/{{$product->slug}}" class="block bg-white rounded-xl shadow-md hover:shadow-lg overflow-hidden transition-transform hover:scale-105 text-center">
+            <a href="{{ route('products.show', $product->slug) }}" class="block bg-white rounded-xl shadow-md hover:shadow-lg overflow-hidden transition-transform hover:scale-105 text-center">
                 <div class="aspect-[3/4] flex items-center justify-center bg-butter">
                 <img src="{{$product->image}}" alt="Baby onesie" class="h-full w-full object-cover">
                 </div>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="p-3 grid gap-2">
                     <h3 class="m-0">{{$deal->name}}</h3>
-                    <a href='/deal/{{$deal->slug}}' class="inline-flex items-center justify-center text-center h-10 px-4 rounded-full bg-yellowish hover:bg-yellowish-2 border border-yellowish-2 font-bold">Quick View</a>
+                    <a href="{{ route('products.byDeal', $deal->slug) }}" class="inline-flex items-center justify-center text-center h-10 px-4 rounded-full bg-yellowish hover:bg-yellowish-2 border border-yellowish-2 font-bold">Quick View</a>
                 </div>
             </article>
         @endforeach

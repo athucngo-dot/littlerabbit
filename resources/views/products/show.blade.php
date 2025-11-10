@@ -196,7 +196,7 @@
                     {{-- Items --}}
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 overflow-hidden">
                         <template x-for="item in visibleItems" :key="item.id">
-                            <a :href="`/products/${item.slug}`" class="block bg-white rounded-xl shadow hover:shadow-lg overflow-hidden">
+                            <a :href="`{{ route('products.show', ':slug') }}`.replace(':slug', item.slug)" class="block bg-white rounded-xl shadow hover:shadow-lg overflow-hidden">
                                 <img :src="item.url" :alt="item.name" class="w-full h-48 object-cover">
                                 <div class="p-4 text-center">
                                     <h3 class="font-semibold text-lg" x-text="item.name"></h3>
@@ -211,7 +211,7 @@
                 </div>
             </div>
 
-            {{-- Frequently Purchased Carousel --}}
+            {{-- Recently Viewed Carousel --}}
             @if ($recentlyViewed->isNotEmpty())
                 <div class="mt-16">
                     <h2 class="text-2xl font-bold mb-6">Recently Viewed</h2>
@@ -229,7 +229,7 @@
                         {{-- Items --}}
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 overflow-hidden">
                             <template x-for="item in visibleItems" :key="item.id">
-                                <a :href="`/products/${item.slug}`" class="block bg-white rounded-xl shadow hover:shadow-lg overflow-hidden">
+                                <a :href="`{{ route('products.show', ':slug') }}`.replace(':slug', item.slug)" class="block bg-white rounded-xl shadow hover:shadow-lg overflow-hidden">
                                     <img :src="item.url" :alt="item.name" class="w-full h-48 object-cover">
                                     <div class="p-4 text-center">
                                         <h3 class="font-semibold text-lg" x-text="item.name"></h3>

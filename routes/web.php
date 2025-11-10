@@ -61,27 +61,27 @@ Route::middleware(['web'])->prefix('customer')->group(function () {
 // Contact page
 Route::get('/contact', function () {
     return view('pages/contact');
-});
+})->name('contact');
 
 // About Us page
 Route::get('/about', function () {
     return view('pages/about');
-});
+})->name('about');
 
 // Shipping and return page
 Route::get('/shipping-return', function () {
     return view('pages/shipping-return');
-});
+})->name('shipping-return');
 
 // FAQ page
 Route::get('/faq', function () {
     return view('pages/faq');
-});
+})->name('faq');
 
 // size guide page
 Route::get('/size-guide', function () {
     return view('pages/size-guide');
-});
+})->name('size-guide');
 
 /**
  * admin routes

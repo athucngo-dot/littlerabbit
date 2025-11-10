@@ -76,7 +76,7 @@
                     <ul class="grid grid-cols-3 gap-2">
                         <template x-for="item in suggested" :key="item.id">
                             <li class="text-center text-xs">
-                                <a :href="`/products/${item.slug}`">
+                                <a :href="`{{ route('products.show', ':slug') }}`.replace(':slug', item.slug)">
                                     <img :src="item.image" class="w-full h-16 object-cover rounded mb-1">
                                     <h4 class="font-bold text-gray-800" x-text="item.name"></h4>
                                     $<span class="font-semibold text-center" x-text="Number(item.price).toFixed(2)"></span>

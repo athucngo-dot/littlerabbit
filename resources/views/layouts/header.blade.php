@@ -1,7 +1,7 @@
  {{-- Header --}}
   <header class="sticky top-0 z-50 backdrop-blur-sm bg-white/75 border-b border-gray-200">
     <div class="max-w-[1200px] mx-auto flex items-center justify-between p-4">
-      <a href="/" class="flex items-center gap-2 text-inherit no-underline">
+      <a href="{{ route('homepage') }}" class="flex items-center gap-2 text-inherit no-underline">
         <span class="w-9 h-9 bg-mint rounded-lg grid place-items-center shadow-md">
           <img src="{{ config('site.logo') }}" alt="Logo" class="w-6 h-6 object-contain">
         </span>
@@ -10,8 +10,8 @@
 
       <nav class="hidden md:flex">
         <ul class="flex gap-5">
-          <li><a href="/new-arrivals" class="font-medium text-gray-900 hover:text-mint-600">New Arrivals</a></li>
-          <li><a href="/deals" class="font-medium text-gray-900 hover:text-mint-600">Deals</a></li>
+          <li><a href="{{ route('products.new-arrivals') }}" class="font-medium text-gray-900 hover:text-mint-600">New Arrivals</a></li>
+          <li><a href="{{ route('products.deals') }}" class="font-medium text-gray-900 hover:text-mint-600">Deals</a></li>
           <li x-data="{ open: false }" class="relative">
                 <button @click="open = !open" class="font-medium text-gray-900 hover:text-mint-600">
                     Baby
@@ -19,9 +19,9 @@
                 <ul x-show="open" 
                     @click.away="open = false" 
                     class="absolute left-0 mt-2 w-40 bg-white/75 shadow-lg rounded-md p-2 space-y-2">
-                    <li><a href="/baby/boy" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Boys</a></li>
-                    <li><a href="/baby/girl" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Girls</a></li>
-                    <li><a href="/baby/unisex" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Unisex</a></li>
+                    <li><a href="{{ route('products.byAgeAndGender', ['ageGroup' => 'baby', 'gender' => 'boy']) }}" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Boys</a></li>
+                    <li><a href="{{ route('products.byAgeAndGender', ['ageGroup' => 'baby', 'gender' => 'girl']) }}" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Girls</a></li>
+                    <li><a href="{{ route('products.byAgeAndGender', ['ageGroup' => 'baby', 'gender' => 'unisex']) }}" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Unisex</a></li>
                 </ul>
           </li>
           <li x-data="{ open: false }" class="relative">
@@ -31,9 +31,9 @@
                 <ul x-show="open" 
                     @click.away="open = false" 
                     class="absolute left-0 mt-2 w-40 bg-white/75 shadow-lg rounded-md p-2 space-y-2">
-                    <li><a href="/toddler/boy" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Boys</a></li>
-                    <li><a href="/toddler/girl" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Girls</a></li>
-                    <li><a href="/toddler/unisex" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Unisex</a></li>
+                    <li><a href="{{ route('products.byAgeAndGender', ['ageGroup' => 'toddler', 'gender' => 'boy']) }}" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Boys</a></li>
+                    <li><a href="{{ route('products.byAgeAndGender', ['ageGroup' => 'toddler', 'gender' => 'girl']) }}" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Girls</a></li>
+                    <li><a href="{{ route('products.byAgeAndGender', ['ageGroup' => 'toddler', 'gender' => 'unisex']) }}" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Unisex</a></li>
                 </ul>
           </li>
           
@@ -45,14 +45,14 @@
             <ul x-show="open" 
                 @click.away="open = false" 
                 class="absolute left-0 mt-2 w-40 bg-white/75 shadow-lg rounded-md p-2 space-y-2">
-              <li><a href="/kid/boy" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Boys</a></li>
-              <li><a href="/kid/girl" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Girls</a></li>
-              <li><a href="/kid/unisex" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Unisex</a></li>
+              <li><a href="{{ route('products.byAgeAndGender', ['ageGroup' => 'kid', 'gender' => 'boy']) }}" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Boys</a></li>
+              <li><a href="{{ route('products.byAgeAndGender', ['ageGroup' => 'kid', 'gender' => 'girl']) }}" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Girls</a></li>
+              <li><a href="{{ route('products.byAgeAndGender', ['ageGroup' => 'kid', 'gender' => 'unisex']) }}" class="block px-3 py-1 font-medium text-gray-900 hover:bg-gray-100 hover:text-mint-600">Unisex</a></li>
             </ul>
           </li>
 
           {{-- Accessories with dropdown --}}
-          <li><a href="/accessories" class="font-medium text-gray-900 hover:text-mint-600">Accessories</a></li>
+          <li><a href="{{ route('products.accessories') }}" class="font-medium text-gray-900 hover:text-mint-600">Accessories</a></li>
           
         </ul>
       </nav>
