@@ -326,7 +326,7 @@
     </div>
     
     <!-- Popup here -->
-    <x-popup />
+    <x-popup-add-cart />
 </section>
 
 {{-- Alpine.js --}}

@@ -1,4 +1,4 @@
-<div x-data="popupHandler()" x-ref="popup" x-init="initAddToCart($data)" x-cloak>
+<div x-data="addToCartPopupHandler()" x-ref="addCartPopup" x-init="initAddToCart($data)" x-cloak>
     <!-- Overlay -->
     <div 
         x-show="show"
@@ -92,7 +92,7 @@
 
 <script>
 // Alpine.js component for popup handling
-function popupHandler() {
+function addToCartPopupHandler() {
     return {
         //initial states
         show: false,
@@ -104,7 +104,7 @@ function popupHandler() {
         price: '',
         percentage_off: '',
         price_after_deal: '',
-        initAddToCart(popup) {
+        initAddToCart(addCartPopup) {
             let selectedColorId = null;
             let selectedSizeId = null;
 
@@ -133,7 +133,7 @@ function popupHandler() {
 
             addBtn.addEventListener("click", async function () {
                 if (!selectedColorId || !selectedSizeId) {
-                    popup.open({ type: 'error', message: "Please select both size and color before adding to cart." });
+                    addCartPopup.open({ type: 'error', message: "Please select both size and color before adding to cart." });
                     return;
                 }
 
@@ -160,7 +160,7 @@ function popupHandler() {
                     if (!res.ok) {
                         // handle errors, including Laravel validation errors
                         const firstError = data.errors ? Object.values(data.errors)[0][0] : data.message;
-                        popup.open({ type: 'error', message: firstError || "Failed to add to cart." });
+                        addCartPopup.open({ type: 'error', message: firstError || "Failed to add to cart." });
                         return;
                     }
 
@@ -169,7 +169,7 @@ function popupHandler() {
                         window.dispatchEvent(new CustomEvent('cart-updated', { detail: data.popup.cartCount }));
                         
                         // Show success popup with suggested items
-                        popup.open({ type: 'success', 
+                        addCartPopup.open({ type: 'success', 
                             message: data.popup.message, 
                             suggested: data.popup.suggested || [],
                             image: data.popup.product.image || '',
@@ -180,12 +180,12 @@ function popupHandler() {
                         });
                     } else {
                         // handle errors, including Laravel validation errors (422)
-                        popup.open({ type: 'error', message: "Failed to add to cart: " + (data.message || "Unknown error") });
+                        addCartPopup.open({ type: 'error', message: "Failed to add to cart: " + (data.message || "Unknown error") });
                     }
                 } catch (err) {
                     // Network or server error
                     console.error("Network or server error:", err);
-                    popup.open({ type: 'error', message: "Something went wrong. Please try again." });
+                    addCartPopup.open({ type: 'error', message: "Something went wrong. Please try again." });
                 }
             });
         },
