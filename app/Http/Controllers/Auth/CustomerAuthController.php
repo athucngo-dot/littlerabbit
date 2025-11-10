@@ -27,7 +27,7 @@ class CustomerAuthController extends Controller
         $checkedRemember = $request->filled('remember');
 
         if (AuthService::login($loginData, $checkedRemember)) {
-            return redirect()->intended('/'); // customer dashboard or home
+            return redirect()->intended(route('dashboard.main-dashboard')); // direct to customer dashboard
         }
 
         return back()->withErrors(['email' => 'The provided credentials do not match our records.'])
@@ -47,6 +47,6 @@ class CustomerAuthController extends Controller
 
         Auth::guard('customer')->login($customer);
 
-        return redirect('/');
+        return redirect()->route('dashboard.main-dashboard');
     }
 }

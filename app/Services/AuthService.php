@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 
+use App\Services\CustomerService;
+
 class AuthService
 {
     public static function register(array $data): Customer
@@ -17,7 +19,7 @@ class AuthService
             'first_name' => $data['firstname'],
             'last_name'  => $data['lastname'],
             'email'      => $data['register_email'],
-            'password'   => Hash::make($data['register_password']),
+            'password'   => CustomerService::getHashedString($data['register_password']),
         ]);
     }
 

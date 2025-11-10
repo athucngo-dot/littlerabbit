@@ -1,8 +1,39 @@
+@tailwind base;
+@tailwind components;
+
+@layer components {
+    .dashboard-tab {
+        @apply w-full text-left px-4 py-2 rounded-lg font-semibold text-gray-700 hover:bg-gray-100 hover:text-mint-600;
+    }
+
+    .dashboard-tab.active-tab {
+        @apply bg-turmeric text-white;
+    }
+
+    .input-field {
+        @apply w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-yellow-400 focus:outline-none;
+    }
+}
+
+@layer utilities {
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    .animate-fadeIn {
+        animation: fadeIn .25s ease-in-out;
+    }
+}
+
+@tailwind utilities;
+
 /* Hide elements with x-cloak until Alpine.js is fully loaded */
 [x-cloak] {
     display: none !important;
 }
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;

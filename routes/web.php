@@ -6,8 +6,10 @@ use App\Http\Controllers\Auth\CustomerAuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Api\CartApiController;
+use App\Http\Controllers\Api\CustomerApiController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', [HomeController::class, 'homePage'])->name('homepage');
 
@@ -37,11 +39,22 @@ Route::post('/products/{product}/reviews', [ProductController::class, 'storeRevi
 
 Route::get('/browse-categories', [CategoryController::class, 'browseCategoriesPage'])->name('categories.browse-categories');
 
+/**
+ * Dashboard
+ */
+Route::get('/dashboard', [DashboardController::class, 'mainDashboard'])->name('dashboard.main-dashboard');
+
 // keep the cart routes within web middleware to have session and cookie support
 // make it API-like to be easier extended to API app (with Sanctum authentication) later
 Route::middleware(['web'])->prefix('cart')->group(function () {
     Route::post('add', [CartApiController::class, 'add'])->name('cart.add');
 });
+
+Route::middleware(['web'])->prefix('customer')->group(function () {
+    Route::post('update-name', [CustomerApiController::class, 'updateName'])->name('customer.update-name');
+    Route::post('update-password', [CustomerApiController::class, 'updatePassword'])->name('customer.update-password');
+});
+
 /*
 * Static pages
 */

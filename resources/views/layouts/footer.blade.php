@@ -29,12 +29,6 @@
             <li><a href="/contact" class="hover:underline">Contact</a></li>
             </ul>
         </div>
-        <div>
-            {{-- Logout will be in the account dashboard. For now, leave it at footer for easy access. --}}
-            @if(Auth::guard('customer')->check())
-            <a href="/auth/logout" class="hover:underline">Logout</a>
-            @endif
-        </div>
     </div>
 
     <div class="bg-gray-800 border border-gray-700 text-gray-300 text-sm p-4 mt-4 rounded-lg flex items-start gap-2">

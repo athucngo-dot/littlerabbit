@@ -68,10 +68,23 @@
         </a>
         
         {{-- Account Login Icon --}}
-        @if(Auth::guard('customer')->check())
-            <span class="capitalize">Hi {{ Auth::guard('customer')->user()->last_name }}</span>
-        @else
-            <a href="/auth" 
+        @php
+            $isLoggedIn = false;
+            $customerLastname = '';
+            $urlLink = '/auth';
+
+            if(Auth::guard('customer')->check()){
+                $isLoggedIn = true;
+                $customerLastname = Auth::guard('customer')->user()->last_name;
+                $urlLink = '/dashboard';
+            }
+        @endphp
+
+        @if($isLoggedIn)
+            <span class="capitalize">Hi {{ $customerLastname }}</span>
+        @endif
+
+            <a href="{{$urlLink}}" 
             class="w-10 h-10 grid place-items-center rounded-full border border-gray-200 bg-white cursor-pointer hover:bg-gray-100">
                 <svg xmlns="http://www.w3.org/2000/svg" 
                     class="w-5 h-5 text-gray-700" 
@@ -80,7 +93,6 @@
                         d="M15.75 7.5a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a8.25 8.25 0 0115 0v.75H4.5v-.75z" />      
                 </svg>
             </a>
-        @endif
 
         {{-- Cart Icon --}}
         <div x-data="{ cartCount: {{ $cartCount ?? 0 }} }" @cart-updated.window="cartCount = $event.detail"  class="relative">

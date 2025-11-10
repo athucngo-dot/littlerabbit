@@ -29,24 +29,5 @@
 
     @include('layouts.footer')
 
-  <!-- JS for toast notifications -->
-  <script>
-    function toast(message) {
-      const el = document.createElement('div');
-      el.textContent = message;
-      el.className = 'fixed bottom-5 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-4 py-2 rounded-full shadow-lg z-50';
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 2200);
-    }
-
-    function newsletterThanks() { toast('Thanks! Check your inbox to confirm.'); }
-
-    document.querySelectorAll('.add-to-cart').forEach(btn => {
-      btn.addEventListener('click', () => {
-        toast('Added to cart: ' + btn.dataset.name);
-      });
-    });
-  </script>
-
 </body>
 </html>
