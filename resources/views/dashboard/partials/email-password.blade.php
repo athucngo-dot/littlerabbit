@@ -31,7 +31,6 @@
                 },
                 credentials: 'same-origin',
                 body: JSON.stringify({
-                    customer_id: {{ $customer->id }},
                     current_password: this.current_password,
                     new_password: this.new_password,
                     new_password_confirmation: this.new_password_confirmation

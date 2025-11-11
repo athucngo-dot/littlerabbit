@@ -30,7 +30,6 @@
                 },
                 credentials: 'same-origin',
                 body: JSON.stringify({
-                    customer_id: {{ $customer->id }},
                     first_name: this.edit_first_name,
                     last_name: this.edit_last_name
                 })
