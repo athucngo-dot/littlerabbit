@@ -4,7 +4,9 @@ namespace App\Services;
 
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Customer;
+use App\Models\Address;
 
 class CustomerService
 {
@@ -13,12 +15,7 @@ class CustomerService
      */
     public static function updateCustomerInfo(int $customerId, array $updateData, string $type=''): void
     {
-        $customer = Customer::where('id', $customerId)
-                        ->firstOrFail();
-
-        if (!$customer) {
-            throw new \Exception("Customer not found.");
-        }
+        $customer = self::validateCustomer($customerId);
 
         // Handle password update separately
         if ($type === 'password') {
@@ -38,8 +35,54 @@ class CustomerService
         $customer->update($dbUpdateData);
     }
 
+    /**
+     * Add Customer Address in DB
+     */
+    public static function addCustomerAddress(array $addressData): Address
+    {
+        self::validateCustomer($addressData['customer_id']);
+
+        return Address::create($addressData); // add new row to address table
+    }
+
+    /**
+     * Update Customer Address in DB
+     */
+    public static function updateCustomerAddress($addressId, $customerId, array $addressData): bool
+    {
+        self::validateCustomer($customerId);
+
+        $address = Address::where('id', $addressId)
+            ->where('customer_id', $customerId)
+            ->firstOrFail();
+
+        return $address->update($addressData);
+    }
+
+    /**
+     * delete Customer Address in DB
+     */
+    public static function deleteCustomerAddress(int $addressId): void
+    {
+        Address::where('id', $addressId)
+            ->where('customer_id', Auth::id())
+            ->delete();
+    }
+
     public static function getHashedString(string $theString): ?string
     {
         return Hash::make($theString);
+    }
+
+    private static function validateCustomer(int $customerId): Customer
+    {
+        $customer = Customer::where('id', $customerId)
+                        ->firstOrFail();
+
+        if (!$customer) {
+            throw new \Exception("Customer not found.");
+        }
+
+        return $customer;
     }
 }

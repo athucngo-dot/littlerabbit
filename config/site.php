@@ -35,4 +35,9 @@ return [
         'cookies_guest_cart' => 'guest_cart', // name of guest cart array stored in cookies
         'max_quantity' => 10,     // maximum per product in cart
     ],
+
+    //customer settings
+    'customer' => [
+        'max_addresses' => 5, // maximum addresses a customer can store
+    ],
 ];

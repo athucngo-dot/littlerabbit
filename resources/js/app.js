@@ -3,6 +3,9 @@ import './bootstrap'
 import Alpine from 'alpinejs'
 window.Alpine = Alpine
 
+import dashboardAddress from './dashboard_address.js';
+window.loadDashboardAddress = dashboardAddress;
+
 import globalPopup from './ui/popup-global.js'
 
 // Register only if globalPopup exists
@@ -20,6 +23,11 @@ window.popup = {
     info(message, title = "Info") {
         dispatch('info', title, message)
     },
+    confirm(title, message, callback) {
+        window.dispatchEvent(new CustomEvent('popup:confirm', {
+            detail: { title, message, callback }
+        }));
+    }
 }
 
 function dispatch(type, title, message) {
@@ -40,5 +48,16 @@ window.addEventListener('popup:show', e => {
         e.detail.type,
         e.detail.title,
         e.detail.message
+    )
+})
+
+window.addEventListener('popup:confirm', e => {
+    const el = document.querySelector('[x-data*=globalPopup]')
+    if (!el?._x_dataStack) return
+
+    el._x_dataStack[0].confirm(
+        e.detail.title,
+        e.detail.message,
+        e.detail.callback
     )
 })

@@ -5,7 +5,7 @@
 <div x-data="{ tab: 'orders', nameTab: 'fullname' }" class="min-h-screen bg-gradient-to-b from-mint to-paper-2 flex">
     <!-- Sidebar -->
     <div class="w-1/4 bg-white/80 backdrop-blur shadow-lg p-6 flex flex-col gap-6 border-r border-gray-200">
-        <h2 class="text-2xl font-bold text-gray-700 text-center mb-4">{{$customer->last_name}}'s Account</h2>
+        <h2 class="text-2xl font-bold text-gray-700 text-center mb-4">{{ucwords($customer->last_name)}}'s Account</h2>
 
         <nav class="flex flex-col gap-3">
             <button @click="tab = 'orders'"
@@ -42,6 +42,9 @@
             </div>  
             <div class="bg-white shadow rounded-lg mt-6 p-6 grid gap-4">
                 @include('dashboard.partials.email-password')
+            </div>
+            <div class="bg-white shadow rounded-lg mt-6 p-6 grid gap-4">
+                @include('dashboard.partials.addresses')
             </div>     
         </div>
 

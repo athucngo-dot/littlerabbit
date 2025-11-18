@@ -5,23 +5,24 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CustomerNameRequest;
 use App\Http\Requests\CustomerPasswordRequest;
+use App\Http\Requests\CustomerAddressRequest;
 use App\Models\Customer;
 use App\Services\CustomerService;
+use App\Services\AuthService;
 
 class CustomerApiController extends Controller
 {
     public function updateName(CustomerNameRequest $request)
     {
-        if (!Auth::check()) {
-            throw ValidationException::withMessages(['error' => 'Unauthorized to update customer information.']);
-        }
+        AuthService::checkAuthorization();
 
-        $updateData['first_name'] = $request->first_name;
-        $updateData['last_name'] = $request->last_name;
+        $updateData = $request->only([
+            'first_name',
+            'last_name',
+        ]);
 
         CustomerService::updateCustomerInfo(Auth::id(), $updateData);
 
@@ -34,12 +35,12 @@ class CustomerApiController extends Controller
 
     public function updatePassword(CustomerPasswordRequest $request)
     {
-        if (!Auth::check()) {
-            throw ValidationException::withMessages(['error' => 'Unauthorized to update customer information.']);
-        }
+        AuthService::checkAuthorization();
 
-        $updateData['current_password'] = $request->current_password;
-        $updateData['new_password'] = $request->new_password;
+        $updateData = $request->only([
+            'current_password',
+            'new_password',
+        ]);
 
         CustomerService::updateCustomerInfo(Auth::id(), $updateData, 'password');
 
@@ -47,6 +48,80 @@ class CustomerApiController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Update successfully.'
+        ]);
+    }
+
+    public function getAddress()
+    {
+        AuthService::checkAuthorization();
+
+        $customer = Auth::user();
+        $addresses = ['addresses' => $customer->addresses];
+
+        return response()->json($addresses);
+    }
+
+    public function updateAddress($id, CustomerAddressRequest $request)
+    {
+        AuthService::checkAuthorization();
+
+        $addressNewData = $request->only([
+            'street',
+            'city',
+            'province',
+            'postal_code',
+            'country',
+        ]);
+        $addressNewData['postal_code'] = strtoupper($addressNewData['postal_code']);
+
+        $success = CustomerService::updateCustomerAddress($id, Auth::id(), $addressNewData);
+
+        if (!$success) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Address update failed.'
+            ], 500);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Address updated successfully.',
+            'address' => $addressNewData
+        ]);
+    }
+
+    public function addAddress(CustomerAddressRequest $request)
+    {
+        AuthService::checkAuthorization();
+
+        $addressData = $request->only([
+            'street',
+            'city',
+            'province',
+            'postal_code',
+            'country',
+        ]);
+        $addressData['postal_code'] = strtoupper($addressData['postal_code']);
+        $addressData['customer_id'] = Auth::id();
+
+        $newAddress = CustomerService::addCustomerAddress($addressData);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Address added successfully.',
+            'address' => $newAddress
+        ]);
+    }
+
+    public function deleteAddress($id)
+    {
+        AuthService::checkAuthorization();
+
+        CustomerService::deleteCustomerAddress($id);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Address deleted successfully.'
         ]);
     }
 }

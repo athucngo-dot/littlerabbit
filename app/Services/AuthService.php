@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
@@ -30,5 +31,12 @@ class AuthService
         }
 
         return null;
+    }
+
+    public static function checkAuthorization(): void
+    {
+        if (!Auth::check()) {
+            throw ValidationException::withMessages(['error' => 'Unauthorized to update customer information.']);
+        }
     }
 }

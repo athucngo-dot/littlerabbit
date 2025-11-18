@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Little Rabbit — Kids Clothing & Accessories</title>
   <meta name="description" content="Soft, stylish children's clothing and accessories. Responsive, accessible e‑commerce landing page.">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">

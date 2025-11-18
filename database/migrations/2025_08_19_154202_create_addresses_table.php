@@ -18,10 +18,10 @@ return new class extends Migration
                   ->cascadeOnDelete();
             $table->enum ('type', ['mailing', 'billing'])->default('mailing');
             $table->string('street');
-            $table->string('city');
-            $table->string('province');
-            $table->string('postal_code');
-            $table->string('country');
+            $table->string('city', 50);
+            $table->string('province', 3);
+            $table->string('postal_code', 7);
+            $table->string('country', 50);
             $table->boolean('is_default')->default(false);
             $table->boolean('is_active')->default(true);
             $table->timestamps();

@@ -23,7 +23,7 @@
     async savePass() {
         try {
             const res = await fetch('{{ route('customer.update-password') }}', {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',

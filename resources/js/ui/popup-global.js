@@ -4,6 +4,7 @@ export default function globalPopup() {
         type: 'info',
         title: '',
         message: '',
+        confirmCallback: null,
 
         show(type, title, message) {
             this.type = type
@@ -11,7 +12,17 @@ export default function globalPopup() {
             this.message = message
             this.visible = true
 
-            //setTimeout(() => this.visible = false, 3000)
+            /*if (type !== 'confirm') {
+                setTimeout(() => this.visible = false, 3000);
+            }*/
+        },
+
+        confirm(title, message, callback) {
+            this.type = 'confirm';
+            this.title = title;
+            this.message = message;
+            this.confirmCallback = callback;
+            this.visible = true;
         }
     }
 }

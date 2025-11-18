@@ -10,11 +10,13 @@ class DashboardController extends Controller
     public function mainDashboard()
     {
         if (!Auth::check()) {
-            return redirect('/');
+            return redirect()->route('homepage');
         }
 
         $customer = Auth::guard('customer')->user();
+        $addresses = $customer->addresses;
+        $allowedNewAddress = count($addresses) < config('site.customer.max_addresses') ? true : false;
 
-        return view('dashboard.main-dashboard', compact('customer'));
+        return view('dashboard.main-dashboard', compact('customer', 'addresses', 'allowedNewAddress'));
     }
 }

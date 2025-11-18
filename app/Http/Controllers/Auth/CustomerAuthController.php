@@ -37,7 +37,7 @@ class CustomerAuthController extends Controller
     public function logout()
     {
         Auth::guard('customer')->logout();
-        return redirect('/');
+        return redirect()->route('homepage');
     }
 
     public function register(RegisterRequest $request)

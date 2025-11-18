@@ -51,8 +51,12 @@ Route::middleware(['web'])->prefix('cart')->group(function () {
 });
 
 Route::middleware(['web'])->prefix('customer')->group(function () {
-    Route::post('update-name', [CustomerApiController::class, 'updateName'])->name('customer.update-name');
-    Route::post('update-password', [CustomerApiController::class, 'updatePassword'])->name('customer.update-password');
+    Route::put('/update-name', [CustomerApiController::class, 'updateName'])->name('customer.update-name');
+    Route::put('/update-password', [CustomerApiController::class, 'updatePassword'])->name('customer.update-password');
+    Route::get('/addresses', [CustomerApiController::class, 'getAddress'])->name('customer.get-address');
+    Route::post('/addresses', [CustomerApiController::class, 'addAddress'])->name('customer.add-address');
+    Route::put('/addresses/{id}', [CustomerApiController::class, 'updateAddress'])->name('customer.update-address');
+    Route::delete('/addresses/{id}', [CustomerApiController::class, 'deleteAddress'])->name('customer.delete-address');
 });
 
 /*

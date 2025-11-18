@@ -22,7 +22,7 @@
     async saveName() {
         try {
             const res = await fetch('{{ route('customer.update-name') }}', {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
