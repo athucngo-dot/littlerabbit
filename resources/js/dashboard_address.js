@@ -153,7 +153,7 @@ export default function dashboardAddress() {
                     this.new_city = '';
                     this.new_province = '';
                     this.new_postal_code = '';
-                    this.new_country = '';
+                    this.new_country = 'Canada';
 
                     // close form
                     this.open = false;

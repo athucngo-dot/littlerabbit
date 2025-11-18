@@ -72,7 +72,9 @@ class CustomerApiController extends Controller
             'postal_code',
             'country',
         ]);
-        $addressNewData['postal_code'] = strtoupper($addressNewData['postal_code']);
+
+        // Remove spaces and convert to uppercase
+        $addressNewData['postal_code'] = strtoupper(preg_replace('/\s+/', '', $addressNewData['postal_code']));
 
         $success = CustomerService::updateCustomerAddress($id, Auth::id(), $addressNewData);
 
@@ -101,7 +103,9 @@ class CustomerApiController extends Controller
             'postal_code',
             'country',
         ]);
-        $addressData['postal_code'] = strtoupper($addressData['postal_code']);
+
+        // Remove spaces and convert to uppercase
+        $addressData['postal_code'] = strtoupper(preg_replace('/\s+/', '', $addressData['postal_code']));
         $addressData['customer_id'] = Auth::id();
 
         $newAddress = CustomerService::addCustomerAddress($addressData);
