@@ -1,23 +1,7 @@
-<div x-data="{
-    open: false,
-    new_street: '',
-    new_city: '',
-    new_province: '',
-    new_postal_code: '',
-    new_country: 'Canada',
-
-    reset() {
-        // Reset form
-        this.new_street = '';
-        this.new_city = '';
-        this.new_province = '';
-        this.new_postal_code = '';
-        this.new_country = 'Canada';
-    }
-}">
+<div>
     <!-- Button -->
     <button 
-        x-show="!open" 
+        x-show="!open && !isOverLimit" 
         @click="open = true" 
         x-transition
         class="bg-aqua hover:bg-aqua-2 px-4 py-2 rounded-lg text-white font-semibold">

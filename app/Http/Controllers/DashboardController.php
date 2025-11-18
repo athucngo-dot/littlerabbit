@@ -15,8 +15,7 @@ class DashboardController extends Controller
 
         $customer = Auth::guard('customer')->user();
         $addresses = $customer->addresses;
-        $allowedNewAddress = count($addresses) < config('site.customer.max_addresses') ? true : false;
-
-        return view('dashboard.main-dashboard', compact('customer', 'addresses', 'allowedNewAddress'));
+        
+        return view('dashboard.main-dashboard', compact('customer', 'addresses'));
     }
 }

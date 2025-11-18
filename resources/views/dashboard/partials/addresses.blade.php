@@ -1,6 +1,10 @@
 <h1 class="text-2xl font-bold mb-4">Addresses</h1>
 
-<div x-data="window.loadDashboardAddress()" 
+@php
+    $maxAddressesAllow = config('site.customer.max_addresses');
+@endphp
+
+<div x-data="window.loadDashboardAddress({{ $maxAddressesAllow }})" 
      x-init="addresses = @js($addresses)">
 
     <!-- Address List -->
@@ -98,9 +102,7 @@
 
     <!-- New Address Button + Form -->
     <div class="mt-6">
-        @if($allowedNewAddress)
-            @include('dashboard.partials.new-address')
-        @endif
+        @include('dashboard.partials.new-address')
     </div>
 
 </div>

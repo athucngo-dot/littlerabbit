@@ -1,4 +1,4 @@
-export default function dashboardAddress() {
+export default function dashboardAddress(max = 5) {
 
     function notifyValidationMsg(errors) {
         let items = '';
@@ -15,17 +15,25 @@ export default function dashboardAddress() {
         addresses: [],
         editing: null,
         editingBackup: {},
+        maxAddressesAllow: max,
+
+        open: false,
+        new_street: '',
+        new_city: '',
+        new_province: '',
+        new_postal_code: '',
+        new_country: 'Canada',
 
         // Initialize the component
         async init() {
-            console.log("dashboardAddress loaded");
+            //console.log("dashboardAddress loaded");
 
             // fetch customer addresses
             await this.fetchAddresses();
         },
 
         async fetchAddresses() {
-            console.log("fetchAddresses");
+            //console.log("fetchAddresses");
             try {
                 const res = await fetch('/customer/addresses', {
                     headers: { 'Accept': 'application/json' }
@@ -37,6 +45,19 @@ export default function dashboardAddress() {
             } catch (err) {
                 popup.error("Failed to load addresses.");
             }
+        },
+
+        reset() {
+            // Reset new address form
+            this.new_street = '';
+            this.new_city = '';
+            this.new_province = '';
+            this.new_postal_code = '';
+            this.new_country = 'Canada';
+        },
+
+        get isOverLimit() {
+            return this.addresses.length >= this.maxAddressesAllow;
         },
 
         openEdit(id) {
