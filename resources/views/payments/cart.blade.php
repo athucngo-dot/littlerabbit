@@ -119,12 +119,12 @@
                     <div class="space-y-2 mb-6 text-gray-600">
                         <div class="flex justify-between">
                             <span>Subtotal</span>
-                            <span x-text="`$${subTotalPrice().toFixed(2)}`"></span>
+                            <span x-text="`$${subTotalPrice().toFixed(2)}`" class="font-semibold text-gray-700"></span>
                         </div>
 
                         <div class="flex justify-between">
                             <span>Shipping</span>
-                            <span x-text="`$${shippingCost().toFixed(2)}`"></span>
+                            <span x-text="`$${shippingCost().toFixed(2)}`" class="font-semibold text-gray-700"></span>
                         </div>
 
                         <div x-show="isFreeShipping" class="flex justify-between text-green-600 text-sm">
