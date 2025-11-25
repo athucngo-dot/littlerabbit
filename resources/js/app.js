@@ -6,6 +6,9 @@ window.Alpine = Alpine
 import dashboardAddress from './dashboard_address.js';
 window.loadDashboardAddress = dashboardAddress;
 
+import cart from './cart.js';
+window.loadCart = cart;
+
 import globalPopup from './ui/popup-global.js'
 
 // Register only if globalPopup exists

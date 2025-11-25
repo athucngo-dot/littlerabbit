@@ -16,4 +16,29 @@ class Cart extends Model
         'quantity',
         'options',  
     ];
+
+    /**
+     * Get the product associated with the cart item.
+     */
+    public function product()
+    {
+        return $this->belongsTo(Product::class)
+                    ->where('is_active', true); 
+    }
+
+    /**
+     * Get the color associated with the cart item.
+     */
+    public function color()
+    {
+        return $this->belongsTo(Color::class);
+    }
+
+    /**
+     * Get the size associated with the cart item.
+     */
+    public function size()
+    {
+        return $this->belongsTo(Size::class);
+    }
 }

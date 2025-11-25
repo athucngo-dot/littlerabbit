@@ -33,6 +33,7 @@ return [
     // Cart settings
     'cart' => [
         'cookies_guest_cart' => 'guest_cart', // name of guest cart array stored in cookies
+        'cookies_guest_cart_timeout' => 10080, // guest cart cookies timeout in minutes for 7 days (60 mins × 24 hours × 7 days)
         'max_quantity' => 10,     // maximum per product in cart
     ],
 

@@ -24,7 +24,7 @@
         @foreach ($featureProducts as $product)
             <a href="{{ route('products.show', $product->slug) }}" class="block bg-white rounded-xl shadow-md hover:shadow-lg overflow-hidden transition-transform hover:scale-105 text-center">
                 <div class="aspect-[3/4] flex items-center justify-center bg-butter">
-                <img src="{{$product->image}}" alt="Baby onesie" class="h-full w-full object-cover">
+                <img src="{{$product->thumbnail()}}" alt="{{$product->name}}" class="h-full w-full object-cover">
                 </div>
                 <div class="py-3 font-bold">
                     <p>{{$product->name}}</p>

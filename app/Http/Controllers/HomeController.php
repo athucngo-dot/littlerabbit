@@ -23,10 +23,7 @@ class HomeController extends Controller
             ->take(4)
             ->get();
 
-        $featureProducts->each(function ($product) {
-            // Load primary image for each product
-            $product->image = $product->images()->primary()->url ?? config('site.default_product_image'); 
-            
+        $featureProducts->each(function ($product) {            
             // get price after deals
             $product->price_after_deals = $product->getPriceAfterDeal();
         });

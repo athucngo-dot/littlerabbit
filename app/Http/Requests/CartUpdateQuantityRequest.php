@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CartRequest extends FormRequest
+class CartUpdateQuantityRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,7 @@ class CartRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_slug' => ['required', 'exists:products,slug'],
+            'product_id' => ['required', 'integer', 'exists:products,id'],
             'size_id'    => ['required', 'integer', 'exists:sizes,id'],
             'color_id'   => ['required', 'integer', 'exists:colors,id'],
             'quantity'   => ['required', 'integer', 'min:1', 'max:' . config('site.cart.max_quantity')],
@@ -32,14 +32,15 @@ class CartRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'product_slug.required' => 'A product is required.',
-            'product_slug.exists'   => 'Product does not exist.',
+            'product_id.required' => 'A product is required.',
+            'product_id.integer'    => 'Product must be a valid number.',
+            'product_id.exists'   => 'Product does not exist.',
             
-            'size_id.required'    => 'Please select a size.',
+            'size_id.required'    => 'Size is required.',
             'size_id.integer'    => 'Size must be a valid number.',
             'size_id.exists'      => 'Size does not exist.',
             
-            'color_id.required'   => 'Please select a color.',
+            'color_id.required'   => 'Color is required.',
             'color_id.integer'    => 'Color must be a valid number.',
             'color_id.exists'     => 'Color does not exist.',
 

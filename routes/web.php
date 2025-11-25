@@ -47,7 +47,15 @@ Route::get('/dashboard', [DashboardController::class, 'mainDashboard'])->name('d
 // keep the cart routes within web middleware to have session and cookie support
 // make it API-like to be easier extended to API app (with Sanctum authentication) later
 Route::middleware(['web'])->prefix('cart')->group(function () {
+    Route::get('/', [CartController::class, 'cart'])->name('cart.index');
+    Route::get('cartList', [CartApiController::class, 'cartList'])->name('cart.cart-list');
     Route::post('add', [CartApiController::class, 'add'])->name('cart.add');
+    Route::put('updateQuantity', [CartApiController::class, 'updateQuantity'])->name('cart.update-quantity');
+    Route::delete('remove-item/{productId}/{colorId}/{sizeId}',
+        [CartApiController::class, 'removeItem'])->name('cart.removeItem')
+        ->whereNumber('productId')
+        ->whereNumber('colorId')
+        ->whereNumber('sizeId');
 });
 
 Route::middleware(['web'])->prefix('customer')->group(function () {

@@ -113,16 +113,16 @@ class ProductService
             'id' => $product->id,
             'name' => $product->name,
             'slug' => $product->slug,
-            'price' => $product->price,
-            'image' => $product->images()->primary()->url ?? config('site.default_product_image'),
+            'price' => number_format($product->price, 2),
+            'image' => $product->thumbnail(),
             'gender' => $product->gender,
             'colors' => $product->colors->pluck('name'),
             'brand' => $product->brand?->name,
             'category' => $product->category?->name,
             'sizes' => $product->sizes->pluck('size'),
             'deals' => $dealsList,
-            'discount' => $product->deals->max('percentage_off') ?? 0,
-            'price_after_deals' => $product->getPriceAfterDeal(),
+            'discount' => number_format($product->deals->max('percentage_off')) ?? 0,
+            'price_after_deals' => number_format($product->getPriceAfterDeal(), 2),
         ];
     }
 

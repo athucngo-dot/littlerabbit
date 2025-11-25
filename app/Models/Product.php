@@ -64,6 +64,11 @@ class Product extends Model
         return $this->hasMany(Image::class, 'product_id');
     }
 
+    public function thumbnail()
+    {
+        return $this->images()->primary()->url ?? config('site.default_product_image');
+    }
+
     /**
      * The brand this product belongs to.
      */
