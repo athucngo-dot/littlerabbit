@@ -139,11 +139,6 @@
 
                     <!-- Buttons -->
                     <div class="space-y-3">
-                        <a href="{{ route('products.all-items') }}"
-                        class="block text-center px-5 py-3 border border-gray-400 rounded-xl font-semibold text-gray-700 hover:bg-gray-100">
-                            Continue Shopping
-                        </a>
-
                         @php
                             $checkoutUrl = $allowCheckout ? 
                                         '' : 
@@ -152,6 +147,11 @@
                         <a href="{{$checkoutUrl}}"
                         class="block text-center px-5 py-3 bg-aqua hover:bg-aqua-2 text-white font-semibold rounded-xl">
                             Proceed to Checkout
+                        </a>
+
+                        <a href="{{ route('products.all-items') }}"
+                        class="block text-center px-5 py-3 border border-gray-400 rounded-xl font-semibold text-gray-700 hover:bg-gray-100">
+                            Continue Shopping
                         </a>
                     </div>
 

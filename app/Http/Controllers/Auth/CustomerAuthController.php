@@ -14,19 +14,27 @@ use App\Services\AuthService;
 
 class CustomerAuthController extends Controller
 {
-    public function showLoginRegisterForm()
+    public function showLoginRegisterForm(Request $request)
     {
-        return view('auth.login-register'); // create this view
+        $ref = $request->query('ref') ?? ''; 
+
+        return view('auth.login-register', compact('ref'));
     }
 
     public function login(LoginRequest $request)
     {
+        $ref = $request->input('ref');
+
         $loginData = $request->only('email', 'password');
         $loginData['is_active'] = true;
         
         $checkedRemember = $request->filled('remember');
 
         if (AuthService::login($loginData, $checkedRemember)) {
+            if ($ref === 'cart') {
+                return redirect()->route('cart.index');
+            }
+
             return redirect()->intended(route('dashboard.main-dashboard')); // direct to customer dashboard
         }
 
@@ -42,11 +50,17 @@ class CustomerAuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
+        $ref = $request->input('ref');
+
         $registerData = $request->only('firstname', 'lastname', 'register_email', 'register_password');
         $customer = AuthService::register($registerData);
 
         Auth::guard('customer')->login($customer);
 
+        if ($ref === 'cart') {
+            return redirect()->route('cart.index');
+        }
+        
         return redirect()->route('dashboard.main-dashboard');
     }
 }

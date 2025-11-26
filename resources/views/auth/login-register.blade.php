@@ -42,6 +42,7 @@
                         Forgot password?
                     </a>
                 </div>
+                <input type="hidden" name="ref" value="{{$ref}}">
 
                 {{-- Submit --}}
                 <button type="submit" 
@@ -107,6 +108,7 @@
                     <input id="register_password_confirmation" type="password" name="register_password_confirmation" required
                            class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-aqua focus:border-aqua">
                 </div>
+                <input type="hidden" name="ref" value="{{$ref}}">
 
                 {{-- Submit --}}
                 <button type="submit" 
