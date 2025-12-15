@@ -33,6 +33,7 @@
         <div>
             <label class="font-semibold block mb-1">Postal Code</label>
             <input type="text" x-model="new_postal_code" class="w-full border rounded-lg p-1">
+            <span class="text-xs text-gray-700">Eg. A1AA1A or A1A A1A</span>
         </div>
 
         <div>

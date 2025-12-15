@@ -16,9 +16,16 @@ return new class extends Migration
             $table->foreignId('customer_id')
                   ->constrained('customers')
                   ->cascadeOnDelete();
-            $table->enum ('status', ['pending', 'paid', 'shipping', 'delivered', 'cancelled'])->default('pending');
-            $table->decimal('total', 8, 2)->default(0.00);// total amount of the order after discounts and taxes
+            $table->enum ('status', ['pending', 'paid', 'failed', 'shipping', 'delivered', 'cancelled'])->default('pending');
+            $table->string('stripe_payment_intent_id')
+                  ->index()
+                  ->nullable();
+            $table->decimal('subtotal', 8, 2)->default(0.00);// total amount of the order (after discount) before taxes
+            $table->decimal('shipping', 8, 2)->default(0.00);// shipping cost
+            $table->decimal('total', 8, 2)->default(0.00);// subtotal + shipping + taxes (if any)
             $table->enum ('shipping_type', ['express', 'standard'])->default('standard');
+            $table->timestamp('paid_at')->nullable();
+            $table->timestamp('failed_at')->nullable();
             $table->json('options')->nullable(); // JSON for extra stuff like sales
             $table->timestamps();
         });

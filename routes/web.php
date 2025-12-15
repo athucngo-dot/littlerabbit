@@ -10,6 +10,8 @@ use App\Http\Controllers\Api\CustomerApiController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CheckoutController;
+
 
 Route::get('/', [HomeController::class, 'homePage'])->name('homepage');
 
@@ -56,6 +58,11 @@ Route::middleware(['web'])->prefix('cart')->group(function () {
         ->whereNumber('productId')
         ->whereNumber('colorId')
         ->whereNumber('sizeId');
+});
+
+Route::middleware(['web'])->prefix('checkout')->group(function () {
+    Route::get('/', [CheckoutController::class, 'checkout'])->name('checkout');
+    Route::post('/payment-intent', [CheckoutController::class, 'paymentIntent'])->name('checkout.payment-intent');
 });
 
 Route::middleware(['web'])->prefix('customer')->group(function () {

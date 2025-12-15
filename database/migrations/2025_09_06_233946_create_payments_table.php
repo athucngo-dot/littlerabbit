@@ -21,15 +21,21 @@ return new class extends Migration
                   ->cascadeOnDelete();
 
             //Payment provider details
-            $table->enum('provider', ['credit_card', 'paypal', 'stripe'])->default('stripe');
+            $table->enum('provider', ['stripe'])->default('stripe');
             
-            //e.g., Stripe charge ID or PayPal transaction ID
-            $table->string('provider_transaction_id')->unique();
+            //Primary reference for the payment
+            $table->string('payment_intent_id')->nullable();
 
-            //e.g., Stripe customer ID or PayPal payer ID
+            //payment method id: For future charges / saving card
+            $table->string('payment_method_id')->nullable();
+
+            //Stripe charge ID
+            $table->string('charge_id')->nullable()->unique();
+
+            //e.g., Stripe customer ID
             $table->string('provider_customer_id')->nullable();
 
-            //e.g., Visa, MasterCard, etc.
+            // Visa, MasterCard, etc.
             $table->string('card_brand')->nullable();
             
             //Last four digits of the card
@@ -37,10 +43,14 @@ return new class extends Migration
             $table->string('card_exp_month', 2)->nullable();
             $table->string('card_exp_year', 4)->nullable();
 
-            $table->decimal('amount', 10, 2);
+            $table->integer('amount')->default(0);
             $table->string('currency', 3)->default('CAD');
             $table->enum('status', ['pending', 'succeeded', 'failed', 'refunded'])->default('pending');
             $table->timestamp('paid_at')->nullable();
+            $table->string('receipt_url')->nullable();
+            $table->string('failure_code')->nullable();
+            $table->string('failure_message')->nullable();
+            $table->timestamp('failed_at')->nullable();
             $table->timestamps();
         });
     }

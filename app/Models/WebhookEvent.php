@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class WebhookEvent extends Model
+{
+    protected $table = 'webhook_events';
+
+    protected $fillable = [
+        'stripe_event_id',
+        'type',
+    ];
+}

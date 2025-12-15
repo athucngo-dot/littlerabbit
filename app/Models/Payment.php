@@ -15,7 +15,9 @@ class Payment extends Model
         'customer_id',
         'order_id',
         'provider',
-        'provider_transaction_id',
+        'payment_intent_id',
+        'payment_method_id',
+        'charge_id',
         'provider_customer_id',
         'card_brand',
         'card_last_four',
@@ -25,5 +27,9 @@ class Payment extends Model
         'currency',
         'status',
         'paid_at',
+        'receipt_url',
+        'failure_code',
+        'failure_message',
+        'failed_at',
     ];
 }

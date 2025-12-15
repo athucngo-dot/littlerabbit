@@ -287,11 +287,55 @@ class CartService
     }
 
     /**
+     * calculate subtotal of cart items
+     */
+    public static function calculateSubtotal($cartItems): float
+    {
+        $subtotal = 0.0;
+
+        foreach ($cartItems as $item) {
+            $productPrice = $item->product->getPriceAfterDeal();
+            $quantity = $item->quantity;
+
+            $subtotal += $productPrice * $quantity;
+        }
+
+        return number_format($subtotal, 2);
+    }
+
+    /**
+     * Calculate shipping cost based on subtotal
+     */
+    public static function calculateShippingCost(float $subtotal): float
+    {
+        $freeShippingThreshold = config('site.cart.free_shipping_threshold');
+        $shippingRate = config('site.cart.shipping_rate');
+
+        if ($subtotal >= $freeShippingThreshold) {
+            return 0.0;
+        }
+
+        return number_format(($subtotal * $shippingRate), 2);
+    }
+
+    /**
+     * Clear cart for a customer
+     */
+    public static function clearCart(int $customerId): void
+    {
+        // For logged in user
+        Cart::where('customer_id', $customerId)->delete();
+    }
+
+    /**
      * Helper: Get guest cart from cookies
      */
     private static function getCookieCart(): array
     {
-        return json_decode(request()->cookie(config('site.cart.cookies_guest_cart'), '[]'), true);
+        return json_decode(
+            request()->cookie(config('site.cart.cookies_guest_cart'), '[]'), 
+            true
+        ) ?? [];
     }
 
     /**

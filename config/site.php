@@ -35,6 +35,8 @@ return [
         'cookies_guest_cart' => 'guest_cart', // name of guest cart array stored in cookies
         'cookies_guest_cart_timeout' => 10080, // guest cart cookies timeout in minutes for 7 days (60 mins × 24 hours × 7 days)
         'max_quantity' => 10,     // maximum per product in cart
+        'free_shipping_threshold' => 50, // free shipping for orders over this amount
+        'shipping_rate' => 0.1, // shipping rate as 10% of subtotal for orders below free shipping threshold
     ],
 
     //customer settings

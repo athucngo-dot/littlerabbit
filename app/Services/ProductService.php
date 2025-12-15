@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\RecentlyViewed;
 use App\Services\RecentlyViewedService;
+use App\Models\OrderProduct;
 
 class ProductService
 {
@@ -206,6 +207,9 @@ class ProductService
         }
     }
 
+    /**
+     * Merge recently viewed products from session to DB upon user login.
+     */
     public static function addOrUpdateRecentlyViewedToDB()
     {
         //get recently viewed from session
@@ -230,5 +234,21 @@ class ProductService
 
         // Clear the session data
         session()->forget(config('site.recently_viewed_session_key'));
+    }
+
+    /**
+     * Reduce stock quantities based on order products.
+     */
+    public static function reduceStockQuantities(int $orderId): void
+    {
+        $orderProducts = OrderProduct::where('order_id', $orderId)->get();
+
+        foreach ($orderProducts as $orderProduct) {
+            $product = Product::find($orderProduct->product_id);
+            if ($product) {
+                $newStock = max(0, $product->stock - $orderProduct->quantity);
+                $product->update(['stock' => $newStock]);
+            }
+        }
     }
 }

@@ -28,7 +28,9 @@ return new class extends Migration
                   ->constrained('sizes')
                   ->nullOnDelete();
             $table->unsignedInteger('nb_of_items')->default(1);// number of items of this product (1 product can have multiple items)
-            $table->decimal('price', 8, 2)->default(0.00);// price at the time of order (in case of discounts later)
+            $table->decimal('org_price', 8, 2)->default(0.00);// original price of the product before any discount
+            $table->unsignedTinyInteger('percentage_off')->default(0);// percentage off applied to this product, if any
+            $table->decimal('price', 8, 2)->default(0.00);// price at the time of order (price after discount if any)
             $table->unsignedInteger('quantity')->default(1);// quantity of this product in the order
             $table->json('options')->nullable(); // JSON for extra stuff like sales
             $table->timestamps();

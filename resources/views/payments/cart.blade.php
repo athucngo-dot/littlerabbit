@@ -3,6 +3,16 @@
 @section('content')
 <section class="bg-gradient-to-b from-mint to-paper-2 py-12 min-h-screen">
 
+@if (session('error'))
+    <div 
+        x-data="{show:true}" 
+        x-show="show" 
+        x-init="setTimeout(()=>show=false,3000)"
+        class="p-4 mb-4 text-red-700 text-center bg-red-100 border border-red-300 rounded-lg">
+        {{ session('error') }}
+    </div>
+@endif
+
     <div x-data="window.loadCart()" 
         x-init="cartItems = @js($cartItems)">
         <div class="container mx-auto px-4 max-w-4xl">
@@ -128,7 +138,7 @@
                         </div>
 
                         <div x-show="isFreeShipping" class="flex justify-between text-green-600 text-sm">
-                            <span x-text="`You are qualified for free shipping (-$${(subTotalPrice() * 0.1).toFixed(2)})`"></span>
+                            <span x-text="`You are qualified for free shipping (-$${shippingCost(false).toFixed(2)})`"></span>
                         </div>
 
                         <div class="flex justify-between text-lg font-semibold text-gray-800">
@@ -141,7 +151,7 @@
                     <div class="space-y-3">
                         @php
                             $checkoutUrl = $allowCheckout ? 
-                                        '' : 
+                                        route('checkout') : 
                                         route('customer.login-register') . '?' . http_build_query(['ref' => 'cart']);
                         @endphp
                         <a href="{{$checkoutUrl}}"

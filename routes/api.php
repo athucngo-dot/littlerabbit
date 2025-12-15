@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductApiController;
 use App\Http\Controllers\Api\ReviewApiController;
+use App\Http\Controllers\StripeWebhookController;
 
 Route::get('/products/all-items', [ProductApiController::class, 'allItems'])->name('api.products.allItems');
 Route::get('/products/new-arrivals', [ProductApiController::class, 'newArrivals'])->name('api.products.new-arrivals');
@@ -20,3 +21,6 @@ Route::get('products/{ageGroup}/{gender}', [ProductApiController::class, 'listBy
 
 Route::get('/products/{product:slug}/reviews', [ReviewApiController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/products/{product:slug}/reviews', [ReviewApiController::class, 'store']);
+
+// Stripe webhook endpoint
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);

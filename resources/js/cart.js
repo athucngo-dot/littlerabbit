@@ -60,10 +60,11 @@ export default function cart() {
         },
 
         // calculate subtotal price
-        shippingCost() {
+        shippingCost(checkThreshold = true) {
             const subtotal = this.subTotalPrice();
 
-            if (subtotal >= this.freeShippingThreshold) {
+            if (checkThreshold &&
+                subtotal >= this.freeShippingThreshold) {
                 return 0;
             }
 
@@ -72,7 +73,7 @@ export default function cart() {
 
         // calculate total price
         totalPrice() {
-            const total = this.subTotalPrice() + this.shippingCost();
+            const total = this.subTotalPrice() + this.shippingCost(true);
             return total;
         },
 
