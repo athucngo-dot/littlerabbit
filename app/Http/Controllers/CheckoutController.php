@@ -12,6 +12,7 @@ use App\Services\CartService;
 use App\Services\StripeService;
 use App\Services\OrderService;
 use App\Models\Cart;
+use App\Models\Order;
 
 use Illuminate\Support\Facades\Log;
 
@@ -90,7 +91,49 @@ class CheckoutController extends Controller
 
         Log::info("Payment Intent - client secret: " . $paymentIntent->client_secret);
         return response()->json([
-            'clientSecret' => $paymentIntent ->client_secret
+            'clientSecret' => $paymentIntent ->client_secret,
+            'orderNumber' => $order->order_number,
         ]);
+    }
+
+    /**
+     * Handle payment succeeded
+     */
+    public function paymentSuccess($order_number)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('customer.login-register', ['ref' => 'cart']);
+        }
+
+        $order = Order::where('order_number', $order_number)->first();
+
+        $status = 'error';
+        if (!$order) {
+            $message = 'Order not found.';
+            return view('payments.payment-success', compact('status', 'message'));
+        }
+
+        if ($order->customer_id !== Auth::id()) {
+            $message = 'Unauthorized access to this order.';
+            return view('payments.payment-success', compact('status', 'message'));
+        }
+
+        if ($order->status !== 'paid') {
+            $message = 'Order not paid yet.';
+            return view('payments.payment-success', compact('status', 'message'));
+        }
+
+        $status = 'success';
+        $message = 'Payment successful.';
+
+        $payment = $order->payments()
+                        ->where('status', 'succeeded')
+                        ->latest()
+                        ->first();
+
+        $address = $order->addresses()->where('type', 'mailing')->first();
+        
+        Log::info('Payment success for order: ' . $order->order_number);
+        return view('payments.payment-success', compact('status', 'message', 'order', 'payment', 'address'));
     }
 }

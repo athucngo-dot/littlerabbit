@@ -63,6 +63,7 @@ Route::middleware(['web'])->prefix('cart')->group(function () {
 Route::middleware(['web'])->prefix('checkout')->group(function () {
     Route::get('/', [CheckoutController::class, 'checkout'])->name('checkout');
     Route::post('/payment-intent', [CheckoutController::class, 'paymentIntent'])->name('checkout.payment-intent');
+    Route::get('/success/{order_number}', [CheckoutController::class, 'paymentSuccess'])->name('checkout.payment-success');
 });
 
 Route::middleware(['web'])->prefix('customer')->group(function () {

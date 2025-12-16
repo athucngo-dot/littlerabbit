@@ -19,6 +19,7 @@ class OrderService
     public static function saveOrder($subtotal, $shippingCost, $total, string $status='pending', string $shippingType='standard'): Order
     {
         $order = Order::create([
+            'order_number' => self::generateOrderNumber(),
             'customer_id' => Auth::user()->id,
             'status' => $status,
             'subtotal' => $subtotal,
@@ -90,5 +91,15 @@ class OrderService
             'country' => $streetInfo['country'],
             'phone_number' => $addressData['phone_number'],
         ]);
+    }
+
+    /**
+     * Generate a unique order number
+     */
+    public static function generateOrderNumber(): string
+    {
+        $year = now()->year;
+
+        return 'LR-' . $year . '-' . strtoupper(uniqid());
     }
 }

@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const clientSecret = data.clientSecret;
+            const orderNumber = data.orderNumber;
             if (!clientSecret) {
                 throw new Error('No clientSecret returned from server');
             }
@@ -98,11 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 payBtn.disabled = false;
                 payBtn.innerText = 'Place Order';
             } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
-                // Payment succeeded
-                alert('Payment successful!');
-
                 // redirect to success page
-                // window.location.href = '/checkout/success';
+                window.location.href = `/checkout/success/${orderNumber}`;
             }
         } catch (err) {
             console.error(err);

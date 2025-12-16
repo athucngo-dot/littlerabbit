@@ -112,7 +112,7 @@
 
                         <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-5 text-sm text-yellow-700 mb-4">
                             <strong class="block mb-2">Demo Notice:</strong>
-                                Note that this is only a demo payment process, <strong>please using test card</strong>. No real orders will be fulfilled, and no products will be shipped.
+                                Note that this is only a demo payment process, <strong>please using test card</strong>. No real payment will be processed, no real orders will be fulfilled, and no products will be shipped.
                         </div>
 
                         <!-- Stripe Card Element Placeholder -->
