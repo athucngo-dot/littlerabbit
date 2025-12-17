@@ -16,8 +16,9 @@ class OrderService
     /**
      * Save order to database
      */
-    public static function saveOrder($subtotal, $shippingCost, $total, string $status='pending', string $shippingType='standard'): Order
+    public static function saveOrder(Collection $cartItems, $subtotal, $shippingCost, $total, string $status='pending', string $shippingType='standard'): Order
     {
+        // Create order
         $order = Order::create([
             'order_number' => self::generateOrderNumber(),
             'customer_id' => Auth::user()->id,
@@ -28,27 +29,20 @@ class OrderService
             'shipping_type' => $shippingType,
         ]);
 
-        return $order;
-    }
-
-    /**
-     * Save order products to database
-     */
-    public static function saveOrderProducts(int $orderId, Collection $cartItems): void
-    {
+        // Attach products from cart to order_products pivot table
         foreach ($cartItems as $item) {
-            OrderProduct::create([
-                'order_id' => $orderId,
-                'product_id' => $item->product_id,
-                'color_id' => $item->color_id,
-                'size_id' => $item->size_id,
+            $order->products()->attach($item->product_id, [
+                'color_id'        => $item->color_id,
+                'size_id'         => $item->size_id,
                 'nb_of_items' => 1, //for now, number of items is always 1. Could be changed later if needed
-                'org_price' => number_format($item->product->price, 2),
-                'percentage_off' => $item->product->bestDeal()->first()->percentage_off ?? 0,
-                'price' => number_format($item->product->getPriceAfterDeal(), 2),
-                'quantity' => $item->quantity,
+                'org_price'       => number_format($item->product->price, 2),
+                'percentage_off'  => $item->product->bestDeal()->first()->percentage_off ?? 0,
+                'price'           => number_format($item->product->getPriceAfterDeal(), 2),
+                'quantity'        => $item->quantity,
             ]);
         }
+
+        return $order;
     }
 
     /**

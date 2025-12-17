@@ -27,6 +27,7 @@ return [
     'max_recently_viewed_stored' => 20, // maximum recently viewed products to store
     
     'recently_viewed_session_key' => 'recently_viewed',
+    'checkout_in_progress_session_key' => 'checkout_in_progress',
 
     'cache_time_out' => 3600, //cache time out in 1 hour
 

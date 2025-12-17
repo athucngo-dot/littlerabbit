@@ -100,9 +100,6 @@ class StripeService
         // reduce stock quantities 
         ProductService::reduceStockQuantities($order->id);
 
-        //clear user's cart
-        CartService::clearCart($order->customer_id);
-
         return ['status' => 'success', 'message' => 'Payment processed and order updated'];
     }
 

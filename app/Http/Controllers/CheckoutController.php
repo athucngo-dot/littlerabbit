@@ -63,11 +63,8 @@ class CheckoutController extends Controller
         
         // Save order to database
         // shipping type is defaulted to 'standard' for now
-        $order = OrderService::saveOrder($subtotal, $shippingCost, $total, 'pending', 'standard');
+        $order = OrderService::saveOrder($cartItems, $subtotal, $shippingCost, $total, 'pending', 'standard');
         
-        // Save order products to database
-        OrderService::saveOrderProducts($order->id, $cartItems);
-
         $addressData = $request->only([
             'address_id',
             'first_name',
@@ -88,6 +85,8 @@ class CheckoutController extends Controller
         $order->update([
             'stripe_payment_intent_id' => $paymentIntent->id,
         ]);
+
+        session([config('site.checkout_in_progress_session_key') => true]);
 
         Log::info("Payment Intent - client secret: " . $paymentIntent->client_secret);
         return response()->json([
@@ -118,22 +117,32 @@ class CheckoutController extends Controller
             return view('payments.payment-success', compact('status', 'message'));
         }
 
-        if ($order->status !== 'paid') {
-            $message = 'Order not paid yet.';
-            return view('payments.payment-success', compact('status', 'message'));
+        if (in_array($order->status, ['pending', 'paid'])) {
+            $status = 'success';
+            $message = 'Payment is processing.';
+
+            // Clear cart if checkout in progress
+            $isCheckoutProgress = session()->get(config('site.checkout_in_progress_session_key'));
+            if ($isCheckoutProgress) {
+                //clear user's cart only once per checkout
+                CartService::clearCart(Auth::id());
+
+                //remove the session flag
+                session()->forget(config('site.checkout_in_progress_session_key'));
+            }
+
+            $payment = $order->payments()
+                            ->latest()
+                            ->first();
+
+            $address = $order->addresses()->where('type', 'mailing')->first();
+            
+            Log::info('Payment is processing for order: ' . $order->order_number);
+            return view('payments.payment-success', compact('status', 'message', 'order', 'payment', 'address'));
         }
 
-        $status = 'success';
-        $message = 'Payment successful.';
-
-        $payment = $order->payments()
-                        ->where('status', 'succeeded')
-                        ->latest()
-                        ->first();
-
-        $address = $order->addresses()->where('type', 'mailing')->first();
-        
-        Log::info('Payment success for order: ' . $order->order_number);
-        return view('payments.payment-success', compact('status', 'message', 'order', 'payment', 'address'));
+        $status = 'error';
+        $message = 'Something went wrong. Please try again.';
+        return view('payments.payment-success', compact('status', 'message'));
     }
 }

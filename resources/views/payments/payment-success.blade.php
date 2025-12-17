@@ -22,13 +22,13 @@
                     </div>
                 </div>
 
-                <!-- Success Message -->
+                <!-- Payment Processing Message -->
                 <h1 class="text-3xl font-semibold text-gray-800 mb-2">
-                    Payment Successful !
+                    Thank you for your order!
                 </h1>
 
-                <p class="text-gray-600 mb-6">
-                    Thank you for your order! Your payment has been processed successfully.
+                <p class="text-gray-600 mb-1">
+                    Your payment is being processed.
                 </p>
 
                 <!-- Order Info -->
@@ -47,12 +47,14 @@
                         </span>
                     </div>
 
-                    <div class="flex justify-between">
-                        <span class="text-gray-500 text-sm">Payment Method</span>
-                        <span class="font-medium text-gray-800">
-                            {{ ucfirst($payment->card_brand) ?? '****' }} Card ending with {{ $payment->card_last_four ?? '****' }}
-                        </span>
-                    </div>
+                    @if($payment)
+                        <div class="flex justify-between">
+                            <span class="text-gray-500 text-sm">Payment Method</span>
+                            <span class="font-medium text-gray-800">
+                                {{ ucfirst($payment?->card_brand) ?? '****' }} Card ending with {{ $payment?->card_last_four ?? '****' }}
+                            </span>
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Delivery Info -->
