@@ -2,22 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class OrderProduct extends Model
+class OrderProduct extends Pivot
 {
     protected $table = 'order_product';
 
-    protected $fillable = [
-        'order_id',
-        'product_id',
-        'color_id',
-        'size_id',
-        'nb_of_items',
-        'org_price',
-        'percentage_off',
-        'price',
-        'quantity',
-        'options',
-    ];
+    /**
+     * Relationships
+     */
+    public function color()
+    {
+        return $this->belongsTo(Color::class);
+    }
+
+    public function size()
+    {
+        return $this->belongsTo(Size::class);
+    }
 }

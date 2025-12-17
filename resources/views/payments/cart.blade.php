@@ -49,7 +49,7 @@
 
                                 <!-- Product Name -->
                                 <a :href="`{{ route('products.show', ':slug') }}`.replace(':slug', item.product.slug)"
-                                    class="font-semibold text-lg hover:bg-gray-100 hover:text-mint-600">
+                                    class="font-semibold text-lg hover:text-mint-600">
                                     <h3 x-text="item.product.name"></h3>
                                 </a>
 

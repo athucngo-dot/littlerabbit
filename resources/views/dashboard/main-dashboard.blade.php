@@ -31,7 +31,7 @@
             <h1 class="text-2xl font-bold mb-4">Your Orders</h1>
 
             <div class="bg-white shadow rounded-lg p-4">
-                <p class="text-gray-600">List customer orders here…</p>
+                @include('dashboard.partials.orders')
             </div>
         </div>
 

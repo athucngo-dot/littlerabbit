@@ -15,7 +15,19 @@ class DashboardController extends Controller
 
         $customer = Auth::guard('customer')->user();
         $addresses = $customer->addresses;
-        
-        return view('dashboard.main-dashboard', compact('customer', 'addresses'));
+        $orders = $customer->orders()
+            ->whereNotIn('status', ['pending', 'failed'])
+            ->with('products')
+            ->latest()
+            ->limit(20)
+            ->get();
+
+        $orders->each(function ($order) {
+            $order->products->each(function ($product) {
+                $product->pivot->load(['color', 'size']);
+            });
+        });
+                
+        return view('dashboard.main-dashboard', compact('customer', 'addresses', 'orders'));
     }
 }
