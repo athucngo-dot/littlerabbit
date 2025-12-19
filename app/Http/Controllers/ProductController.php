@@ -12,6 +12,7 @@ use App\Models\Color;
 use App\Models\Category;
 use App\Models\Size;
 use App\Models\Material;
+use App\Services\SearchService;
 
 class ProductController extends Controller
 {
@@ -129,30 +130,19 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly created review for a specific product.
+     * Handle product search requests.
+     * Call search API and display results.
      */
-    public function storeReview(Request $request, Product $product)
+    public function search(Request $request)
     {
-        $validated = $request->validate([
-            'rv_rate' => 'required|integer|min:1|max:5',
-            'rv_comment' => 'nullable|string',
-        ]);
-
-        $review = $product->reviews()->create([
-            'customer_id' => auth()->id() ?? 1, // replace 1 with guest or logged-in customer
-            'rv_rate' => $validated['rv_rate'],
-            'rv_comment' => $validated['rv_comment'] ?? '',
-            'rv_quality' => 5,
-            'rv_comfort' => 5,
-            'rv_size' => 5,
-            'rv_delivery' => 5,
-        ]);
-
-        return response()->json([
-            'id' => $review->id,
-            'customer_name' => $review->customer?->name ?? 'Guest',
-            'rv_rate' => $review->rv_rate,
-            'rv_comment' => $review->rv_comment,
-        ]);
+        $query = trim($request->input('q', ''));
+        $emptyQuery = ($query === '');
+        
+        $parser = new SearchService();
+        $parsed = $parser->parse($query);
+        $searchParams = $parser->rebuildParams($parsed);
+        
+        $listName = 'search';
+        return view('products.list', compact('listName', 'searchParams', 'emptyQuery'));
     }
 }

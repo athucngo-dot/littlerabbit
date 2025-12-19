@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Deal;
 use App\Services\ProductService;
+use App\Services\SearchService; 
 
 class ProductApiController extends Controller
 {
@@ -130,6 +131,43 @@ class ProductApiController extends Controller
             ->latest('created_at')
             ->paginate(config('site.items_per_page_4_per_rows'))
             ->through(fn($product) => ProductService::transformProduct($product));
+
+        return response()->json($products);
+    }
+
+    /**
+     * Handle product search requests.
+     * return JSON response with search results with MeiliSearch.
+     */
+    public function search(Request $request)
+    {
+        $searchQuery = trim($request->input('q', ''));
+
+        // Extract filters from request
+        $filterList = SearchService::$searchFilters;
+        $filters = [];
+        foreach ($filterList as $key) {
+            if ($request->filled($key)) {
+                $filters[$key] = (array) $request->input($key);
+            }
+        }
+
+        // Build MeiliSearch filter string
+        $filterString = SearchService::buildMeiliSearchFilter($filters);
+
+        // Perform search with MeiliSearch
+        $products = Product::search(
+                        $searchQuery,
+                        function ($meilisearch, $query, $options) use ($filterString) {
+                            if ($filterString) {
+                                $options['filter'] = $filterString;
+                            }
+
+                            return $meilisearch->search($query, $options);
+                        }
+                    )
+                    ->paginate(config('site.items_per_page_4_per_rows'))
+                    ->through(fn($product) => ProductService::transformProduct($product));
 
         return response()->json($products);
     }

@@ -35,9 +35,10 @@ Route::get('{ageGroup}/{gender}', [ProductController::class, 'listByAgeAndGender
     ->name('products.byAgeAndGender');
 
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/search', [ProductController::class, 'search'])->name('search');
 
-Route::post('/products/{product}/reviews', [ProductController::class, 'storeReview'])
-    ->name('products.reviews.store');
+//Route::post('/products/{product}/reviews', [ProductController::class, 'storeReview'])
+//    ->name('products.reviews.store');
 
 Route::get('/browse-categories', [CategoryController::class, 'browseCategoriesPage'])->name('categories.browse-categories');
 

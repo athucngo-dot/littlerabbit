@@ -11,6 +11,7 @@ Route::get('/products/deals', [ProductApiController::class, 'deals'])->name('api
 Route::get('/products/accessories', [ProductApiController::class, 'accessories'])->name('api.products.accessories');
 Route::get('/products/category/{categorySlug}', [ProductApiController::class, 'listByCategory'])->name('api.products.byCategory');
 Route::get('/products/deal/{dealSlug}', [ProductApiController::class, 'listByDeal'])->name('api.products.byDeal');
+Route::get('/products/search', [ProductApiController::class, 'search'])->name('api.products.search');
 
 Route::get('products/{ageGroup}/{gender}', [ProductApiController::class, 'listByAgeAndGender'])
     ->where([

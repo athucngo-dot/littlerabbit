@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
+use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
     use HasFactory;
+    use Searchable;
 
     protected $table = 'products';
 
@@ -409,5 +411,36 @@ class Product extends Model
         }
         
         return $query;
+    }
+
+    /**
+     * Only index active products
+     */ 
+    public function shouldBeSearchable()
+    {
+        return $this->is_active;
+    }
+
+    /**
+     * Prepare the data for indexing in Meilisearch.
+     */
+    public function toSearchableArray(): array
+    {
+        $this->loadMissing(['colors', 'sizes']);
+
+        return [
+            'id' => $this->id,
+            'slug' => $this->slug,
+            'name' => $this->name,
+            'gender' => $this->gender,
+            'category' => $this->category?->slug,
+            'category_name' => $this->category?->name,
+            'material' => $this->material?->name,
+            'brand' => $this->brand?->name,
+
+            'colors' => $this->colors->pluck('name')->values(),
+            'sizes' => $this->sizes->pluck('size')->values(),
+            'sizes_category' => $this->sizes->pluck('child_cat')->values(),
+        ];
     }
 }

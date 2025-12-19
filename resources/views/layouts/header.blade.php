@@ -58,14 +58,27 @@
       </nav>
 
       <div class="flex items-center gap-3">
-        {{-- Search Icon --}}
-        <a href="/search" 
-          class="w-10 h-10 grid place-items-center rounded-full border border-gray-200 bg-white cursor-pointer hover:bg-gray-100">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
-          </svg>
-        </a>
+        {{-- Search --}}
+        <form action="{{ route('search') }}" method="GET"
+              class="hidden md:flex items-center gap-2 border border-gray-200 rounded-full bg-white px-3 py-1.5 focus-within:ring-2 focus-within:ring-mint-500">
+            
+            <button type="submit" class="flex items-center justify-center">              
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 text-gray-400"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
+                </svg>
+            </button>
+
+            <input
+                type="text"
+                name="q"
+                value="{{ request('q') }}"
+                placeholder="Search products..."
+                class="w-40 lg:w-56 bg-transparent outline-none text-sm placeholder-gray-400"
+            />
+        </form>
         
         {{-- Account Login Icon --}}
         @php
