@@ -11,7 +11,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CheckoutController;
-
+use App\Http\Controllers\ContactController;
 
 Route::get('/', [HomeController::class, 'homePage'])->name('homepage');
 
@@ -80,9 +80,8 @@ Route::middleware(['web'])->prefix('customer')->group(function () {
 * Static pages
 */
 // Contact page
-Route::get('/contact', function () {
-    return view('pages/contact');
-})->name('contact');
+Route::get('/contact', [ContactController::class, 'show'])->name('contact');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 // About Us page
 Route::get('/about', function () {
