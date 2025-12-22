@@ -38,6 +38,7 @@
 
                     <div x-data="{ selectedAddress: {{ $addresses->first()?->id ?? 'null' }} }">
                         <h2 class="text-xl font-semibold text-gray-700 mt-6 mb-4">Choose Shipping Address</h2>
+                        <p id="address-error" class="text-red-500 text-sm mt-1"></p>
 
                         @foreach($addresses as $address)                            
                             <label class="flex items-start space-x-2 mb-2 cursor-pointer">

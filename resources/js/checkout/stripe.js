@@ -61,13 +61,20 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             const errorFields = ['first_name', 'last_name', 'phone_number', 'street', 'city', 'province', 'postal_code', 'country'];
-            setErrorFields(errorFields, true);
+            const allErrorFields = ['address', ...errorFields];
+            setErrorFields(allErrorFields, true);
 
             if (!res.ok) {
                 if (res.status === 422) {
                     const errorData = await res.json();
 
                     console.log('Validation errors:', errorData.errors);
+
+                    // display address error message if no address selected
+                    if (address_id === 0) {
+                        const addressEl = document.getElementById(`address-error`);
+                        addressEl.textContent = 'Please add new address with valid info.';
+                    }
 
                     setErrorFields(errorFields, false, errorData);
 
