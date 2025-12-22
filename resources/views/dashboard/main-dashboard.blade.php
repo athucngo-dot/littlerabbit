@@ -18,9 +18,10 @@
                 class="dashboard-tab">
                     Personal Info
             </button>
-            <a href="{{ route('customer.logout') }}" class="dashboard-tab">
-                Logout
-            </a>
+            <form action="{{ route('customer.logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="dashboard-tab">Logout</button>
+            </form>
         </nav>
     </div>
 

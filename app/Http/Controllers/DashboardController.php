@@ -9,10 +9,6 @@ class DashboardController extends Controller
 {
     public function mainDashboard()
     {
-        if (!Auth::check()) {
-            return redirect()->route('homepage');
-        }
-
         $customer = Auth::guard('customer')->user();
         $addresses = $customer->addresses;
         $orders = $customer->orders()

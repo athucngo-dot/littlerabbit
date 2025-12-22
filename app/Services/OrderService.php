@@ -21,7 +21,7 @@ class OrderService
         // Create order
         $order = Order::create([
             'order_number' => self::generateOrderNumber(),
-            'customer_id' => Auth::user()->id,
+            'customer_id' => Auth::guard('customer')->id(),
             'status' => $status,
             'subtotal' => $subtotal,
             'shipping' => $shippingCost,

@@ -29,9 +29,10 @@ class StripeService
     public function createPaymentIntent(int $amount, string $orderId): PaymentIntent
     {
         // add metadata
+        $customer = Auth::guard('customer')->user();
         $metadata = [
-            'user_id' => Auth::user()->id,
-            'email'   => Auth::user()->email,
+            'user_id' => $customer->id,
+            'email'   => $customer->email,
             'order_id' => $orderId,
         ];
         

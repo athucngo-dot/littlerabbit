@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
-use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 
 use App\Services\CustomerService;
@@ -27,16 +26,10 @@ class AuthService
     public static function login(array $data, $checkedRemember = false): ?Customer
     {
         if (Auth::guard('customer')->attempt($data, $checkedRemember)) {
+            request()->session()->regenerate();
             return Auth::guard('customer')->user();
         }
 
         return null;
-    }
-
-    public static function checkAuthorization(): void
-    {
-        if (!Auth::check()) {
-            throw ValidationException::withMessages(['error' => 'Unauthorized to update customer information.']);
-        }
     }
 }

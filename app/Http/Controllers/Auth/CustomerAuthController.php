@@ -44,7 +44,14 @@ class CustomerAuthController extends Controller
 
     public function logout()
     {
+        // log out customer
         Auth::guard('customer')->logout();
+
+        // invalidate session and regenerate token
+        $request = request();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect()->route('homepage');
     }
 
@@ -53,6 +60,7 @@ class CustomerAuthController extends Controller
         $ref = $request->input('ref');
 
         $registerData = $request->only('firstname', 'lastname', 'register_email', 'register_password');
+        
         $customer = AuthService::register($registerData);
 
         Auth::guard('customer')->login($customer);

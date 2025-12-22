@@ -38,7 +38,7 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'admin' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
@@ -46,11 +46,6 @@ return [
         'customer' => [
             'driver' => 'session',
             'provider' => 'customers', // this must match the provider below
-        ],
-
-        'admin' => [
-            'driver' => 'session',
-            'provider' => 'admins',
         ],
     ],
 
@@ -72,25 +67,18 @@ return [
     */
 
     'providers' => [
+        // CMS users
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            //'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => App\Models\User::class,
         ],
 
+        // Frontend customers
         'customers' => [
             'driver' => 'eloquent',
             'model' => App\Models\Customer::class, // your Customer model
         ],
-
-        'admins' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\LrUser::class,
-        ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*
@@ -122,13 +110,6 @@ return [
 
         'customers' => [
             'provider' => 'customers',
-            'table' => 'password_resets',
-            'expire' => 60,
-            'throttle' => 60,
-        ],
-
-        'admins' => [
-            'provider' => 'admins',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

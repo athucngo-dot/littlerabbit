@@ -32,9 +32,9 @@ class CartService
             }
         }
 
-        if (Auth::check()) {
+        if (Auth::guard('customer')->check()) {
             // For logged in user
-            $conditions['customer_id'] = Auth::id();
+            $conditions['customer_id'] = Auth::guard('customer')->id();
 
             return Cart::where($conditions)->sum('quantity');
         }
@@ -64,9 +64,9 @@ class CartService
             $options = json_decode($options, true);
         }
 
-        if (Auth::check()) {
+        if (Auth::guard('customer')->check()) {
             // For logged in user
-            $conditions['customer_id'] = Auth::id();
+            $conditions['customer_id'] = Auth::guard('customer')->id();
             
             // update or create on cart table
             // find first row, if not found then create a new row
@@ -113,7 +113,7 @@ class CartService
 
     public static function addOrUpdateGuestCartToDB(): void
     {
-        if (Auth::check()) {
+        if (Auth::guard('customer')->check()) {
             // get guest cart from cookies                
             $guestCart = CartService::getCookieCart();
 
@@ -139,9 +139,9 @@ class CartService
     {
         $cartItemsDetails = [];
 
-        if (Auth::check()) {
+        if (Auth::guard('customer')->check()) {
             // For logged in user
-            $cartItems = Cart::where('customer_id', Auth::id())->get();
+            $cartItems = Cart::where('customer_id', Auth::guard('customer')->id())->get();
 
             foreach ($cartItems as $item) {
                 $product = $item->product;
@@ -193,9 +193,9 @@ class CartService
 
     public static function setQuantityByProductColorSize(int $productId, int $colorId, int $sizeId, int $quantity): void
     {
-        if (Auth::check()) {
+        if (Auth::guard('customer')->check()) {
             // For logged in user
-            $conditions['customer_id'] = Auth::id();
+            $conditions['customer_id'] = Auth::guard('customer')->id();
             $conditions['product_id'] = $productId;
             $conditions['color_id'] = $colorId;
             $conditions['size_id'] = $sizeId;
@@ -245,9 +245,9 @@ class CartService
      */
     public static function removeByProductColorSize(int $productId, int $colorId, int $sizeId): int
     {
-        if (Auth::check()) {
+        if (Auth::guard('customer')->check()) {
             // For logged in user
-            $conditions['customer_id'] = Auth::id();
+            $conditions['customer_id'] = Auth::guard('customer')->id();
             $conditions['product_id'] = $productId;
             $conditions['color_id'] = $colorId;
             $conditions['size_id'] = $sizeId;
@@ -332,10 +332,12 @@ class CartService
      */
     private static function getCookieCart(): array
     {
-        return json_decode(
-            request()->cookie(config('site.cart.cookies_guest_cart'), '[]'), 
+        $cart = json_decode(
+            request()->cookie(config('site.cart.cookies_guest_cart'), '[]'),
             true
-        ) ?? [];
+        );
+
+        return is_array($cart) ? $cart : [];
     }
 
     /**
@@ -345,9 +347,17 @@ class CartService
     {
         // Store back to cookie for 7 days (60 mins × 24 hours × 7 days)
         Cookie::queue(
-            config('site.cart.cookies_guest_cart'), 
-            json_encode($cart), 
-            config('site.cart.cookies_guest_cart_timeout')
+            cookie(
+                config('site.cart.cookies_guest_cart'),
+                json_encode($cart),
+                config('site.cart.cookies_guest_cart_timeout'),
+                '/',                        // path
+                null,                       // domain
+                request()->isSecure(),      // secure
+                true,                       // httpOnly
+                false,                      // raw
+                'lax'                       // sameSite
+            )
         );
     }
 }

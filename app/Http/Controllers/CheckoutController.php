@@ -23,17 +23,13 @@ class CheckoutController extends Controller
      */
     public function checkout()
     {
-        if (!Auth::check()) {
-            return redirect()->route('customer.login-register', ['ref' => 'cart']);
-        }
-
-        $cartItems = Cart::where('customer_id', Auth::id())->get();
+        $cartItems = Cart::where('customer_id', Auth::guard('customer')->id())->get();
 
         if (count($cartItems) === 0) {
             return redirect()->route('cart.index')->with('error', 'Your cart is empty. Please add items to your cart before proceeding to checkout.');
         }
 
-        $customer = Auth::user();
+        $customer = Auth::guard('customer')->user();
         $addresses = $customer->addresses;
 
         $subtotal = CartService::calculateSubtotal($cartItems);
@@ -49,14 +45,8 @@ class CheckoutController extends Controller
      */
     public function paymentIntent(CheckoutRequest $request, StripeService $stripe)
     {
-        Log::info('go to paymentIntent Checkout Controller');
-
-        if (!Auth::check()) {
-            return redirect()->route('customer.login-register', ['ref' => 'cart']);
-        }
-
         // Calculate totals
-        $cartItems = Cart::where('customer_id', Auth::id())->get();
+        $cartItems = Cart::where('customer_id', Auth::guard('customer')->id())->get();
         $subtotal = CartService::calculateSubtotal($cartItems);
         $shippingCost = CartService::calculateShippingCost($subtotal);
         $total = $subtotal + $shippingCost;
@@ -100,10 +90,6 @@ class CheckoutController extends Controller
      */
     public function paymentSuccess($order_number)
     {
-        if (!Auth::check()) {
-            return redirect()->route('customer.login-register', ['ref' => 'cart']);
-        }
-
         $order = Order::where('order_number', $order_number)->first();
 
         $status = 'error';
@@ -112,7 +98,7 @@ class CheckoutController extends Controller
             return view('payments.payment-success', compact('status', 'message'));
         }
 
-        if ($order->customer_id !== Auth::id()) {
+        if ($order->customer_id !== Auth::guard('customer')->id()) {
             $message = 'Unauthorized access to this order.';
             return view('payments.payment-success', compact('status', 'message'));
         }
@@ -125,7 +111,7 @@ class CheckoutController extends Controller
             $isCheckoutProgress = session()->get(config('site.checkout_in_progress_session_key'));
             if ($isCheckoutProgress) {
                 //clear user's cart only once per checkout
-                CartService::clearCart(Auth::id());
+                CartService::clearCart(Auth::guard('customer')->id());
 
                 //remove the session flag
                 session()->forget(config('site.checkout_in_progress_session_key'));

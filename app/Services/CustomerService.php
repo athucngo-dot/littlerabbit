@@ -65,7 +65,7 @@ class CustomerService
     public static function deleteCustomerAddress(int $addressId): void
     {
         Address::where('id', $addressId)
-            ->where('customer_id', Auth::id())
+            ->where('customer_id', Auth::guard('customer')->id())
             ->delete();
     }
 

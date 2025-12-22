@@ -132,10 +132,10 @@ class ProductService
      */
     public static function storeRecentlyViewedProduct($product)
     {
-        if (Auth::check()) {
+        if (Auth::guard('customer')->check()) {
             // For logged in user, store in DB
 
-            $customerId = Auth::id();
+            $customerId = Auth::guard('customer')->id();
             $conditions['customer_id'] = $customerId;
             $conditions['product_id']  = $product->id;
 
@@ -175,9 +175,9 @@ class ProductService
      */
     public static function retrieveRecentlyViewedProduct(?int $excludeProductId = null)
     {
-        if (Auth::check()) {
+        if (Auth::guard('customer')->check()) {
             // For logged in user, retrieve recently viewed from DB
-            $customer = Auth::user();
+            $customer = Auth::guard('customer')->user();
             return $customer->recentlyViewedProducts()
                     ->where('products.is_active', true)
                     ->when($excludeProductId, fn($q) =>
@@ -220,7 +220,7 @@ class ProductService
             return; // nothing to merge
         }
 
-        $customerId = Auth::id();
+        $customerId = Auth::guard('customer')->id();
         foreach ($recentlyViewed as $item) {
             $conditions['customer_id'] = $customerId;
             $conditions['product_id']  = $item['id'];

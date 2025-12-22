@@ -17,14 +17,12 @@ class CustomerApiController extends Controller
 {
     public function updateName(CustomerNameRequest $request)
     {
-        AuthService::checkAuthorization();
-
         $updateData = $request->only([
             'first_name',
             'last_name',
         ]);
 
-        CustomerService::updateCustomerInfo(Auth::id(), $updateData);
+        CustomerService::updateCustomerInfo(Auth::guard('customer')->id(), $updateData);
 
         // Return a JSON response with success message and suggested items
         return response()->json([
@@ -35,14 +33,12 @@ class CustomerApiController extends Controller
 
     public function updatePassword(CustomerPasswordRequest $request)
     {
-        AuthService::checkAuthorization();
-
         $updateData = $request->only([
             'current_password',
             'new_password',
         ]);
 
-        CustomerService::updateCustomerInfo(Auth::id(), $updateData, 'password');
+        CustomerService::updateCustomerInfo(Auth::guard('customer')->id(), $updateData, 'password');
 
         // Return a JSON response with success message and suggested items
         return response()->json([
@@ -53,9 +49,7 @@ class CustomerApiController extends Controller
 
     public function getAddress()
     {
-        AuthService::checkAuthorization();
-
-        $customer = Auth::user();
+        $customer = Auth::guard('customer')->user();
         $addresses = ['addresses' => $customer->addresses];
 
         return response()->json($addresses);
@@ -63,8 +57,6 @@ class CustomerApiController extends Controller
 
     public function updateAddress($id, CustomerAddressRequest $request)
     {
-        AuthService::checkAuthorization();
-
         $addressNewData = $request->only([
             'street',
             'city',
@@ -76,7 +68,7 @@ class CustomerApiController extends Controller
         // Remove spaces and convert to uppercase
         $addressNewData['postal_code'] = strtoupper(preg_replace('/\s+/', '', $addressNewData['postal_code']));
 
-        $success = CustomerService::updateCustomerAddress($id, Auth::id(), $addressNewData);
+        $success = CustomerService::updateCustomerAddress($id, Auth::guard('customer')->id(), $addressNewData);
 
         if (!$success) {
             return response()->json([
@@ -94,8 +86,6 @@ class CustomerApiController extends Controller
 
     public function addAddress(CustomerAddressRequest $request)
     {
-        AuthService::checkAuthorization();
-
         $addressData = $request->only([
             'street',
             'city',
@@ -106,7 +96,7 @@ class CustomerApiController extends Controller
 
         // Remove spaces and convert to uppercase
         $addressData['postal_code'] = strtoupper(preg_replace('/\s+/', '', $addressData['postal_code']));
-        $addressData['customer_id'] = Auth::id();
+        $addressData['customer_id'] = Auth::guard('customer')->id();
 
         $newAddress = CustomerService::addCustomerAddress($addressData);
 
@@ -119,8 +109,6 @@ class CustomerApiController extends Controller
 
     public function deleteAddress($id)
     {
-        AuthService::checkAuthorization();
-
         CustomerService::deleteCustomerAddress($id);
 
         return response()->json([

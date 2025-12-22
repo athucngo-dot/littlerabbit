@@ -14,11 +14,11 @@ class CartController extends Controller
      * Display the cart page with cart items.
      */
     public function cart()
-    {
+    {         
         $cartItems = CartService::getCartItemsWithDetails();
 
         $allowCheckout = false;
-        if (Auth::check() && count($cartItems) > 0) {
+        if (Auth::guard('customer')->check() && count($cartItems) > 0) {
             $allowCheckout = true;
         }
 
