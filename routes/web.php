@@ -116,10 +116,11 @@ Route::get('/size-guide', function () {
 Route::prefix('cms')->group(function () {
     Route::get('/login', [CmsAuthController::class, 'showLoginForm'])->name('cms.login');
     Route::post('/login', [CmsAuthController::class, 'login'])->name('cms.login-action');
-    //Route::post('/logout', [CmsAuthController::class, 'logout'])->name('admin.logout');
+    Route::post('/logout', [CmsAuthController::class, 'logout'])->name('cms.logout');
 });
 
 Route::middleware(['web', AuthenticateCms::class])->prefix('cms')->group(function () {
-    Route::get('/products', [CmsProductController::class, 'productList'])->name('cms.products');
+    Route::get('/products', [CmsProductController::class, 'productList'])->name('cms.products.list');
+    Route::get('/products/{id}', [CmsProductController::class, 'productEdit'])->name('cms.products.edit');
 });
 

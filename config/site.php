@@ -44,4 +44,9 @@ return [
     'customer' => [
         'max_addresses' => 5, // maximum addresses a customer can store
     ],
+
+    /**
+     * CMS config
+     */
+    'cms_items_per_page' => 20, // for CMS: Number of items to display per page for pagination
 ];

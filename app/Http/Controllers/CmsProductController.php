@@ -13,7 +13,14 @@ class CmsProductController extends Controller
      */
     public function productList()
     {
-        dd('CMS Product List');exit;
-        return view('products.new-arrivals', compact('brands', 'colors', 'categories', 'sizes', 'materials'));
+        $products = Product::latest('created_at')
+                    ->paginate(config('site.cms_items_per_page'));
+        
+        return view('cms.products.list', compact('products'));
+    }
+
+    public function productEdit()
+    {
+
     }
 }

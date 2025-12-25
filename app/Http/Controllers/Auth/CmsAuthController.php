@@ -26,7 +26,7 @@ class CmsAuthController extends Controller
         $loginData['is_active'] = true;
 
         if (Auth::guard('admin')->attempt($loginData)) {
-            return redirect()->intended(route('cms.products'));
+            return redirect()->intended(route('cms.products.list'));
         }
 
         return back()->withErrors(['email' => 'Invalid credentials']);

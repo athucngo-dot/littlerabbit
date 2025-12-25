@@ -1,6 +1,21 @@
-@extends('cms.layouts.app')
+@extends('cms.layouts.auth')
 
 @section('content')
+
+<!-- HEADER -->
+<header class="w-full px-6 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <!-- Logo / Brand -->
+        <div class="flex items-center gap-2">
+            <span class="w-9 h-9 bg-mint rounded-lg grid place-items-center shadow-md">
+                <img src="{{ config('site.logo') }}" alt="Logo" class="w-6 h-6 object-contain">
+            </span>
+            <span class="text-lg font-semibold text-gray-800">
+                Little Rabbit CMS
+            </span>
+        </div>
+    </div>
+</header>
 
 <main class="flex-1 flex items-center justify-center px-4">
     <div class="w-full max-w-md bg-white backdrop-blur-md rounded-2xl shadow-xl p-8">
@@ -53,5 +68,13 @@
         </form>
     </div>
 </main>
+
+<footer class="w-full px-6 py-4">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-2">
+        <span>
+            © {{ date('Y') }} Little Rabbit. All rights reserved.
+        </span>
+    </div>
+</footer>
 
 @endsection
