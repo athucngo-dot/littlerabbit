@@ -416,6 +416,14 @@ class Product extends Model
     }
 
     /**
+     * add to query to search product by slug
+     */
+    public function scopeSlugLike($query, $slug)
+    {
+        return $slug ? $query->where('slug', 'like', "%{$slug}%") : $query;
+    }
+
+    /**
      * Only index active products
      */ 
     public function shouldBeSearchable()

@@ -29,6 +29,9 @@ class CmsProductController extends Controller
         return view('cms.products.list', compact('products'));
     }
 
+    /**
+     * Edit product
+     */
     public function edit(Product $product)
     {
         $product = $product->load(['colors', 'sizes', 'deals', 'images']);
@@ -59,6 +62,9 @@ class CmsProductController extends Controller
                     'colors', 'sizes', 'deals', 'allowEdit'));
     }
 
+    /**
+     * Action update product
+     */
     public function update(CmsProductRequest $request, Product $product)
     { 
         $productData = $request->only([
@@ -123,5 +129,24 @@ class CmsProductController extends Controller
         return redirect()
             ->route('cms.products.edit', $product)
             ->with('success', 'Product updated successfully.');
+    }
+
+    /**
+     * Search products by slug
+     */
+    public function search(Request $request)
+    {
+        $search = array('-', ' ');
+        $replace = array('%', '%');
+        $slug = str_replace($search, $replace, $request->slug);
+        
+        // add slash for '_' and '\' for SQL
+        $escapedSlug = addcslashes($slug, "_\\"); 
+
+        $products = Product::slugLike($escapedSlug)
+                    ->latest('created_at')
+                    ->paginate(config('site.cms_items_per_page'));
+        
+        return view('cms.products.list', compact('products'));
     }
 }

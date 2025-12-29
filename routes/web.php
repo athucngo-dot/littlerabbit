@@ -121,7 +121,14 @@ Route::prefix('cms')->group(function () {
 
 Route::middleware(['web', AuthenticateCms::class])->prefix('cms')->group(function () {
     Route::get('/products', [CmsProductController::class, 'list'])->name('cms.products.list');
+    
+    // Note: do not change the order '/products/search'
+    // otherwise, it will have route-order issue
+    Route::get('/products/search', [CmsProductController::class, 'search'])->name('cms.products.search');
+    
     Route::get('/products/{product:slug}', [CmsProductController::class, 'edit'])->name('cms.products.edit');
     Route::put('/products/{product:slug}', [CmsProductController::class, 'update'])->name('cms.products.update');
 });
+
+
 

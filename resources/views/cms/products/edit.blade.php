@@ -15,34 +15,19 @@
                 </p>
             </div>
 
-            <!-- Search + Delete -->
+            <!-- Search -->
             <div class="flex items-center gap-3">
 
                 <!-- Search -->
-                <form method="GET" action="">
+                <form method="GET" action="{{ route('cms.products.search') }}">
                     <input
                         type="text"
                         name="slug"
-                        placeholder="Search by slug..."
+                        value="{{ request('slug') }}"
+                        placeholder="Search by product slug..."
                         class="px-4 py-2 border rounded-lg focus:ring-aqua focus:border-aqua"
                     />
                 </form>
-
-                @if($allowEdit)
-                    <!-- Delete -->
-                    <form method="POST"
-                        action=""
-                        onsubmit="return confirm('Are you sure you want to delete this product? This cannot be undone.')">
-                        @csrf
-                        @method('DELETE')
-
-                        <button
-                            type="submit"
-                            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
-                            Delete
-                        </button>
-                    </form>
-                @endif
             </div>
         </div>
 

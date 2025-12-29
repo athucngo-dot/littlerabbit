@@ -16,7 +16,7 @@
 
         <!-- Search -->
         <div class="bg-white rounded-2xl shadow-md p-4 mb-6">
-            <form method="GET" action="" class="flex items-center gap-4">
+            <form method="GET" action="{{ route('cms.products.search') }}" class="flex items-center gap-4">
                 <div class="flex-1">
                     <input
                         type="text"
