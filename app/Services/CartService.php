@@ -81,7 +81,15 @@ class CartService
 
             // get guest cart from cookies                
             $guestCart = CartService::getCookieCart();
-            $guestExistingItem = collect($guestCart)->firstWhere($conditions);
+            
+            $guestExistingItem = collect($guestCart)->first(function ($item) use ($conditions) {
+                foreach ($conditions as $key => $value) {
+                    if (!isset($item[$key]) || $item[$key] != $value) {
+                        return false;
+                    }
+                }
+                return true;
+            });
 
             if ($guestExistingItem) {
                 foreach ($guestCart as &$item) {
