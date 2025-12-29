@@ -10,7 +10,9 @@
 
                 {{-- Left: Images Carousel with Thumbnails --}}
                 <div 
-                    x-data='imageCarousel(@json($product->images->pluck("url")->toArray()))'
+                    x-data='imageCarousel(@json(
+                                                $product->images->map(fn($img) => $img->getImgUrl())
+                                                ))'
                     x-init=""
                     tabindex="0"
                     @keydown.window="keydown($event)"
@@ -186,7 +188,7 @@
                             'id' => $p->id,
                             'slug' => $p->slug,
                             'name' => $p->name,
-                            'url' => optional($p->images->first())->url ?? 'https://via.placeholder.com/300',
+                            'url' => $p->images->first()?->getImgUrl() ?? 'https://via.placeholder.com/300',
                             'price' => $p->price
                         ])->values()->toArray()))" class="relative">
 
@@ -197,7 +199,10 @@
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 overflow-hidden">
                         <template x-for="item in visibleItems" :key="item.id">
                             <a :href="`{{ route('products.show', ':slug') }}`.replace(':slug', item.slug)" class="block bg-white rounded-xl shadow hover:shadow-lg overflow-hidden">
-                                <img :src="item.url" :alt="item.name" class="w-full h-48 object-cover">
+                                <div class="aspect-[3/4] w-full overflow-hidden">    
+                                    <img :src="item.url" :alt="item.name" class="w-full h-full object-cover">
+                                </div>
+
                                 <div class="p-4 text-center">
                                     <h3 class="font-semibold text-lg" x-text="item.name"></h3>
                                     <p class="text-gray-600">$<span x-text="Number(item.price).toFixed(2)"></span></p>
@@ -219,7 +224,7 @@
                                 'id' => $p->id,
                                 'slug' => $p->slug,
                                 'name' => $p->name,
-                                'url' => optional($p->images->first())->url ?? 'https://via.placeholder.com/300',
+                                'url' => $p->images->first()?->getImgUrl() ?? 'https://via.placeholder.com/300',
                                 'price' => $p->price
                             ])->values()->toArray()))" class="relative">
 
@@ -230,7 +235,9 @@
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 overflow-hidden">
                             <template x-for="item in visibleItems" :key="item.id">
                                 <a :href="`{{ route('products.show', ':slug') }}`.replace(':slug', item.slug)" class="block bg-white rounded-xl shadow hover:shadow-lg overflow-hidden">
-                                    <img :src="item.url" :alt="item.name" class="w-full h-48 object-cover">
+                                    <div class="aspect-[3/4] w-full overflow-hidden">
+                                        <img :src="item.url" :alt="item.name" class="w-full h-full object-cover">
+                                    </div>
                                     <div class="p-4 text-center">
                                         <h3 class="font-semibold text-lg" x-text="item.name"></h3>
                                         <p class="text-gray-600">$<span x-text="Number(item.price).toFixed(2)"></span></p>

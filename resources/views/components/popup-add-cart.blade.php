@@ -36,7 +36,9 @@
                 <div class="flex items-center justify-center">
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <img :src="image" alt="Product Image" class="h-40 w-40 object-cover mx-auto mb-4">
+                            <div class="aspect-[3/4] w-full overflow-hidden mx-auto mb-4">
+                                <img :src="image" alt="Product Image" class="w-full h-full object-cover mx-auto mb-4">
+                            </div>
                             <h4 class="font-bold text-gray-800" x-text="name"></h4>
                             <template x-if="Number(percentage_off) > 0">
                                 <p>
@@ -77,7 +79,9 @@
                         <template x-for="item in suggested" :key="item.id">
                             <li class="text-center text-xs">
                                 <a :href="`{{ route('products.show', ':slug') }}`.replace(':slug', item.slug)">
-                                    <img :src="item.image" class="w-full h-16 object-cover rounded mb-1">
+                                    <div class="aspect-[3/4] w-full overflow-hidden rounded mb-1">    
+                                        <img :src="item.image" class="w-full h-full object-cover rounded mb-1">
+                                    </div>
                                     <h4 class="font-bold text-gray-800" x-text="item.name"></h4>
                                     $<span class="font-semibold text-center" x-text="Number(item.price).toFixed(2)"></span>
                                 </a>

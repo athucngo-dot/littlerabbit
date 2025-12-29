@@ -41,9 +41,11 @@
                         <div class="bg-white p-5 rounded-xl shadow flex gap-4 items-center mb-3">
 
                             <!-- Image -->
-                            <img :src="item.product.image" 
-                                :alt="item.product.name"
-                                class="w-28 h-28 object-cover rounded-lg">
+                            <div class="aspect-[3/4] w-28 overflow-hidden rounded-lg">
+                                <img :src="item.product.image" 
+                                    :alt="item.product.name"
+                                    class="w-full h-full object-cover rounded-lg">
+                            </div>
 
                             <div class="flex-1 flex flex-col justify-between h-full">
 

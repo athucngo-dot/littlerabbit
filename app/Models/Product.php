@@ -22,6 +22,7 @@ class Product extends Model
         'description',
         'features',
         'price',
+        'nb_of_items',
         'stock',
         'gender',
         'is_active',
@@ -63,12 +64,13 @@ class Product extends Model
 
     public function images()
     {
-        return $this->hasMany(Image::class, 'product_id');
+        return $this->hasMany(Image::class, 'product_id')
+                    ->orderByDesc('is_primary');
     }
 
     public function thumbnail()
     {
-        return $this->images()->primary()->url ?? config('site.default_product_image');
+        return $this->images()->primary()->getImgUrl() ?? config('site.default_product_image');
     }
 
     /**

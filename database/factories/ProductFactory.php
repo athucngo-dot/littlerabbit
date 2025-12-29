@@ -29,7 +29,7 @@ class ProductFactory extends Factory
             'description' => $this->faker->paragraph(), // English paragraph description
             'price' => $this->faker->randomFloat(2, 5, 30),
             'stock' => $this->faker->numberBetween(0, 100),
-            'nb_of_items' => $this->faker->numberBetween(1, 5), // Number of items in the product
+            'nb_of_items' => 1, //$this->faker->numberBetween(1, 5), // Number of items in the product
             'gender' => $this->faker->randomElement(['boy', 'girl', 'unisex']),
             'is_active' => $this->faker->boolean(90),
             'new_arrival' => $this->faker->boolean(30),

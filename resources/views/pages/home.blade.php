@@ -84,30 +84,33 @@
   <!-- Testimonials & Newsletter -->
   <section class="py-12">
     <div class="max-w-[1200px] mx-auto grid md:grid-cols-[1.1fr_0.9fr] gap-6">
-      <!-- Testimonial -->
-      <div class="bg-white p-4 rounded-xl shadow-md grid gap-3">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full overflow-hidden">
-            <img src="https://placehold.co/96x96/E5E7EB/1A1A1A?text=%F0%9F%91%A9" alt="Parent avatar" class="w-full h-full object-cover">
-          </div>
-          <div>
-            <strong>Amelia R.</strong><br>
-            <small class="text-gray-500">Toronto, ON</small>
-          </div>
+        <!-- Testimonial 1 -->
+        <div class="bg-white p-4 rounded-xl shadow-md grid gap-3">
+                <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full overflow-hidden">
+                    <img src="https://placehold.co/96x96/E5E7EB/1A1A1A?text=AR" alt="Parent avatar" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <strong>Amelia R.</strong><br>
+                    <small class="text-gray-500">Toronto, ON</small>
+                </div>
+                </div>
+                <p>“The clothes are adorable and the quality is outstanding. My daughter loves the soft fabrics!”</p>
         </div>
-        <p>“The clothes are adorable and the quality is outstanding. My daughter loves the soft fabrics!”</p>
-      </div>
 
-      <!-- Newsletter -->
-      <aside class="bg-white p-4 rounded-xl shadow-md grid gap-3">
-        <h3 class="m-0">Join for exclusive discounts & new arrivals</h3>
-        <form class="grid grid-cols-[1fr_auto] gap-2" onsubmit="event.preventDefault(); newsletterThanks();">
-          <label for="email" class="sr-only">Email</label>
-          <input type="email" id="email" name="email" placeholder="you@example.com" required class="border border-gray-300 rounded-full px-4 py-2">
-          <button type="submit" class="px-4 py-2 rounded-full font-bold shadow-md bg-mint-600 text-white hover:bg-mint transition">Subscribe</button>
-        </form>
-        <small class="text-gray-500">We respect your privacy. Unsubscribe anytime.</small>
-      </aside>
+        <!-- Testimonial 2 -->
+        <div class="bg-white p-4 rounded-xl shadow-md grid gap-3">
+            <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full overflow-hidden">
+                <img src="https://placehold.co/96x96/E5E7EB/1A1A1A?text=SM" alt="Parent avatar" class="w-full h-full object-cover">
+            </div>
+            <div>
+                <strong>Sarah M., happy mom</strong><br>
+                <small class="text-gray-500">Montreal, QC</small>
+            </div>
+            </div>
+            <p>“I absolutely love shopping here for my little one! I appreciate that the fabrics are gentle on sensitive skin, and the designs are so fun and unique. Every outfit we’ve bought has gotten compliments everywhere we go. Highly recommend!”</p>
+        </div>
     </div>
   </section>
 

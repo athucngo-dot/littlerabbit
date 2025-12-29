@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use Illuminate\Auth\Events\Login;
 use App\Services\ProductService;
+use Illuminate\Support\Facades\Auth;
 
 class MergeRecentlyViewed
 {
@@ -26,6 +27,13 @@ class MergeRecentlyViewed
         //prevent being called multitimes
         //somehow it triggers this handle twice
         if (self::$hasRun) {
+            return;
+        }
+
+        $customer = Auth::guard('customer')->user();
+        if (!$customer) {
+            // not a front-end customer, skip
+            self::$hasRun = true;
             return;
         }
 

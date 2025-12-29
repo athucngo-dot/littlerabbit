@@ -29,7 +29,7 @@ export function renderProducts(products) {
         card.href = `/products/${product.slug}`;
         card.className = "block bg-white rounded-xl shadow-md hover:shadow-lg overflow-hidden transition-transform transform hover:scale-105";
         card.innerHTML = `
-            <div class="aspect-[4/3] flex items-center justify-center bg-[#ffe7a3]">
+            <div class="aspect-[3/4] flex items-center justify-center bg-[#ffe7a3]">
                 <img src="${product.image}" alt="${product.name}" class="h-full w-full object-cover">
             </div>
             <div class="p-4 text-center">

@@ -120,7 +120,8 @@ Route::prefix('cms')->group(function () {
 });
 
 Route::middleware(['web', AuthenticateCms::class])->prefix('cms')->group(function () {
-    Route::get('/products', [CmsProductController::class, 'productList'])->name('cms.products.list');
-    Route::get('/products/{id}', [CmsProductController::class, 'productEdit'])->name('cms.products.edit');
+    Route::get('/products', [CmsProductController::class, 'list'])->name('cms.products.list');
+    Route::get('/products/{product:slug}', [CmsProductController::class, 'edit'])->name('cms.products.edit');
+    Route::put('/products/{product:slug}', [CmsProductController::class, 'update'])->name('cms.products.update');
 });
 
