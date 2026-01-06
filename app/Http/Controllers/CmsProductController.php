@@ -23,7 +23,7 @@ class CmsProductController extends Controller
      */
     public function list()
     {
-        $products = Product::latest('created_at')
+        $products = Product::orderBy('id')
                     ->paginate(config('site.cms_items_per_page'));
         
         return view('cms.products.list', compact('products'));
