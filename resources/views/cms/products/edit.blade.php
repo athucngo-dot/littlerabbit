@@ -52,10 +52,11 @@
                 <x-cms.input label="Slug" name="slug" :value="$product->slug" message="⚠️ Changing the slug may break existing links." required />
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <x-cms.input label="Price" name="price" :value="$product->price" />
                 <x-cms.input label="Stock" name="stock" type="number" :value="$product->stock" />
                 <x-cms.input label="Items per product" name="nb_of_items" type="number" :value="$product->nb_of_items" />
+                <x-cms.input label="Display in Homepage" name="homepage_promo" type="number" :value="$product->homepage_promo" />
             </div>
 
             <!-- DESCRIPTION -->

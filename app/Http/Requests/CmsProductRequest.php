@@ -31,6 +31,7 @@ class CmsProductRequest extends FormRequest
             'price' => ['required', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
             'nb_of_items' => ['required', 'integer', 'min:1'],
+            'homepage_promo' => ['required', 'integer', 'min:0'],
             'gender' => ['required', 'in:boy,girl,unisex'],
             'is_active' => ['boolean'],
             'new_arrival' => ['boolean'],
@@ -71,6 +72,8 @@ class CmsProductRequest extends FormRequest
             'stock.required' => 'Stock is required.',
             'stock.integer' => 'Stock must be a whole number.',
             'nb_of_items.min' => 'Items per product must be at least 1.',
+            'homepage_promo.required' => 'Display in Homepage is required.',
+            'homepage_promo.integer' => 'Display in Homepage must be a whole number.',
 
             'gender.required' => 'Gender is required.',
             'is_active.boolean' => 'Active must be true or false.',

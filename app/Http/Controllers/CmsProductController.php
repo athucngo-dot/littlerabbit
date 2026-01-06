@@ -71,7 +71,7 @@ class CmsProductController extends Controller
             'name', 'slug', 'price', 'stock', 'nb_of_items',
             'description', 'features', 'gender', 'brand_id',
             'category_id', 'material_id', 'is_active',
-            'new_arrival'
+            'new_arrival', 'homepage_promo'
         ]);
 
         // JSON encode features
