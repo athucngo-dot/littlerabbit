@@ -6,6 +6,8 @@ export default defineConfig({
         laravel({
             input: ['resources/css/app.css',
                 'resources/js/app.js',
+                'resources/js/products_list.js',
+                'resources/js/products_list_with_filters.js',
                 'resources/js/checkout/stripe.js'],
             refresh: true,
         }),
