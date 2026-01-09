@@ -15,14 +15,13 @@
   <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
   <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
-
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-  <style>[x-cloak] { display: none !important; }</style>
-
+  
 </head>
-<body class="bg-paper-2 text-ink font-sans">
+<body  x-data x-cloak
+    class="bg-paper-2 text-ink font-sans">
 
     @include('layouts.header')
 
