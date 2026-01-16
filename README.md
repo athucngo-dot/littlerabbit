@@ -96,7 +96,7 @@ The project includes the following tables (not include the many-to-many pivot ta
 
 These diagrams illustrate the database schema and relationships between tables. They include only the main entities (tables) and their associations (relationships via foreign keys).
 
-Generated with dbdiagram.io
+They were generated with dbdiagram.io
 
 ### Overall database diagram:
 
@@ -299,7 +299,7 @@ Listing of customer order history with details.
 
 Authentication for customers to access their dashboard.
 
-![Login Page](https://littlerabbit.anh-thuc-ngo.com/storage/docs/screenshots/login.jpg)
+![Login Page](https://littlerabbit.anh-thuc-ngo.com/storage/docs/screenshots/login_registration.jpg)
 
 ### Content Management System (CMS) - Login
 
