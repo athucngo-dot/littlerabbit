@@ -50,7 +50,7 @@ This project is designed as a portfolio piece to showcase Laravel, database desi
 
 - Database: MySQL
 
-- Frontend: Blade, Vite, TailwindCSS, Alpine.js
+- Frontend: Blade, Vite, Tailwind CSS, Alpine.js
 
 - DevOps: Docker, GitHub (version control), VPS (Cloudways)
 
@@ -58,7 +58,7 @@ This project is designed as a portfolio piece to showcase Laravel, database desi
 
 ## Database Schema (simplified)
 
-The project includes the following tables with relationships (not include the many-to-many pivot tables):
+The project includes the following tables (not include the many-to-many pivot tables):
 
 - users – admins, users, guests to manage inventory
 
@@ -99,25 +99,31 @@ These diagrams illustrate the database schema and relationships between tables. 
 Generated with dbdiagram.io
 
 Overall database diagram:
+
 https://littlerabbit.anh-thuc-ngo.com/storage/docs/db_diagrams/db_diagram.png
 
 Database diagram by sections:
+
 - Products, categories, colors, sizes, brands, materials diagram:
 https://littlerabbit.anh-thuc-ngo.com/storage/docs/db_diagrams/db_diagram_product.png
 
 - Customers diagram:
+
 https://littlerabbit.anh-thuc-ngo.com/storage/docs/db_diagrams/db_diagram_customer.png
 
 - Cart & payments diagram:
+
 https://littlerabbit.anh-thuc-ngo.com/storage/docs/db_diagrams/db_diagram_cart_payment.png
 
 
 ## Portfolio Live Test
 
 The live version of this project can be accessed at:
+
 https://littlerabbit.anh-thuc-ngo.com/
 
-* Note: 
+### Note: 
+
 - This is a demo site for portfolio/learning purposes only. No actual sales or shipping will occur.
 
 - Using test payment method provided by Stripe for checkout. Please do not use any real personal or payment information.
@@ -129,6 +135,7 @@ https://littlerabbit.anh-thuc-ngo.com/
 ## Content Management System (CMS)
 
 The CMS live version of this project can be accessed at:
+
 https://littlerabbit.anh-thuc-ngo.com/cms/login
 
 For CMS access, please contact me directly.
@@ -146,7 +153,8 @@ composer install
 
 ### 3. Configure environment
 
-cp .env.example .env 
+cp .env.example .env
+
 php artisan key:generate
 
 Set up your database and other environment variables in the `.env` file.
@@ -158,6 +166,7 @@ php artisan migrate --seed
 ### 5. Install frontend dependencies & build assets
 
 npm install
+
 npm run build
 
 ### 6. Start development server
