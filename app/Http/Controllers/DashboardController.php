@@ -22,6 +22,8 @@ class DashboardController extends Controller
             $order->products->each(function ($product) {
                 $product->pivot->load(['color', 'size']);
             });
+
+            $order->address = $order->addresses()->where('type', 'mailing')->first();
         });
                 
         return view('dashboard.main-dashboard', compact('customer', 'addresses', 'orders'));

@@ -20,6 +20,11 @@
                     <p class="text-gray-600">Placed on {{ $order->created_at->format('F j, Y') }}</p>
                     <p class="text-gray-600">Total: ${{ number_format($order->total, 2) }}</p>
                     <p class="text-gray-600">Status: <span class="capitalize">{{ $order->status }}</span></p>
+                    @if($order->address)
+                        <p class="text-gray-600">Shipping Address: </p>
+                        <p class="text-gray-600 px-4">{{ $order->address->full_name }}</p>
+                        <p class="text-gray-600 px-4">{{ $order->address->address_line }}</p>
+                    @endif
                 </div>
             </div>
 

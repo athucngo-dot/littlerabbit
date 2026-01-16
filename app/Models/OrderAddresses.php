@@ -26,4 +26,20 @@ class OrderAddresses extends Model
     {
         return $this->belongsTo(Order::class, 'order_id');
     }
+
+    /** 
+     * Get the full name of the address.
+     */
+    public function getFullNameAttribute()
+    {
+        return ucwords("{$this->first_name} {$this->last_name}");
+    }
+
+    /** 
+     * Get the full address line.
+     */
+    public function getAddressLineAttribute()
+    {
+        return "{$this->street}, {$this->city}, {$this->province} {$this->postal_code}, {$this->country}";
+    }
 }
