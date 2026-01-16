@@ -25,7 +25,3 @@ Route::middleware('auth:sanctum')->post('/products/{product:slug}/reviews', [Rev
 
 // Stripe webhook endpoint
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
-// Simple GET Stripe webhook endpoint for testing purposes
-Route::get('/stripe/webhook', function () {
-    return response()->json(['status' => 'ok']);
-});
