@@ -128,6 +128,10 @@ Route::middleware(['web', AuthenticateCms::class])->prefix('cms')->group(functio
     
     Route::get('/products/{product:slug}', [CmsProductController::class, 'edit'])->name('cms.products.edit');
     Route::put('/products/{product:slug}', [CmsProductController::class, 'update'])->name('cms.products.update');
+
+    Route::get('/under-construction', function () {
+        return view('cms/under_construction');
+    })->name('cms.under-construction');
 });
 
 

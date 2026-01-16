@@ -36,19 +36,19 @@
 
         <x-cms.sidebar-link
             route="cms.colors.*"
-            href=""
+            href="{{ route('cms.under-construction') }}"
             label="Colors"
         />
 
         <x-cms.sidebar-link
             route="cms.sizes.*"
-            href=""
+            href="{{ route('cms.under-construction') }}"
             label="Sizes"
         />
 
         <x-cms.sidebar-link
             route="cms.brands.*"
-            href=""
+            href="{{ route('cms.under-construction') }}"
             label="Brands"
         />
     </nav>
