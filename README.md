@@ -98,13 +98,14 @@ These diagrams illustrate the database schema and relationships between tables. 
 
 Generated with dbdiagram.io
 
-Overall database diagram:
+### Overall database diagram:
 
 https://littlerabbit.anh-thuc-ngo.com/storage/docs/db_diagrams/db_diagram.png
 
-Database diagram by sections:
+### Database diagram by sections:
 
-- Products, categories, colors, sizes, brands, materials diagram:
+- Products, categories, colors, sizes, brands, materials diagram
+
 https://littlerabbit.anh-thuc-ngo.com/storage/docs/db_diagrams/db_diagram_product.png
 
 - Customers diagram:
@@ -145,6 +146,7 @@ For CMS access, please contact me directly.
 ### 1. Clone the repository
 
 git clone https://github.com/athucngo-dot/littlerabbit.git
+
 cd littlerabbit
 
 ### 2. Install backend dependencies
