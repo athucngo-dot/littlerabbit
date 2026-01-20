@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\ContactRequest;
 
+use App\Mail\ContactUsMail;
+
 class ContactController extends Controller
 {
     /**
@@ -17,39 +19,13 @@ class ContactController extends Controller
     }
 
     public function send(ContactRequest $request)
-    {
-        // Determine recipient based on environment
-        if (in_array(app()->environment(), ['local', 'staging'])) {
-            $recipient = env('CONTACT_RECIPIENT_EMAIL');
-        } else {
-            // Production: no production email, this is just a demo
-            return back()->with('success', 'This is a demo. No email was sent.');
-        }
-
+    {        
         // Prepare email data
-        $data = $request->only(['first_name', 'last_name', 'email', 'message']);
+        $data = $request->only(['first_name', 'last_name', 'email', 'subject', 'user_message']);
 
-        // Add a prefix to subject in dev/staging
-        $subject = ($request->subject ?: 'New Message from Contact Us');
-        if (app()->environment('local')) {
-            $subject = '[DEV] ' . $subject;
-        } elseif (app()->environment('staging')) {
-            $subject = '[STAGING] ' . $subject;
-        }
-
-        // Send email
-        Mail::raw(
-            "Name: {$data['first_name']} {$data['last_name']}\n".
-            "Email: {$data['email']}\n\n".
-            "Message:\n{$data['message']}",
-            function ($message) use ($data, $recipient, $subject) {
-                $message->to($recipient)
-                    ->subject($subject)
-                    ->replyTo($data['email'], $data['first_name'].' '.$data['last_name']);
-            }
-        );
+        Mail::to(config('mail.to.address'))->send(new ContactUsMail($data));
 
         // Return success message
-        return back()->with('success', 'Thank you ! Your message has been sent!');
+        return back()->with('success', 'Thank you ! Your message has been sent. We will get back to you shortly.');
     }
 }

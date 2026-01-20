@@ -39,7 +39,6 @@
         @if(session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
                 <strong class="font-bold">{{ session('success') }}</strong>
-                <span class="block sm:inline">Note that this is a demo site. We might or might not reply to your message.</span>
             </div>
         @endif
         <form action="{{ route('contact.send') }}" method="POST" class="space-y-4">
@@ -71,9 +70,9 @@
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
 
-            <textarea name="message" rows="5" placeholder="Your Message" required
+            <textarea name="user_message" rows="5" placeholder="Your Message" required
                     class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-turmeric"></textarea>
-            @error('message')
+            @error('user_message')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
 

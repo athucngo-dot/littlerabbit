@@ -26,7 +26,7 @@ class ContactRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:50'],
             'email' => ['required', 'email:rfc', 'max:255'],
             'subject' => ['nullable', 'string', 'max:255'],
-            'message' => ['required', 'string'],
+            'user_message' => ['required', 'string'],
         ];
     }
 
@@ -45,8 +45,8 @@ class ContactRequest extends FormRequest
             'email.email' => 'Your email format is invalid.',
             'email.max' => 'Email must not exceed :max characters.',
 
-            'message.required' => 'Please enter your message.',
-            'message.string' => 'Message must be a string.',
+            'user_message.required' => 'Please enter your message.',
+            'user_message.string' => 'Message must be a string.',
         ];
     }
 }

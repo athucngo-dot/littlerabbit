@@ -37,6 +37,10 @@ return [
 
     'mailers' => [
 
+        'mailgun' => [
+            'transport' => 'mailgun',
+        ],
+
         'smtp' => [
             'transport' => 'smtp',
             'scheme' => env('MAIL_SCHEME'),
@@ -82,7 +86,7 @@ return [
         'failover' => [
             'transport' => 'failover',
             'mailers' => [
-                'smtp',
+                'mailgun',
                 'log',
             ],
             'retry_after' => 60,
@@ -113,6 +117,20 @@ return [
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | "To" Address from Contact Form
+    |--------------------------------------------------------------------------
+    |
+    | This setting specifies the email address where contact form messages will be sent.
+    |
+    */
+
+    'to' => [
+        'address' => env('CONTACT_RECIPIENT_EMAIL'),
+        'name' => env('MAIL_FROM_NAME', 'Little Rabbit'),
     ],
 
 ];

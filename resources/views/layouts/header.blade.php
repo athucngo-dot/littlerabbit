@@ -5,7 +5,7 @@
         <span class="w-9 h-9 bg-mint rounded-lg grid place-items-center shadow-md">
           <img src="{{ config('site.logo') }}" alt="Logo" class="w-6 h-6 object-contain">
         </span>
-        <span class="font-poppins font-bold tracking-tight">Little Rabbit</span>
+        <span class="font-poppins font-bold tracking-tight">{{ config('app.name') }}</span>
       </a>
 
       <nav class="hidden md:flex">
