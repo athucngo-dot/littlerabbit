@@ -27,11 +27,24 @@ WORKDIR /var/www/html
 
 # Install PHP extensions
 RUN apt-get update && apt-get install -y \
-          libxml2-dev \
-          unzip \
           git \
-          && docker-php-ext-install pdo pdo_mysql dom xml \
+          unzip \
+          curl \
+          libxml2-dev \
+          libzip-dev \
+          libpng-dev \
+          libonig-dev \
+          && docker-php-ext-install pdo pdo_mysql mbstring zip exif pcntl bcmath xml \
           && rm -rf /var/lib/apt/lists/*
+
+# Install Composer
+COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
+
+# Copy composer files first for caching
+COPY composer.json composer.lock ./
+
+# Install PHP dependencies (prod only, skip scripts)
+RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 # Copy app code
 COPY . .
@@ -39,15 +52,11 @@ COPY . .
 # Copy frontend build from Node stage
 COPY --from=frontend /app/public/build ./public/build
 
-# Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-# Install PHP dependencies (prod only, skip scripts)
-RUN composer install --no-dev --optimize-autoloader --no-scripts
-
 # Fix permissions
 RUN chown -R www-data:www-data storage bootstrap/cache \
           && chmod -R 775 storage bootstrap/cache
 
 USER www-data
 EXPOSE 9000
+
+CMD ["php-fpm"]
