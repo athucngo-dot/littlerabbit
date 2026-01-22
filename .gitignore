@@ -45,3 +45,6 @@ Homestead.json
 
 composer-setup.php
 composer.phar
+
+Dockerfile_backup
+docker-compose_backup.yml
