@@ -62,15 +62,31 @@ class Product extends Model
         return 'slug'; // use slug for route model binding
     }
 
+    /**
+     * The images that belong to the product.
+     */
     public function images()
     {
         return $this->hasMany(Image::class, 'product_id')
                     ->orderByDesc('is_primary');
     }
 
+    /**
+     * The thumbnail image that belong to the product.
+     */
+    public function primaryImage()
+    {
+        return $this->hasOne(Image::class, 'product_id')
+                    ->where('is_primary', true);
+    }
+
+    /**
+     * Get the thumbnail URL of the product.
+     */
     public function thumbnail()
     {
-        return $this->images()->primary()->getImgUrl() ?? config('site.default_product_image');
+        return $this->primaryImage?->getImgUrl()
+                ?? config('site.default_product_image');
     }
 
     /**

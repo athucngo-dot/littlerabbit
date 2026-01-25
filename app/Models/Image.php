@@ -37,6 +37,6 @@ class Image extends Model
      */
     public function scopePrimary($query)
     {
-        return $query->where('is_primary', true)->first();
+        return $query->where('is_primary', true);
     }
 }
