@@ -5,19 +5,35 @@ A Laravel eCommerce project for kids' clothing & accessories
 
 ## Overview
 
-Little Rabbit is a modern eCommerce application built with Laravel Framework 12 and MySQL, designed for selling children's clothing and accessories.
+Little Rabbit is a modern eCommerce application built with Laravel Framework 12 and MySQL, focused on selling children's clothing and accessories.
 
-It demonstrates:
+The project is designed to demonstrate practical, real-world Laravel development, including:
 
-- Clean architecture with Eloquent ORM relationships including one–one, one–many, many–many.
+- A clean and structured backend using Eloquent ORM with one-to-one, one-to-many, and many-to-many relationships
 
-- A full-featured product catalog with categories, colors, sizes, brands, materials, and inventory management.
+- A complete product catalog with categories, colors, sizes, brands, materials, and inventory management
 
-- Authentication, roles, and order management.
+- User authentication, role management, and order processing
 
-- Responsive frontend built with Blade and TailwindCSS.
+- Stripe integration for secure online payments
 
-- Content Management System (CMS) to manage product inventory.
+- RESTful API endpoints for product listings and product details
+
+- Redis caching to improve performance and reduce database load
+
+- Full-text search powered by Meilisearch
+
+- A responsive frontend built with Blade and Tailwind CSS
+
+- An internal CMS for managing products and inventory (work in progress)
+
+- A fully Dockerized development environment for consistency across machines
+
+- Deployment to a VPS for production use
+
+- Unit and feature testing with PHPUnit (work in progress)
+
+- Mailgun integration for emails communications such as Contact Us
 
 This project is designed as a portfolio piece to showcase Laravel, database design, and full-stack development skills.
 
@@ -42,6 +58,8 @@ This project is designed as a portfolio piece to showcase Laravel, database desi
 
 - Responsive Design – mobile-friendly UI with TailwindCSS, Alpine.js
 
+- Email Communications – Mailgun integration for Contact Us form
+
 - Testing – PHPUnit feature & unit tests (not yet completed)
 
 ## Tech Stack
@@ -54,7 +72,7 @@ This project is designed as a portfolio piece to showcase Laravel, database desi
 
 - DevOps: Docker, GitHub (version control), VPS (Cloudways)
 
-- Other: Faker factories, Laravel seeders, REST API endpoints, caching system Redis, event listeners, schedule cron jobs, Meilisearch, Stripe payment (Stripe PaymentIntents, Webhook handling)
+- Other: Faker factories, Laravel seeders, REST API endpoints, caching system Redis, event listeners, schedule cron jobs, Meilisearch, Stripe payment (Stripe PaymentIntents, Webhook handling), Mailgun email service
 
 ## Database Schema (simplified)
 
@@ -240,6 +258,11 @@ The application follows a modular, maintainable, scalable, and easily extendable
 
 - It allows easy integration of the payment process into the website with minimal coding effort.
 
+### Mailgun Email Service
+  Mailgun is used to handle outbound email communication, such as messages submitted through the Contact Us form. It was chosen for its reliable delivery, clear API, and ease of integration with Laravel.
+
+  Using Mailgun allows the application to send transactional emails without managing a mail server, while keeping email handling scalable and maintainable.
+
 ### VPS Hosting (Cloudways)
   Cloudways VPS handles server scaling, backups, and uptime monitoring, allowing focus on application development.
 
@@ -300,6 +323,15 @@ Listing of customer order history with details.
 Authentication for customers to access their dashboard.
 
 ![Login Page](https://littlerabbit.anh-thuc-ngo.com/storage/docs/screenshots/login_registration.jpg)
+
+### Contact Us Page
+
+Contact Us form for customer communication.
+
+#### Note:
+The information in the Contact Us page is for demonstration purposes only.
+
+![Contact Us Page](https://littlerabbit.anh-thuc-ngo.com/storage/docs/screenshots/contact_us.jpg)
 
 ### Content Management System (CMS) - Login
 
