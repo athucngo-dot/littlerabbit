@@ -110,29 +110,30 @@ The project includes the following tables (not include the many-to-many pivot ta
 
 - webhook_events – Stripe webhook events
 
-## Database Diagram (simplified)
+## Database Schema Diagram (simplified)
 
 These diagrams illustrate the database schema and relationships between tables. They include only the main entities (tables) and their associations (relationships via foreign keys).
 
 They were generated with dbdiagram.io
 
-### Overall database diagram:
+### Overall database schema diagram:
 
-https://littlerabbit.anh-thuc-ngo.com/storage/docs/db_diagrams/db_diagram.png
+![Database schema diagram](https://littlerabbit.anh-thuc-ngo.com/storage/docs/db_diagrams/db_diagram.png)
 
-### Database diagram by sections:
+
+### Database schema diagram by sections:
 
 - Products, categories, colors, sizes, brands, materials diagram
 
-https://littlerabbit.anh-thuc-ngo.com/storage/docs/db_diagrams/db_diagram_product.png
+![Database schema diagram - products](https://littlerabbit.anh-thuc-ngo.com/storage/docs/db_diagrams/db_diagram_product.png)
 
 - Customers diagram:
 
-https://littlerabbit.anh-thuc-ngo.com/storage/docs/db_diagrams/db_diagram_customer.png
+![Database schema diagram - customers](https://littlerabbit.anh-thuc-ngo.com/storage/docs/db_diagrams/db_diagram_customer.png)
 
 - Cart & payments diagram:
 
-https://littlerabbit.anh-thuc-ngo.com/storage/docs/db_diagrams/db_diagram_cart_payment.png
+![Database schema diagram - cart & payments](https://littlerabbit.anh-thuc-ngo.com/storage/docs/db_diagrams/db_diagram_cart_payment.png)
 
 
 ## Portfolio Live Test
