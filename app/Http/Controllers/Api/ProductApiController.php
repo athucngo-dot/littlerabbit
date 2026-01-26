@@ -19,6 +19,7 @@ class ProductApiController extends Controller
     {
         $products = ProductService::buildProductListQuery($request, 'newArrivals')
             ->latest('created_at')
+            ->orderByDesc('id')
             ->paginate(config('site.items_per_page'))
             ->through(fn($product) => ProductService::transformProduct($product));
 
@@ -32,6 +33,7 @@ class ProductApiController extends Controller
     {
         $products = ProductService::buildProductListQuery($request, 'deals')
             ->latest('created_at')
+            ->orderByDesc('id')
             ->paginate(config('site.items_per_page'))
             ->through(fn($product) => ProductService::transformProduct($product));
 
@@ -58,6 +60,7 @@ class ProductApiController extends Controller
             ->isActive()
             ->hasCategory([$category->id])
             ->latest('created_at')
+            ->orderByDesc('id')
             ->paginate(config('site.items_per_page_4_per_rows'))
             ->through(fn($product) => ProductService::transformProduct($product));
 
@@ -84,6 +87,7 @@ class ProductApiController extends Controller
             ->isActive()
             ->hasDeal([$deal->id])
             ->latest('created_at')
+            ->orderByDesc('id')
             ->paginate(config('site.items_per_page_4_per_rows'))
             ->through(fn($product) => ProductService::transformProduct($product));
 
@@ -100,6 +104,7 @@ class ProductApiController extends Controller
             ->hasGender($gender)
             ->hasAgeGroup($ageGroup)
             ->latest('created_at')
+            ->orderByDesc('id')
             ->paginate(config('site.items_per_page_4_per_rows'))
             ->through(fn($product) => ProductService::transformProduct($product));
 
@@ -116,6 +121,7 @@ class ProductApiController extends Controller
         $products = Product::isActive()
             ->hasCategory($categoryIds)
             ->latest('created_at')
+            ->orderByDesc('id')
             ->paginate(config('site.items_per_page_4_per_rows'))
             ->through(fn($product) => ProductService::transformProduct($product));
 
@@ -129,6 +135,7 @@ class ProductApiController extends Controller
     {
         $products = Product::isActive()
             ->latest('created_at')
+            ->orderByDesc('id')
             ->paginate(config('site.items_per_page_4_per_rows'))
             ->through(fn($product) => ProductService::transformProduct($product));
 

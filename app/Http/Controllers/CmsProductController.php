@@ -145,6 +145,7 @@ class CmsProductController extends Controller
 
         $products = Product::slugLike($escapedSlug)
                     ->latest('created_at')
+                    ->orderByDesc('id')
                     ->paginate(config('site.cms_items_per_page'));
         
         return view('cms.products.list', compact('products'));
