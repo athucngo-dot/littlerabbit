@@ -33,7 +33,8 @@ class ConfigureSearch extends Command
 
         $index = $client->index('products');
 
-        $index->updateSearchableAttributes([
+        $tasks = [];
+        $task[] = $index->updateSearchableAttributes([
             'name',
             'category',
             'category_name',            
@@ -45,7 +46,7 @@ class ConfigureSearch extends Command
             'material'
         ]);
 
-        $index->updateFilterableAttributes([
+        $task[] = $index->updateFilterableAttributes([
             'category',
             'gender',
             'sizes',
@@ -56,7 +57,7 @@ class ConfigureSearch extends Command
         ]);
 
         // Ranking rules
-        $index->updateRankingRules([
+        $task[] = $index->updateRankingRules([
             'words',
             'typo',
             'proximity',
@@ -67,7 +68,7 @@ class ConfigureSearch extends Command
         ]);
 
         // Synonyms
-        $index->updateSynonyms([
+        $task[] = $index->updateSynonyms([
             // Age groups
             'baby'          => ['babies', 'infant', 'infants', 'newborn', 'newborns'],
             'toddlers'      => ['toddler', 'toddlers', 'kids', 'children', 'child'],
@@ -111,6 +112,10 @@ class ConfigureSearch extends Command
             'children clothes'=> ['kids clothes', 'children clothing', 'child clothes', 'child clothing'],
         ]);
 
+        foreach ($tasks as $task) {
+            // Wait for each task to complete
+            $task->waitForCompletion($client);
+        }
 
         $this->info('Meilisearch configured successfully.');
     }

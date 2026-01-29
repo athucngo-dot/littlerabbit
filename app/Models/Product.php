@@ -38,6 +38,14 @@ class Product extends Model
         'features' => 'array',
     ];
 
+    protected $with = [
+        'category',
+        'material',
+        'brand',
+        'sizes',
+        'colors',
+    ];
+
     protected static function boot()
     {
         parent::boot();
