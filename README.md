@@ -196,9 +196,13 @@ php artisan serve
 
 ## Testing
 
-Run the test suite with:
+Run feature tests suite:
 
-php artisan test
+vendor/bin/phpunit tests/Feature
+
+Run unit tests suite:
+
+vendor/bin/phpunit tests/Unit
 
 ## Architecture Decisions
 
