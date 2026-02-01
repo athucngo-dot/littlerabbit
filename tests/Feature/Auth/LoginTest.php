@@ -26,8 +26,8 @@ class LoginTest extends TestCase
             ->where('is_active', true)
             ->first();
 
-        // Assert redirected to home
-        $response->assertRedirect('/');
+        // Assert redirected to dashboard
+        $response->assertRedirect('/dashboard');
 
         // Assert user is authenticated
         $this->assertAuthenticatedAs($customer, 'customer');

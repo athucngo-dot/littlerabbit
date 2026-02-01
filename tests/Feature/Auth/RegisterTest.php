@@ -19,7 +19,7 @@ class RegisterTest extends TestCase
             'register_password_confirmation' => 'Agent*007',
         ]);
 
-        $response->assertRedirect('/'); // Assert redirected to home
+        $response->assertRedirect('/dashboard'); // Assert redirected to dashboard
         
         // Assert the customer is created in the database
         $this->assertDatabaseHas('customers', ['email' => 'james.bond@gmail.com']);

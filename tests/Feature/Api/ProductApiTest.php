@@ -30,11 +30,11 @@ class ProductApiTest extends TestCase
 
         $response = $this->getJson('/api/products/new-arrivals');
 
-        $response->assertStatus(200);
-        $response->assertJsonCount(2, 'data'); // Only 2 products are fetched
-        $response->assertJsonFragment(['slug' => 'comfy-denim-jeans']);
-        $response->assertJsonFragment(['slug' => 'warm-wool-sweater']);
-        $response->assertJsonMissing(['slug' => 'light-cotton-dress']); 
+        $response->assertStatus(200)
+                 ->assertJsonCount(2, 'data') // Only 2 products are fetched
+                 ->assertJsonFragment(['slug' => 'comfy-denim-jeans'])
+                 ->assertJsonFragment(['slug' => 'warm-wool-sweater'])
+                 ->assertJsonMissing(['slug' => 'light-cotton-dress']); 
     }
 
     /**
@@ -50,11 +50,11 @@ class ProductApiTest extends TestCase
         
         $response = $this->getJson('/api/products/new-arrivals');
 
-        $response->assertStatus(200);
-        $response->assertJsonCount(2, 'data'); // Only 2 products are fetched
-        $response->assertJsonFragment(['slug' => 'comfy-denim-jeans']);
-        $response->assertJsonFragment(['slug' => 'light-cotton-dress']);
-        $response->assertJsonMissing(['slug' => 'warm-wool-sweater']);
+        $response->assertStatus(200)
+                 ->assertJsonCount(2, 'data') // Only 2 products are fetched
+                 ->assertJsonFragment(['slug' => 'comfy-denim-jeans'])
+                 ->assertJsonFragment(['slug' => 'light-cotton-dress'])
+                 ->assertJsonMissing(['slug' => 'warm-wool-sweater']);
     }
 
     /**
@@ -73,13 +73,13 @@ class ProductApiTest extends TestCase
         Product::where('slug', 'warm-wool-sweater')->update(['brand_id' => 1]);
 
         // Test filter by brand_id
-        $response = $this->getJson('/api/products/new-arrivals?brand_id=1');
+        $response = $this->getJson('/api/products/new-arrivals?brand=1');
 
-        $response->assertStatus(200);
-        $response->assertJsonCount(2, 'data'); // 2 products are fetched
-        $response->assertJsonFragment(['slug' => 'comfy-denim-jeans']);
-        $response->assertJsonFragment(['slug' => 'warm-wool-sweater']);
-        $response->assertJsonMissing(['slug' => 'light-cotton-dress']);
+        $response->assertStatus(200)
+                 ->assertJsonCount(2, 'data') // 2 products are fetched
+                 ->assertJsonFragment(['slug' => 'comfy-denim-jeans'])
+                 ->assertJsonFragment(['slug' => 'warm-wool-sweater'])
+                 ->assertJsonMissing(['slug' => 'light-cotton-dress']);
     }
 
     /**
@@ -97,13 +97,13 @@ class ProductApiTest extends TestCase
         Product::where('slug', 'light-cotton-dress')->update(['material_id' => 2]);
 
         // Test filter by material_id
-        $response = $this->getJson('/api/products/new-arrivals?material_id=2');
+        $response = $this->getJson('/api/products/new-arrivals?material=2');
 
-        $response->assertStatus(200);
-        $response->assertJsonCount(1, 'data'); // Only 1 products are fetched
-        $response->assertJsonFragment(['slug' => 'light-cotton-dress']);
-        $response->assertJsonMissing(['slug' => 'comfy-denim-jeans']);
-        $response->assertJsonMissing(['slug' => 'warm-wool-sweater']);
+        $response->assertStatus(200)
+                 ->assertJsonCount(1, 'data') // Only 1 products are fetched
+                 ->assertJsonFragment(['slug' => 'light-cotton-dress'])
+                 ->assertJsonMissing(['slug' => 'comfy-denim-jeans'])
+                 ->assertJsonMissing(['slug' => 'warm-wool-sweater']);
     }
 
     /**
@@ -121,13 +121,13 @@ class ProductApiTest extends TestCase
         Product::where('slug', 'light-cotton-dress')->update(['category_id' => 3]);
 
         // Test filter by category_id
-        $response = $this->getJson('/api/products/new-arrivals?category_id=3');
+        $response = $this->getJson('/api/products/new-arrivals?category=3');
 
-        $response->assertStatus(200);
-        $response->assertJsonCount(1, 'data'); // Only 1 products are fetched
-        $response->assertJsonFragment(['slug' => 'light-cotton-dress']);
-        $response->assertJsonMissing(['slug' => 'comfy-denim-jeans']);
-        $response->assertJsonMissing(['slug' => 'warm-wool-sweater']);
+        $response->assertStatus(200)
+                 ->assertJsonCount(1, 'data') // Only 1 products are fetched
+                 ->assertJsonFragment(['slug' => 'light-cotton-dress'])
+                 ->assertJsonMissing(['slug' => 'comfy-denim-jeans'])
+                 ->assertJsonMissing(['slug' => 'warm-wool-sweater']);
     }
 
     /**
@@ -145,11 +145,11 @@ class ProductApiTest extends TestCase
         // Test filter by gender = girl
         $response = $this->getJson('/api/products/new-arrivals?gender=girl');
 
-        $response->assertStatus(200);
-        $response->assertJsonCount(2, 'data'); // 2 products are fetched
-        $response->assertJsonFragment(['slug' => 'comfy-denim-jeans']);
-        $response->assertJsonFragment(['slug' => 'light-cotton-dress']);
-        $response->assertJsonMissing(['slug' => 'warm-wool-sweater']);
+        $response->assertStatus(200)
+                 ->assertJsonCount(2, 'data') // 2 products are fetched
+                 ->assertJsonFragment(['slug' => 'comfy-denim-jeans'])
+                 ->assertJsonFragment(['slug' => 'light-cotton-dress'])
+                 ->assertJsonMissing(['slug' => 'warm-wool-sweater']);
     }
 
     /**
@@ -169,13 +169,13 @@ class ProductApiTest extends TestCase
         $product->sizes()->attach($sizeIds);
 
         // Test filter by size_id = 2
-        $response = $this->getJson('/api/products/new-arrivals?size_id=2');
+        $response = $this->getJson('/api/products/new-arrivals?size=2');
 
-        $response->assertStatus(200);
-        $response->assertJsonCount(1, 'data'); // Only 1 products are fetched
-        $response->assertJsonFragment(['slug' => 'warm-wool-sweater']);
-        $response->assertJsonMissing(['slug' => 'light-cotton-dress']);
-        $response->assertJsonMissing(['slug' => 'comfy-denim-jeans']);
+        $response->assertStatus(200)
+                 ->assertJsonCount(1, 'data') // Only 1 products are fetched
+                 ->assertJsonFragment(['slug' => 'warm-wool-sweater'])
+                 ->assertJsonMissing(['slug' => 'light-cotton-dress'])
+                 ->assertJsonMissing(['slug' => 'comfy-denim-jeans']);
     }
 
     /**
@@ -195,13 +195,13 @@ class ProductApiTest extends TestCase
         $product->colors()->attach($colorIds);
 
         // Test filter by color_id = 1
-        $response = $this->getJson('/api/products/new-arrivals?color_id=1');
+        $response = $this->getJson('/api/products/new-arrivals?color=1');
 
-        $response->assertStatus(200);
-        $response->assertJsonCount(1, 'data'); // Only 1 products are fetched
-        $response->assertJsonFragment(['slug' => 'light-cotton-dress']);
-        $response->assertJsonMissing(['slug' => 'warm-wool-sweater']);
-        $response->assertJsonMissing(['slug' => 'comfy-denim-jeans']);
+        $response->assertStatus(200)
+                 ->assertJsonCount(1, 'data') // Only 1 products are fetched
+                 ->assertJsonFragment(['slug' => 'light-cotton-dress'])
+                 ->assertJsonMissing(['slug' => 'warm-wool-sweater'])
+                 ->assertJsonMissing(['slug' => 'comfy-denim-jeans']);
     }
 
     /**
@@ -230,26 +230,25 @@ class ProductApiTest extends TestCase
         // Test filter by discount <= 25
         $response = $this->getJson('/api/products/new-arrivals?discount=25');
 
-        $response->assertStatus(200);
-        $response->assertJsonCount(2, 'data'); // 2 products are fetched
-        $response->assertJsonFragment(['slug' => 'light-cotton-dress']);
-        $response->assertJsonFragment(['slug' => 'comfy-denim-jeans']);
-        $response->assertJsonMissing(['slug' => 'warm-wool-sweater']);
+        $response->assertStatus(200)
+                 ->assertJsonCount(2, 'data') // 2 products are fetched
+                 ->assertJsonFragment(['slug' => 'light-cotton-dress'])
+                 ->assertJsonFragment(['slug' => 'comfy-denim-jeans'])
+                 ->assertJsonMissing(['slug' => 'warm-wool-sweater']);
 
         // Test filter by discount >= 25 and <= 50
         $response = $this->getJson('/api/products/new-arrivals?discount=25-50');
         
-        $response->assertStatus(200);
-        $response->assertJsonCount(1, 'data'); // 1 products are fetched
-        $response->assertJsonFragment(['slug' => 'light-cotton-dress']);
-        $response->assertJsonMissing(['slug' => 'comfy-denim-jeans']);
-        $response->assertJsonMissing(['slug' => 'warm-wool-sweater']);
-
+        $response->assertStatus(200)
+                 ->assertJsonCount(1, 'data') // 1 products are fetched
+                 ->assertJsonFragment(['slug' => 'light-cotton-dress'])
+                 ->assertJsonMissing(['slug' => 'comfy-denim-jeans'])
+                 ->assertJsonMissing(['slug' => 'warm-wool-sweater']);
         // Test filter by discount >= 50 and <= 75
         $response = $this->getJson('/api/products/new-arrivals?discount=50-75');
         
-        $response->assertStatus(200);
-        $response->assertJsonCount(0, 'data'); // 0 products are fetched
+        $response->assertStatus(200)
+                 ->assertJsonCount(0, 'data'); // 0 products are fetched
     }
 
     /** Helper to create new products */
@@ -337,9 +336,9 @@ class ProductApiTest extends TestCase
                 ['id' => 4, 'child_cat' => 'toddler', 'size' => '2T'],
                 ['id' => 5, 'child_cat' => 'toddler', 'size' => '3T'],
                 ['id' => 6, 'child_cat' => 'toddler', 'size' => '4T'],
-                ['id' => 7, 'child_cat' => 'older', 'size' => '4'],
-                ['id' => 8, 'child_cat' => 'older', 'size' => '5'],
-                ['id' => 9, 'child_cat' => 'older', 'size' => '6']
+                ['id' => 7, 'child_cat' => 'kid', 'size' => '4'],
+                ['id' => 8, 'child_cat' => 'kid', 'size' => '5'],
+                ['id' => 9, 'child_cat' => 'kid', 'size' => '6']
             ];
         }
 
