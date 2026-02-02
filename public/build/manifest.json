@@ -4,7 +4,7 @@
     "name": "products_render"
   },
   "resources/css/app.css": {
-    "file": "assets/app-CwULEDN0.css",
+    "file": "assets/app-9Boeysam.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -13,7 +13,7 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-DhPopaGw.js",
+    "file": "assets/app-FUCQZgKm.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true
