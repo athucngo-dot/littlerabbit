@@ -9,10 +9,21 @@ window.loadDashboardAddress = dashboardAddress;
 import cart from './cart.js';
 window.loadCart = cart;
 
+import imageCarousel from './image_carousel.js'
+window.loadImageCarousel = imageCarousel;
+
+import carousel from './carousel.js'
+
+import reviewsManager from './reviews_manager.js'
+window.loadReviewsManager = reviewsManager;
+
 import globalPopup from './ui/popup-global.js'
 
-// Register only if globalPopup exists
+// Register only if exists: globalPopup and imageCarousel
 document.addEventListener('alpine:init', () => {
+    Alpine.data('imageCarousel', imageCarousel)
+    Alpine.data('carousel', carousel)
+    Alpine.data('reviewsManager', reviewsManager)
     Alpine.data('globalPopup', globalPopup)
 })
 
