@@ -1,0 +1,10 @@
+function f(x){const h=document.getElementById("products-grid");x.forEach(t=>{const s=document.createElement("a");s.href=`/products/${t.slug}`,s.className="block bg-white rounded-xl shadow-md hover:shadow-lg overflow-hidden transition-transform transform hover:scale-105";const l=document.createElement("div");l.className="aspect-[3/4] flex items-center justify-center bg-[#ffe7a3]";const e=document.createElement("img");e.src=t.image,e.alt=t.name,e.className="h-full w-full object-cover",e.loading="lazy",e.decoding="async",e.style.opacity="0",e.style.transition="opacity 0.2s ease",e.onload=()=>e.style.opacity="1",e.onerror=()=>{e.src="/images/default_img.png",e.style.opacity="1"},l.appendChild(e);const a=document.createElement("div");a.className="p-4 text-center";const c=document.createElement("h3");c.className="font-semibold text-lg text-ink",c.textContent=t.name,a.appendChild(c);const o=parseFloat(t.price),p=parseFloat(t.price_after_deals);if(p!==o){const n=document.createElement("p");n.className="text-ink-60 mt-1",n.innerHTML=`
+                <span>$${p.toFixed(2)}</span>
+                (<span class="text-red-500">-${parseFloat(t.discount)}%</span>)
+            `;const i=document.createElement("p");i.className="text-ink-60 mt-1",i.innerHTML=`
+                <span class="text-sm">Was: </span>
+                <span class="line-through text-sm">$${o.toFixed(2)}</span>
+            `,a.appendChild(n),a.appendChild(i);const r=document.createElement("p");r.className="text-ink-60 mt-1 text-xs",r.textContent="Eligible for Deals:",a.appendChild(r),t.deals.forEach(m=>{const d=document.createElement("p");d.className="text-xs text-ink-60",d.innerHTML=`
+                    <span>${m.name}</span>
+                    (<span class="text-red-500">-${parseFloat(m.percentage_off)}%</span>)
+                `,a.appendChild(d)})}else{const n=document.createElement("p");n.className="text-ink-60 mt-1",n.textContent=`$${o.toFixed(2)}`,a.appendChild(n)}s.appendChild(l),s.appendChild(a),h.appendChild(s)})}export{f as r};

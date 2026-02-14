@@ -1,7 +1,6 @@
 export function renderProducts(products) {
 
     const productsGrid = document.getElementById('products-grid');
-    productsGrid.innerHTML = "";
 
     products.forEach(product => {
 
