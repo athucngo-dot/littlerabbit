@@ -23,8 +23,6 @@ Homestead.json
 .phpunit.result.cache
 
 /storage/pail
-.env.backup
-.env.production
 .phpactor.json
 /auth.json
 
@@ -46,5 +44,4 @@ Homestead.json
 composer-setup.php
 composer.phar
 
-Dockerfile_backup
-docker-compose_backup.yml
+/bu
