@@ -9,7 +9,7 @@ use App\Http\Requests\CheckoutRequest;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
 use App\Services\CartService;
-use App\Services\StripeService;
+use App\Services\CheckoutService;
 use App\Services\OrderService;
 use App\Models\Cart;
 use App\Models\Order;
@@ -43,46 +43,27 @@ class CheckoutController extends Controller
     /**
      * Payment intent
      */
-    public function paymentIntent(CheckoutRequest $request, StripeService $stripe)
+    public function paymentIntent(CheckoutRequest $request, CheckoutService $checkoutService)
     {
-        // Calculate totals
-        $cartItems = Cart::where('customer_id', Auth::guard('customer')->id())->get();
-        $subtotal = CartService::calculateSubtotal($cartItems);
-        $shippingCost = CartService::calculateShippingCost($subtotal);
-        $total = $subtotal + $shippingCost;
-        
-        // Save order to database
-        // shipping type is defaulted to 'standard' for now
-        $order = OrderService::saveOrder($cartItems, $subtotal, $shippingCost, $total, 'pending', 'standard');
-        
-        $addressData = $request->only([
-            'address_id',
-            'first_name',
-            'last_name',
-            'phone_number',
-            'street',
-            'city',
-            'province',
-            'postal_code',
-            'country',
-        ]);
-        OrderService::saveOrderAddress($order->id, $addressData);
+        $response = $checkoutService->createPaymentIntent(
+            $request->only([
+                'address_id',
+                'first_name',
+                'last_name',
+                'phone_number',
+                'street',
+                'city',
+                'province',
+                'postal_code',
+                'country',
+            ])
+        );
 
-        // Create Stripe PaymentIntent
-        $paymentIntent = $stripe->createPaymentIntent($total, $order->id);
-
-        // Save PaymentIntent to order
-        $order->update([
-            'stripe_payment_intent_id' => $paymentIntent->id,
+        session([
+            config('site.checkout_in_progress_session_key') => true
         ]);
 
-        session([config('site.checkout_in_progress_session_key') => true]);
-
-        Log::info("Payment Intent - client secret: " . $paymentIntent->client_secret);
-        return response()->json([
-            'clientSecret' => $paymentIntent ->client_secret,
-            'orderNumber' => $order->order_number,
-        ]);
+        return response()->json($response);
     }
 
     /**

@@ -3,66 +3,36 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Payment;
-use Stripe\Stripe;
-use Stripe\Webhook;
-
-use App\Models\Order;
-use App\Services\ProductService;
-use App\Services\CartService;
-use App\Models\WebhookEvent;
-use App\Services\StripeService;
+use Illuminate\Http\JsonResponse;
+use App\Services\Stripe\StripeWebhookService;
 
 class StripeWebhookController extends Controller
 {
     /**
-     * Handle Webhook from Stripe
+     * Constructor with dependency injection for StripeWebhookService.
      */
-    public function handleWebhook(Request $request)
+    public function __construct(private readonly StripeWebhookService $webhookService)
+    {}
+
+    /**
+     * Process the Stripe webhook event and return a JSON response.
+     */
+    public function handleWebhook(Request $request): JsonResponse
     {
-        $payload = $request->getContent();
-        $sigHeader = $request->header('Stripe-Signature');
-        $endpointSecret = config('services.stripe.webhook_secret');
-
         try {
-            $event = Webhook::constructEvent(
-                $payload,
-                $sigHeader,
-                $endpointSecret
+            $this->webhookService->handle(
+                payload: $request->getContent(),
+                signature: $request->header('Stripe-Signature')
             );
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
-        }
 
-        // Idempotency check
-        if (WebhookEvent::where('stripe_event_id', $event->id)->exists()) {
-            return response()->json(['status' => 'already_processed'], 200);
-        }
+            return response()->json(['status' => 'processed']);
+        } catch (\Throwable $e) {
+            report($e);
 
-        // Store event ID in DB
-        WebhookEvent::create([
-            'stripe_event_id' => $event->id,
-            'type' => $event->type,
-        ]);
-
-        $stripe = new StripeService();
-
-        // handle different event types
-        switch ($event->type) {
-            case 'payment_intent.succeeded':
-                $result = $stripe->handlePaymentSucceeded($event->data->object);
-                if ($result['status'] === 'ignored') {
-                    return response()->json(['ignored' => true]);
-                }
-                
-                return response()->json(['status' => 'success']);
-
-            case 'payment_intent.payment_failed':
-                $result = $stripe->handlePaymentFailed($event->data->object);
-                return response()->json(['status' => $result['status']]);
-                
-            default:
-                return response()->json(['status' => 'ignored'], 200);
+            return response()->json([
+                'error' => 'Webhook processing failed'
+            ], 400);
         }
     }
 }
+

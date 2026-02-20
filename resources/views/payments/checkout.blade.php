@@ -140,9 +140,11 @@
                         <span class="font-semibold">${{number_format($shippingCost, 2)}}</span>
                     </div>
 
-                    <div x-show="{{$shippingCost == 0}}" class="flex justify-between text-green-600 text-sm">
-                        <span x-show="{{$shippingCost == 0}}">Free Shipping Applied for Orders over 50$</span>
-                    </div>
+                    @if($shippingCost == 0)
+                        <div class="flex justify-between text-green-600 text-sm">
+                            <span x-show="{{$shippingCost == 0}}">Free Shipping Applied for Orders over 50$</span>
+                        </div>
+                    @endif
 
                     <div class="flex justify-between text-lg font-semibold text-gray-800">
                         <span>Total</span>
