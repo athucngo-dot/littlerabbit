@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Customer;
 use App\Models\Payment;
 use App\Models\Product;
@@ -10,6 +11,8 @@ use App\Models\OrderAddresses;
 
 class Order extends Model
 {
+    use HasFactory;
+
     protected $table = 'orders';
 
     protected $fillable = [

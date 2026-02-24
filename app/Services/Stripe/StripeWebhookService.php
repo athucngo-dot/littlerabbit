@@ -5,14 +5,18 @@ namespace App\Services\Stripe;
 use Stripe\Webhook;
 use Illuminate\Support\Facades\DB;
 use App\Models\WebhookEvent;
+use App\Services\Stripe\StripeWebhookVerifier;
 
 class StripeWebhookService
 {
     /**
-     * Constructor with dependency injection for StripePaymentService.
+     * Constructor with dependency injection for StripeWebhookVerifier and StripePaymentService.
+     * This allows for better separation of concerns and easier testing by injecting the necessary services for verifying webhooks and handling payment-related logic.
      */
-    public function __construct( private readonly StripePaymentService $paymentService) 
-    {}
+    public function __construct(
+        protected StripeWebhookVerifier $verifier,
+        protected StripePaymentService $paymentService
+    ) {}
 
     /**
      * Handle incoming Stripe webhook events.
@@ -20,9 +24,9 @@ class StripeWebhookService
      */
     public function handle(string $payload, ?string $signature): void
     {
-        // Construct the Stripe event using the payload and signature
-        $event = $this->constructEvent($payload, $signature);
-
+        // Verify the webhook signature and construct the Stripe event object
+        $event = $this->verifier->constructEvent($payload, $signature);
+        
         // Idempotency at DB level
         if (WebhookEvent::where('stripe_event_id', $event->id)->exists()) {
             return;
@@ -35,19 +39,6 @@ class StripeWebhookService
         ]);
 
         $this->dispatch($event);
-    }
-
-    /**
-     * Construct a Stripe event from the payload and signature, verifying the signature using the webhook secret configured in the application settings.
-     * This ensures that the event is legitimate and has not been tampered with.
-     */
-    private function constructEvent(string $payload, ?string $signature)
-    {
-        return Webhook::constructEvent(
-            $payload,
-            $signature,
-            config('services.stripe.webhook_secret')
-        );
     }
 
     /**
